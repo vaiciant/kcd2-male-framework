@@ -1,0 +1,100 @@
+# The barber of a man with a look of the framework. The screen of the game shows one list to every head, and the
+# beards of the game and of other mods may not exist for the head of a look: one missing on a head has crashed the game.
+# So a man with a look chooses in a talk, as a woman does with KCD2 Female Framework, among these: the hair and the
+# beards that every head of the catalog has. The barber of the game stays as it is, for Henry with his own face.
+# text is the name the game gives each one in its list (ui_hair_*, ui_beard_*), so it comes in every language. The
+# order is that of the list of the game. tools/generate_models.py writes the talk and the Lua data from this file, and
+# tools/generate_heads.py the beards hidden in first person.
+
+[[hair]]
+mesh = "m_hair_henry"
+text = "ui_hair_henry"
+
+[[hair]]
+mesh = "m_hair_barber_11"
+text = "ui_hair_11"
+
+[[hair]]
+# Bald, as the bald NPCs: m_hair_barber_16 is a scalp painted for the head of Henry, and shows as a cap on other heads.
+mesh = "m_hair_020_dark_brown"
+text = "ui_hair_16"
+
+[[hair]]
+mesh = "m_hair_barber_07"
+text = "ui_hair_07"
+
+[[hair]]
+mesh = "m_hair_barber_13"
+text = "ui_hair_13"
+
+[[hair]]
+mesh = "m_hair_barber_14"
+text = "ui_hair_14"
+
+[[hair]]
+mesh = "m_hair_barber_08"
+text = "ui_hair_08"
+
+[[hair]]
+mesh = "m_hair_barber_02"
+text = "ui_hair_02"
+
+[[hair]]
+mesh = "m_hair_barber_12"
+text = "ui_hair_12"
+
+[[hair]]
+mesh = "m_hair_barber_05"
+text = "ui_hair_05"
+
+[[hair]]
+mesh = "m_hair_barber_10"
+text = "ui_hair_10"
+
+[[hair]]
+mesh = "m_hair_barber_15"
+text = "ui_hair_15"
+
+[[hair]]
+mesh = "m_hair_barber_03"
+text = "ui_hair_03"
+
+[[hair]]
+mesh = "m_hair_barber_01"
+text = "ui_hair_01"
+
+[[hair]]
+mesh = "m_hair_barber_06"
+text = "ui_hair_06"
+
+[[hair]]
+mesh = "m_hair_barber_09"
+text = "ui_hair_09"
+
+[[hair]]
+mesh = "m_hair_barber_04"
+text = "ui_hair_04"
+
+[[beard]]
+mesh = "m_beard_00"
+text = "ui_beard_00"
+
+[[beard]]
+mesh = "m_beard_18"
+text = "ui_beard_14"
+
+[[beard]]
+mesh = "m_beard_17"
+text = "ui_beard_13"
+
+[[beard]]
+mesh = "m_beard_13"
+text = "ui_beard_11"
+
+[[beard]]
+mesh = "m_beard_16"
+text = "ui_beard_12"
+
+[[beard]]
+mesh = "m_beard_04"
+text = "ui_beard_09"

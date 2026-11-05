@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kcd_mod>
+	<info>
+		<name>KCD2 Male Framework</name>
+		<modid>kcd_male_framework</modid>
+		<description>Every man's face of the game for the player, with a barber that fits: a library for other mods, and console commands that work on their own.</description>
+		<author>KCD2 Life</author>
+		<version>0.0.27</version>
+		<created_on>2026-11-03</created_on>
+		<modifies_level>false</modifies_level>
+	</info>
+	<supports>
+		<version>1.5*</version>
+	</supports>
+</kcd_mod>

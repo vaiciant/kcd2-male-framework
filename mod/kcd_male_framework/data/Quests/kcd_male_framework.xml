@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">
+	<!-- Skald project of the framework, apart from the ones of other mods. ObjectiveValueTypes match the vanilla project.
+	     ml_mf_face puts the face of a look on Henry himself, and takes it away. ml_mf_barber gives a
+	     man with a look his haircut at the barbers of the game. -->
+	<Skald>
+		<Project Name="kcd_male_framework">
+			<Definitions>
+				<Definition File="kcd_male_framework/ml_mf_face.xml" />
+				<Definition File="kcd_male_framework/ml_mf_barber.xml" />
+			</Definitions>
+			<Nodes>
+				<ml_mf_face Name="ml_mf_face" PositionY="0" PositionX="0" />
+				<ml_mf_barber Name="ml_mf_barber" PositionY="400" PositionX="0" />
+			</Nodes>
+			<Text Text="kcd_male_framework" />
+			<ObjectiveValueTypes>
+				<ObjectiveValueType Type="None" IsPast="false" Icon="Exclamation" />
+				<ObjectiveValueType Type="Started" IsPast="false" Icon="Exclamation" Hint="objective_HintStarted" />
+				<ObjectiveValueType Type="Updated" IsPast="false" Icon="Exclamation" Hint="objective_HintUpdated" />
+				<ObjectiveValueType Type="Completed" IsPast="true" Icon="Check" Hint="objective_HintCompleted" />
+				<ObjectiveValueType Type="Canceled" IsPast="true" Icon="Cross" Hint="objective_HintCanceled" />
+			</ObjectiveValueTypes>
+		</Project>
+	</Skald>
+</Database>

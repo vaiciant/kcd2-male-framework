@@ -1,0 +1,25 @@
+KCD2 Male Framework License
+
+Copyright (c) 2026 Medieval Life
+
+Anyone may use, copy, change, merge into their own work, publish, share and sell
+the code and tools written for this project (the "Software"), for any purpose,
+free of charge.
+
+The only condition is credit: say that your work uses KCD2 Male Framework,
+where people can see it. A line in your mod's description, readme or credits is
+enough, and a link to the original is welcome. You do not need to include this
+license, publish your source code, or put your own work under any license.
+
+This license does not cover the files of Kingdom Come: Deliverance II, by
+Warhorse Studios, or any file derived from them, such as the meshes that the
+tools produce from the game's meshes. They are not ours to license. Publishing
+them depends on Warhorse's rules for mods.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

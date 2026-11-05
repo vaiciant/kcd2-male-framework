@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- Merged with the STORM root: adds a source to the appearance task, without replacing vanilla files. -->
+<storm>
+	<tasks>
+		<task name="appearance" class="appearance">
+			<source path="appearance\kcd_male_framework.xml" />
+		</task>
+	</tasks>
+</storm>

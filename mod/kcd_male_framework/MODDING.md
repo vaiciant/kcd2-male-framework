@@ -1,0 +1,108 @@
+# Using KCD2 Male Framework in your mod
+
+How to give Henry another man's face in your story or your mod, with one command and nothing to set up, and how to give him his own face back.
+
+## One command
+
+From the console:
+
+```text
+ml_mf_look man_romani_4
+```
+
+From the Lua of your mod:
+
+```lua
+MaleCore.SetLook("man_romani_4")
+```
+
+That is all. Henry keeps playing as himself, with his story, his skills and his things, and the framework does the rest:
+
+- He gets the head and the body of the look. His hair and beard change to the look's.
+- His face and his beard hide in first-person view, as before.
+- With a look, the barber's haircut is a talk with the hair and the beards that every face can wear. With his own face, Henry has the game's barber.
+- Saving and loading keep the face.
+
+`ml_mf_random`, or `MaleCore.SetRandomLook()`, gives him a look at random among all but the one he wears, and returns that look.
+
+It takes a few seconds, under a black screen with a line that says so. If your mod covers the screen on its own, pass `true` as the last argument to leave it as it is: `MaleCore.SetLook("man_romani_4", true)`. Every command is in [COMMANDS.md](COMMANDS.md).
+
+## Going back to Henry
+
+```text
+ml_mf_henry
+```
+
+```lua
+MaleCore.Henry()
+```
+
+Henry gets his own face, hair and beard back. Use it as often as you like.
+
+## The looks
+
+`ml_mf_looks` writes every look in the console. Each one has a short name that never changes:
+
+| Name | What it is |
+|---|---|
+| `man_czech_1`, `man_hungarian_1`, `man_romani_1`… | A generic face of the game, by people and number |
+| `m_head_chamberlain` and the like | The face of a named character of the story: it keeps its internal name |
+
+From Lua:
+
+```lua
+for _, look in ipairs(MaleCore.ListLooks()) do
+	-- look.id, look.name, look.ethnicity ("czech", "hungarian", "romani" or nil),
+	-- look.age ("young" or "old"), look.villager (false for a named character's face)
+end
+```
+
+Use `look.villager` and `look.age` to offer only the faces that suit your story, as KCD2 Life offers only young villagers.
+
+## Adding faces
+
+Every look is an entry of [`looks.toml`](looks.toml): the head of the game, the body, the hair, the beard, and its people. To add a face, even one from another mod:
+
+1. Add an entry with the next `id` and the name of its head. Without `ethnicity`, it shows with its internal name.
+2. Run `tools/generate_models.py` and then `tools/generate_heads.py`, from the root of the repository. They write the rest: the model, the token, and the copies of the head and the beards that hide in first-person view.
+
+A face only fits if its head has the five beards of the barber, in `barber.toml`. The generator adds by itself every face of the game that does, and never changes an entry that is already there.
+
+## Before you call it
+
+**Check that the framework is there,** in your `OnGameplayStarted` handler, never when your file loads: the load order of mods is not fixed.
+
+```lua
+if not (MaleCore and MaleCore.LOADED) then
+	System.LogAlways("[MYMOD] KCD2 Male Framework is missing")
+	return
+end
+```
+
+## If your mod plays its own character
+
+The commands put the look on Henry's soul. If your mod switches to a character of its own, as KCD2 Life does, tell the framework, so its commands do nothing while that character is in use:
+
+```lua
+MaleCore.OtherCharacter = function() return MyMod.IsOwnCharacter() end
+```
+
+The framework also puts a look on the playable character of KCD2 Life, its soul `ml_player`. KCD2 Life keeps the switch, `SwitchPlayer`, and only calls the framework:
+
+| When | Call |
+|---|---|
+| Before the switch, with Henry in use | `MaleCore.ChooseNewCharacter(look)`: Henry gets the token of that look |
+| Before the switch, if his first haircut should be free | `MaleCore.GiveFreeHaircut()`: his next haircut at a barber costs nothing |
+| When the switch ends | Your Skald project gives Henry `MaleCore.NEW_STARTED_TOKEN`, and the look turns on |
+| Once the new character is in use | `MaleCore.ShowNewCharacter(look, after)`: hair and beard of the look, and the model rebuilds. `after` runs at the end |
+| After every load and every map | `MaleCore.Refresh()` |
+
+A mod that switches to that same soul can do the same.
+
+## With KCD2 Female Framework and KCD2 Life
+
+They work alone or together. After `ml_ff_female` of KCD2 Female Framework, Henry is a woman, and the commands of this framework do nothing. A new life of KCD2 Life is its own character, and there they do nothing either. Both frameworks share the numbers of the looks, so a look's id means the same face in both.
+
+## Credit
+
+Use it in any mod, closed or open, free or paid. The only condition is a credit where people can see it, like a line in your mod's description: "Uses KCD2 Male Framework". See [LICENSE](LICENSE).

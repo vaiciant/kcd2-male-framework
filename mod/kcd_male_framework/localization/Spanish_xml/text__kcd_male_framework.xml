@@ -1,0 +1,11 @@
+<Table>
+  <Row><Cell>ui_nm_ml_mf_state</Cell><Cell>ui_nm_ml_mf_state</Cell><Cell>Recuerdo de una cara nueva</Cell></Row>
+  <Row><Cell>ui_in_ml_mf_state</Cell><Cell>ui_in_ml_mf_state</Cell><Cell>KCD2 Male Framework guarda aquí su estado. No lo vendas, tires ni guardes en un cofre.</Cell></Row>
+  <Row><Cell>ml_mf_changing_look</Cell><Cell>ml_mf_changing_look</Cell><Cell>Cambiando el aspecto...</Cell></Row>
+  <Row><Cell>ml_mf_barber_no_money</Cell><Cell>ml_mf_barber_no_money</Cell><Cell>No te alcanza para eso.</Cell></Row>
+  <Row><Cell>ui_ml_mf_hair_select_style</Cell><Cell>ui_ml_mf_hair_select_style</Cell><Cell>Elegir peinado</Cell></Row>
+  <Row><Cell>ui_ml_mf_beard_select</Cell><Cell>ui_ml_mf_beard_select</Cell><Cell>Elegir barba</Cell></Row>
+  <Row><Cell>ui_ml_mf_hair_accept</Cell><Cell>ui_ml_mf_hair_accept</Cell><Cell>Me quedo con este</Cell></Row>
+  <Row><Cell>ui_ml_mf_back</Cell><Cell>ui_ml_mf_back</Cell><Cell>Atrás</Cell></Row>
+  <Row><Cell>ui_ml_mf_never_mind</Cell><Cell>ui_ml_mf_never_mind</Cell><Cell>Déjalo</Cell></Row>
+</Table>

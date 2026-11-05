@@ -1,0 +1,18 @@
+# The game's files, extracted by tools/extract_game.py: the game's own, never committed
+game_files/
+
+# Builds
+build/
+dist/
+*.pak
+
+# Made from the game's files by the tools: they are built, never committed
+*.skin
+mod/*/data/Libs/UI/Textures/Books/
+mod/*/data/Quests/Final/
+
+# Saves copied by tools/mod_profile.py
+saves_backup/
+
+# Python
+__pycache__/

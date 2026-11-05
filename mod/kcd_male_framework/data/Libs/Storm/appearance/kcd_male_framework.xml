@@ -1,0 +1,822 @@
+<?xml version="1.0"?>
+<!DOCTYPE storm SYSTEM "../../storm.dtd">
+<!-- The models of the men's looks: each one gets the parts of the game that its look copies, so what a preview
+     shows is what the character gets. -->
+<storm>
+	<rules>
+		<rule name="ml_mf_model_1_look">
+			<selectors>
+				<hasName name="ml_mf_model_1" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_008" />
+				<setHair name="m_hair_005_light_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_09" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_2_look">
+			<selectors>
+				<hasName name="ml_mf_model_2" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_018" />
+				<setHair name="m_hair_018_dark_brown" />
+				<setBody name="m_body_pale_03" />
+				<setBeard name="m_beard_16" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_3_look">
+			<selectors>
+				<hasName name="ml_mf_model_3" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_025" />
+				<setHair name="m_hair_013_black" />
+				<setBody name="m_body_tan_02" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_7_look">
+			<selectors>
+				<hasName name="ml_mf_model_7" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_000" />
+				<setHair name="m_hair_011_ginger" />
+				<setBody name="m_body_pale_01" />
+				<setBeard name="m_beard_13" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_8_look">
+			<selectors>
+				<hasName name="ml_mf_model_8" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_004" />
+				<setHair name="m_hair_017_black" />
+				<setBody name="m_body_roma_04" />
+				<setBeard name="m_beard_18" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_56_look">
+			<selectors>
+				<hasName name="ml_mf_model_56" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_001" />
+				<setHair name="m_hair_012_blonde" />
+				<setBody name="m_body_tan_06" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_57_look">
+			<selectors>
+				<hasName name="ml_mf_model_57" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_002" />
+				<setHair name="m_hair_004_dark_brown" />
+				<setBody name="m_body_tan_01" />
+				<setBeard name="m_beard_07" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_58_look">
+			<selectors>
+				<hasName name="ml_mf_model_58" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_003" />
+				<setHair name="m_hair_014_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_03" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_59_look">
+			<selectors>
+				<hasName name="ml_mf_model_59" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_005" />
+				<setHair name="m_hair_015_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_06" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_60_look">
+			<selectors>
+				<hasName name="ml_mf_model_60" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_006" />
+				<setHair name="m_hair_005_light_brown" />
+				<setBody name="m_body_tan_03" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_61_look">
+			<selectors>
+				<hasName name="ml_mf_model_61" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_010" />
+				<setHair name="m_hair_001_light_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_06" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_62_look">
+			<selectors>
+				<hasName name="ml_mf_model_62" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_011" />
+				<setHair name="m_hair_013_dark_brown" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_01" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_63_look">
+			<selectors>
+				<hasName name="ml_mf_model_63" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_012" />
+				<setHair name="m_hair_013_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_06" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_64_look">
+			<selectors>
+				<hasName name="ml_mf_model_64" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_013" />
+				<setHair name="m_hair_005_black" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_09" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_65_look">
+			<selectors>
+				<hasName name="ml_mf_model_65" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_016" />
+				<setHair name="m_hair_005_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_10" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_66_look">
+			<selectors>
+				<hasName name="ml_mf_model_66" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_017" />
+				<setHair name="m_hair_006_dark_ginger" />
+				<setBody name="m_body_pale_01" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_67_look">
+			<selectors>
+				<hasName name="ml_mf_model_67" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_019" />
+				<setHair name="m_hair_010_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_17" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_68_look">
+			<selectors>
+				<hasName name="ml_mf_model_68" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_020" />
+				<setHair name="m_hair_013_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_69_look">
+			<selectors>
+				<hasName name="ml_mf_model_69" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_022" />
+				<setHair name="m_hair_008_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_14" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_70_look">
+			<selectors>
+				<hasName name="ml_mf_model_70" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_024" />
+				<setHair name="m_hair_009_black" />
+				<setBody name="m_body_tan_03" />
+				<setBeard name="m_beard_16" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_71_look">
+			<selectors>
+				<hasName name="ml_mf_model_71" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_026" />
+				<setHair name="m_hair_013_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_72_look">
+			<selectors>
+				<hasName name="ml_mf_model_72" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_027" />
+				<setHair name="m_hair_013_black" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_01" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_73_look">
+			<selectors>
+				<hasName name="ml_mf_model_73" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_028" />
+				<setHair name="m_hair_014_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_03" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_74_look">
+			<selectors>
+				<hasName name="ml_mf_model_74" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_029" />
+				<setHair name="m_hair_006_black" />
+				<setBody name="m_body_tan_04" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_75_look">
+			<selectors>
+				<hasName name="ml_mf_model_75" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_030" />
+				<setHair name="m_hair_011_black" />
+				<setBody name="m_body_tan_03" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_76_look">
+			<selectors>
+				<hasName name="ml_mf_model_76" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_031" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_10" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_77_look">
+			<selectors>
+				<hasName name="ml_mf_model_77" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_032" />
+				<setHair name="m_hair_003_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_19" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_78_look">
+			<selectors>
+				<hasName name="ml_mf_model_78" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_033" />
+				<setHair name="m_hair_005_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_18" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_79_look">
+			<selectors>
+				<hasName name="ml_mf_model_79" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_034" />
+				<setHair name="m_hair_009_dark_ginger" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_15" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_80_look">
+			<selectors>
+				<hasName name="ml_mf_model_80" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_035" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_81_look">
+			<selectors>
+				<hasName name="ml_mf_model_81" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_036" />
+				<setHair name="m_hair_019_black" />
+				<setBody name="m_body_tan_02" />
+				<setBeard name="m_beard_02" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_82_look">
+			<selectors>
+				<hasName name="ml_mf_model_82" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_037" />
+				<setHair name="m_hair_008_dark_brown" />
+				<setBody name="m_body_pale_03" />
+				<setBeard name="m_beard_17" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_83_look">
+			<selectors>
+				<hasName name="ml_mf_model_83" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_038" />
+				<setHair name="m_hair_005_dark_brown" />
+				<setBody name="m_body_tan_old_02" />
+				<setBeard name="m_beard_09" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_84_look">
+			<selectors>
+				<hasName name="ml_mf_model_84" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_039" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_85_look">
+			<selectors>
+				<hasName name="ml_mf_model_85" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_040" />
+				<setHair name="m_hair_tonsure_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_86_look">
+			<selectors>
+				<hasName name="ml_mf_model_86" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_041" />
+				<setHair name="m_hair_005_black" />
+				<setBody name="m_body_roma_04" />
+				<setBeard name="m_beard_10" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_87_look">
+			<selectors>
+				<hasName name="ml_mf_model_87" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_042" />
+				<setHair name="m_hair_002_dark_ginger" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_88_look">
+			<selectors>
+				<hasName name="ml_mf_model_88" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_044" />
+				<setHair name="m_hair_010_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_15" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_89_look">
+			<selectors>
+				<hasName name="ml_mf_model_89" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_045" />
+				<setHair name="m_hair_013_dark_brown" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_16" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_90_look">
+			<selectors>
+				<hasName name="ml_mf_model_90" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_046" />
+				<setHair name="m_hair_012_dark_brown" />
+				<setBody name="m_body_pale_03" />
+				<setBeard name="m_beard_09" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_91_look">
+			<selectors>
+				<hasName name="ml_mf_model_91" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_048" />
+				<setHair name="m_hair_006_blonde" />
+				<setBody name="m_body_pale_01" />
+				<setBeard name="m_beard_17" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_92_look">
+			<selectors>
+				<hasName name="ml_mf_model_92" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_049" />
+				<setHair name="m_hair_008_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_93_look">
+			<selectors>
+				<hasName name="ml_mf_model_93" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_050" />
+				<setHair name="m_hair_003_black" />
+				<setBody name="m_body_roma_01" />
+				<setBeard name="m_beard_01" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_94_look">
+			<selectors>
+				<hasName name="ml_mf_model_94" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_051" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_95_look">
+			<selectors>
+				<hasName name="ml_mf_model_95" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_052" />
+				<setHair name="m_hair_014_dark_grey" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_96_look">
+			<selectors>
+				<hasName name="ml_mf_model_96" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_053" />
+				<setHair name="m_hair_015_black" />
+				<setBody name="m_body_tan_old_05" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_97_look">
+			<selectors>
+				<hasName name="ml_mf_model_97" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_054" />
+				<setHair name="m_hair_006_black" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_01" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_98_look">
+			<selectors>
+				<hasName name="ml_mf_model_98" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_055" />
+				<setHair name="m_hair_001_black" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_04" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_99_look">
+			<selectors>
+				<hasName name="ml_mf_model_99" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_056" />
+				<setHair name="m_hair_005_black" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_02" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_100_look">
+			<selectors>
+				<hasName name="ml_mf_model_100" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_057" />
+				<setHair name="m_hair_001_dark_grey" />
+				<setBody name="m_body_tan_old_01" />
+				<setBeard name="m_beard_18" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_101_look">
+			<selectors>
+				<hasName name="ml_mf_model_101" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_058" />
+				<setHair name="m_hair_019_black" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_07" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_102_look">
+			<selectors>
+				<hasName name="ml_mf_model_102" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_059" />
+				<setHair name="m_hair_009_dark_ginger" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_17" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_103_look">
+			<selectors>
+				<hasName name="ml_mf_model_103" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_060" />
+				<setHair name="m_hair_003_dark_grey" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_104_look">
+			<selectors>
+				<hasName name="ml_mf_model_104" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_062" />
+				<setHair name="m_hair_013_dark_brown" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_105_look">
+			<selectors>
+				<hasName name="ml_mf_model_105" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_063" />
+				<setHair name="m_hair_011_light_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_19" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_106_look">
+			<selectors>
+				<hasName name="ml_mf_model_106" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_064" />
+				<setHair name="m_hair_002_dark_grey" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_19" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_107_look">
+			<selectors>
+				<hasName name="ml_mf_model_107" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_065" />
+				<setHair name="m_hair_008_black" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_15" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_108_look">
+			<selectors>
+				<hasName name="ml_mf_model_108" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_066" />
+				<setHair name="m_hair_013_black" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_109_look">
+			<selectors>
+				<hasName name="ml_mf_model_109" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_067" />
+				<setHair name="m_hair_008_light_brown" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_13" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_110_look">
+			<selectors>
+				<hasName name="ml_mf_model_110" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_068" />
+				<setHair name="m_hair_tonsure_dark_grey" />
+				<setBody name="m_body_tan_old_05" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_111_look">
+			<selectors>
+				<hasName name="ml_mf_model_111" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_069" />
+				<setHair name="m_hair_006_light_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_112_look">
+			<selectors>
+				<hasName name="ml_mf_model_112" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_070" />
+				<setHair name="m_hair_009_light_brown" />
+				<setBody name="m_body_pale_old_01" />
+				<setBeard name="m_beard_01" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_113_look">
+			<selectors>
+				<hasName name="ml_mf_model_113" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_071" />
+				<setHair name="m_hair_009_blonde" />
+				<setBody name="m_body_pale_03" />
+				<setBeard name="m_beard_12" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_114_look">
+			<selectors>
+				<hasName name="ml_mf_model_114" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_072" />
+				<setHair name="m_hair_003_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_14" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_115_look">
+			<selectors>
+				<hasName name="ml_mf_model_115" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_073" />
+				<setHair name="m_hair_006_black" />
+				<setBody name="m_body_roma_02" />
+				<setBeard name="m_beard_16" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_116_look">
+			<selectors>
+				<hasName name="ml_mf_model_116" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_074" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_117_look">
+			<selectors>
+				<hasName name="ml_mf_model_117" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_075" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_118_look">
+			<selectors>
+				<hasName name="ml_mf_model_118" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_076" />
+				<setHair name="m_hair_018_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_14" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_119_look">
+			<selectors>
+				<hasName name="ml_mf_model_119" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_077" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_120_look">
+			<selectors>
+				<hasName name="ml_mf_model_120" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_078" />
+				<setHair name="m_hair_012_black" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_17" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_121_look">
+			<selectors>
+				<hasName name="ml_mf_model_121" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_079" />
+				<setHair name="m_hair_013_dark_grey" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_01" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_122_look">
+			<selectors>
+				<hasName name="ml_mf_model_122" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_080" />
+				<setHair name="m_hair_013_light_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_123_look">
+			<selectors>
+				<hasName name="ml_mf_model_123" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_081" />
+				<setHair name="m_hair_014_dark_grey" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_10" />
+			</operations>
+		</rule>
+		<rule name="ml_mf_model_129_look">
+			<selectors>
+				<hasName name="ml_mf_model_129" />
+			</selectors>
+			<operations>
+				<setHead name="m_head_chamberlain" />
+				<setHair name="m_hair_009_dark_brown" />
+				<setBody name="m_body_pale_02" />
+				<setBeard name="m_beard_00" />
+			</operations>
+		</rule>
+	</rules>
+</storm>

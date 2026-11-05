@@ -1,0 +1,11 @@
+<Table>
+  <Row><Cell>ui_nm_ml_mf_state</Cell><Cell>ui_nm_ml_mf_state</Cell><Cell>Keepsake of a new face</Cell></Row>
+  <Row><Cell>ui_in_ml_mf_state</Cell><Cell>ui_in_ml_mf_state</Cell><Cell>KCD2 Male Framework keeps its state here. Do not sell, drop or store it.</Cell></Row>
+  <Row><Cell>ml_mf_changing_look</Cell><Cell>ml_mf_changing_look</Cell><Cell>Changing the look...</Cell></Row>
+  <Row><Cell>ml_mf_barber_no_money</Cell><Cell>ml_mf_barber_no_money</Cell><Cell>You don't have enough coin for that.</Cell></Row>
+  <Row><Cell>ui_ml_mf_hair_select_style</Cell><Cell>ui_ml_mf_hair_select_style</Cell><Cell>Select hairstyle</Cell></Row>
+  <Row><Cell>ui_ml_mf_beard_select</Cell><Cell>ui_ml_mf_beard_select</Cell><Cell>Select beard</Cell></Row>
+  <Row><Cell>ui_ml_mf_hair_accept</Cell><Cell>ui_ml_mf_hair_accept</Cell><Cell>I'll take this one</Cell></Row>
+  <Row><Cell>ui_ml_mf_back</Cell><Cell>ui_ml_mf_back</Cell><Cell>Back</Cell></Row>
+  <Row><Cell>ui_ml_mf_never_mind</Cell><Cell>ui_ml_mf_never_mind</Cell><Cell>Never mind</Cell></Row>
+</Table>
