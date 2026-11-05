@@ -34,16 +34,9 @@ def game_running() -> bool:
     return "KingdomCome.exe" in out
 
 
-def main() -> int:
-    if len(sys.argv) != 2:
-        print(__doc__)
-        return 2
-    if game_running():
-        raise SystemExit("The game is open (KingdomCome.exe). Close it and run this again.")
-    src = pathlib.Path(sys.argv[1]).resolve()
-    modid = read_modid(src / "mod.manifest")
-    build_root = PROJECT / "build"
-
+def build(src: pathlib.Path, build_root: pathlib.Path) -> pathlib.Path:
+    """Runs the mod's data generators and packs it. Returns the built folder, build_root/<modid>. package_mods.py uses
+    it too."""
     # Origins, jobs and orders each come from one file: whatever was edited there goes in with no extra steps. Each mod
     # brings its generators in its own tools/ folder. The recipes come from the game, with the pictures of their pages,
     # which are not in the repository.
@@ -54,6 +47,19 @@ def main() -> int:
 
     subprocess.run([sys.executable, "-I", str(PROJECT / "tools" / "build_mod.py"), str(src), str(build_root)],
                    check=True)
+    return build_root / read_modid(src / "mod.manifest")
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        print(__doc__)
+        return 2
+    if game_running():
+        raise SystemExit("The game is open (KingdomCome.exe). Close it and run this again.")
+    src = pathlib.Path(sys.argv[1]).resolve()
+    modid = read_modid(src / "mod.manifest")
+    build_root = PROJECT / "build"
+    build(src, build_root)
 
     mods = GAME / "Mods"
     if not mods.is_dir():
