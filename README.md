@@ -41,7 +41,6 @@ One call gives Henry another man's face: `MaleCore.SetLook(name)` from your mod,
 
 ## Compatibility and known limits
 
-- **Headwear.** Changing faces takes off what Henry wears on his head.
 - **The barber's talk.** The framework replaces the game's `barber_dialogue.xml`, with its haircut hidden while a look is on, or a woman of KCD2 Female Framework, which ships the same copy. A mod that replaces the same file clashes with it, and the one that loads last wins.
 - **Head meshes.** The heads and their beards replace the game's at their own paths. A mod that replaces the same meshes wins or loses by load order.
 - **With a woman.** After `ml_ff_female` of KCD2 Female Framework, or with the character of a mod that plays its own, the commands do nothing.

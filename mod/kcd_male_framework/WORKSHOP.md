@@ -24,7 +24,6 @@ The screen goes dark for a few seconds while he changes. Type the commands in th
 
 ## Good to know
 
-- Changing faces takes off whatever Henry wears on his head. Put it back on afterwards.
 - It changes the barber's talk and the men's head models, so mods that change those can clash with it.
 - While Henry is a woman, with KCD2 Female Framework, the commands do nothing.
 

@@ -28,7 +28,6 @@ From Lua it is the last argument, `noScreen`. Left out, it is `false`, and the s
 
 ## Limits
 
-- **Changing faces takes off what Henry wears on his head.** Put it back on afterwards.
 - **For a moment after a load,** the framework asks for the face in use, and two small tokens may show in the inventory for a second.
 
 ## When the commands do nothing
