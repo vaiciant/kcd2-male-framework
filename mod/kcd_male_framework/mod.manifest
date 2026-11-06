@@ -5,7 +5,7 @@
 		<modid>kcd_male_framework</modid>
 		<description>Every man's face of the game for the player, with a barber that fits: a library for other mods, and console commands that work on their own.</description>
 		<author>KCD2 Life</author>
-		<version>0.1.1</version>
+		<version>0.1.2</version>
 		<created_on>2026-11-03</created_on>
 		<modifies_level>false</modifies_level>
 	</info>

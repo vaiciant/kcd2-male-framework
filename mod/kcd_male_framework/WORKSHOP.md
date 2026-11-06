@@ -43,6 +43,6 @@ Subscribe, or download it from Nexus Mods and put its folder in the game's `Mods
 
 ## For mod makers
 
-Any mod can use it: one line of Lua gives Henry another face. It is free for any mod, closed or open, free or paid, as long as you credit it where people can see it. The guide for mod makers comes with the source on GitHub.
+Any mod can use it: one line of Lua gives Henry another face. It is free for any mod, closed or open, free or paid, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-male-framework).
 
 *Required by KCD2 Life.*
