@@ -2,6 +2,11 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 0.2.0
+
+- **With KCD2 Female Framework 0.2.0:** a woman can now become Henry again, and the faces of this framework work after that. Before a face of its own goes on, it takes off the head of Henry that KCD2 Female Framework keeps on, and `ml_mf_henry` puts it back, so a beard never lands on a woman's head.
+- Use both frameworks at 0.2.0 or later together.
+
 ## 0.1.0
 
 The first release.

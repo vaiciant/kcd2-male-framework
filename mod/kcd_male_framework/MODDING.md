@@ -101,7 +101,7 @@ A mod that switches to that same soul can do the same.
 
 ## With KCD2 Female Framework and KCD2 Life
 
-They work alone or together. After `ml_ff_female` of KCD2 Female Framework, Henry is a woman, and the commands of this framework do nothing. A new life of KCD2 Life is its own character, and there they do nothing either. Both frameworks share the numbers of the looks, so a look's id means the same face in both.
+They work alone or together. After `ml_ff_female` of KCD2 Female Framework, Henry is a woman, and the commands of this framework do nothing. After its `ml_ff_henry` they work again: before a look, this framework calls `FemaleCore.TakeOffHenry()`, so the head of Henry that KCD2 Female Framework keeps on does not cover it, and `ml_mf_henry` calls `FemaleCore.KeepHenry()` before its last rebuild, so a beard never lands on her head. Use 0.2.0 or later of both. A new life of KCD2 Life is its own character, and there they do nothing either. Both frameworks share the numbers of the looks, so a look's id means the same face in both.
 
 ## Credit
 

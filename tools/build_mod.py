@@ -39,8 +39,9 @@ def write_pak(src_dir: pathlib.Path, pak_path: pathlib.Path) -> int:
     pak_path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(pak_path, "w", compression=zipfile.ZIP_STORED) as pak:
         for path in files:
-            # Meshes are compressed, as in the game's paks.
-            compression = zipfile.ZIP_DEFLATED if path.suffix == ".skin" else zipfile.ZIP_STORED
+            # Meshes and face poses are compressed, as in the game's paks.
+            compressed = path.suffix == ".skin" or path.name.endswith("_poses.xml")
+            compression = zipfile.ZIP_DEFLATED if compressed else zipfile.ZIP_STORED
             pak.write(path, path.relative_to(src_dir).as_posix(), compress_type=compression)
     return len(files)
 

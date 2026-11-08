@@ -237,6 +237,10 @@ function MaleCore.SetLook(name, noScreen)
 	try("barber forget", MaleCore.Barber.Forget)
 	-- The beard of the head of now may not exist on the next one.
 	withBarber("safe beard", function(barber) barber:TryBeard(MaleCore.SAFE_BEARD) end)
+	-- After ml_ff_henry, KCD2 Female Framework keeps Henry's head and body on as a look of its own: they would cover this one.
+	if FemaleCore and FemaleCore.TakeOffHenry then
+		try("female framework", FemaleCore.TakeOffHenry)
+	end
 	sendToken(MaleCore.RESET_TOKEN)
 	Script.SetTimer(MaleCore.TOKEN_MS + 200, function()
 		sendToken(look.token)
@@ -277,6 +281,11 @@ function MaleCore.Henry(noScreen)
 		sendToken(MaleCore.HENRY_TOKEN)
 		Script.SetTimer(MaleCore.TOKEN_MS + 200, function()
 			rebuild(MaleCore.HENRY_HAIR, MaleCore.HENRY_BEARD, function()
+				-- If Henry was a woman of KCD2 Female Framework, her head may still be his soul's own, and the last rebuild
+				-- changes the beard: that framework puts his head and body back on first.
+				if FemaleCore and FemaleCore.KeepHenry then
+					try("female framework", FemaleCore.KeepHenry)
+				end
 				sendToken(MaleCore.RESET_TOKEN)
 				Script.SetTimer(MaleCore.TOKEN_MS + 200, function()
 					rebuild(nil, nil, function()
