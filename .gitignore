@@ -8,6 +8,7 @@ dist/
 
 # Made from the game's files by the tools: they are built, never committed
 *.skin
+mod/*/data/Objects/**/*_poses.xml
 mod/*/data/Libs/UI/Textures/Books/
 mod/*/data/Quests/Final/
 

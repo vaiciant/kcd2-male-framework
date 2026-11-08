@@ -266,6 +266,8 @@ def write_frameworks(catalogs):
 
 
 HENRY_SOUL = "4c2dcffb-dea1-6263-72d7-b39f4db2d8b5"
+# What KCDFF adds to the answer: Henry's head and body kept on after ml_ff_henry, and that he was a woman in this save.
+HENRY_KEPT_ANSWER, WAS_WOMAN_ANSWER = 500, 1000
 
 
 def answer_nodes(looks, ask, answer):
@@ -649,7 +651,9 @@ def write_kcdff_standalone(looks):
     """KCDFF on Henry, without other mods. Like KCDMF: one token per look, one that takes
     them off, and the question and the answer of the look worn. With the first look Henry becomes a woman: the women's
     underwear and the clothes rules turn on, on his soul. Henry's token puts on his head and his body, as in KCDMF,
-    and makes him a man again. ml_ff_state is no longer used: it is only kept to remove it from older saves."""
+    and makes him a man again. They stay on until she is a woman again, or a look of KCDMF takes their place: a Commit
+    does not give his head back to his soul after hers. ml_ff_state is no longer used:
+    it is only kept to remove it from older saves."""
     folder = GENDERS["woman"]["folder"]
     reset, state, own_face = guid("ml_ff_reset"), guid("ml_ff_state"), guid("ml_ff_henry_face")
     ask, answer, started = guid("ml_ff_ask"), guid("ml_ff_answer"), guid("ml_ff_new_started")
@@ -658,6 +662,9 @@ def write_kcdff_standalone(looks):
     price_low, price_game = guid("ml_ff_price_low"), guid("ml_ff_price_game")
     tokens = {l["id"]: guid(f"ml_ff_set_{l['head']}") for l in looks}
     notices = {part: guid(f"ml_ff_henry_stripped_{part}") for part in CLOTHES_NOTICES}
+    # The answer adds these to the id of the look, so every id must stay below the first one.
+    if max(l["id"] for l in looks) >= HENRY_KEPT_ANSWER:
+        raise SystemExit(f"A look id reaches {HENRY_KEPT_ANSWER}: raise HENRY_KEPT_ANSWER and WAS_WOMAN_ANSWER")
     # Tokens.
     path = folder / f"data/Libs/Tables/item/item__{folder.name}.xml"
     text = read_file(path)
@@ -722,7 +729,9 @@ def write_kcdff_standalone(looks):
         '\t\t\t\t\t<Edge From="henry.Inventory" To="Inventory" />\n'
         '\t\t\t\t\t<Edge From="reset_descriptor.ItemDescriptor" To="ItemDescriptor" />\n'
         '\t\t\t\t\t<Edge From="always_on.State" To="IsActive" />\n\t\t\t\t</ItemDescriptorTrigger>\n'
-        # Henry's head and body as one more look, to give them back to him with a Commit.
+        # Henry's head and body as one more look, after ml_ff_henry. They stay on: after hers, a Commit did not give his
+        # head back to his soul (204 and 209). The reset token takes them off for a look of KCDMF,
+        # and a woman's look too.
         '\t\t\t\t<Function Name="henry_descriptor" PositionY="-450" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">\n'
         f'\t\t\t\t\t<Constant Name="ItemClass" Value="{own_face}" />\n\t\t\t\t\t<Constant Name="Amount" Value="1" />\n\t\t\t\t</Function>\n'
         '\t\t\t\t<ItemDescriptorTrigger Name="henry_token" PositionY="-450" PositionX="-600">\n'
@@ -732,7 +741,27 @@ def write_kcdff_standalone(looks):
         '\t\t\t\t<State Name="henry_face" PositionY="-450" PositionX="-300" TypeT="bool">\n'
         '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
         '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetTrue" />\n'
-        '\t\t\t\t\t<Edge From="reset_token.OnAcquire" To="SetFalse" />\n\t\t\t\t</State>\n'
+        '\t\t\t\t\t<Edge From="reset_token.OnAcquire" To="SetFalse" />\n'
+        + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetFalse" />\n' for l in looks)
+        + '\t\t\t\t</State>\n'
+        # Whether Henry was ever a woman in this save: then her head may be his soul's own, and KCDMF puts his head
+        # back on through KCDFF when his own face comes back.
+        # Henry's token too: a save where she became a woman with an older version has it off.
+        '\t\t\t\t<State Name="was_woman" PositionY="-675" PositionX="-300" TypeT="bool">\n'
+        '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
+        + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetTrue" />\n' for l in looks)
+        + '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetTrue" />\n'
+        '\t\t\t\t</State>\n'
+        # The ask token also learns these two, added to the id of the look.
+        + "".join(
+            f'\t\t\t\t<If Name="answer_if_{name}" PositionY="{y}" PositionX="300">\n'
+            f'\t\t\t\t\t<Edge From="{name}.State" To="Condition" />\n'
+            '\t\t\t\t\t<Edge From="ask_token.OnAcquire" To="Exec" />\n\t\t\t\t</If>\n'
+            f'\t\t\t\t<EventFunction Name="answer_{name}" PositionY="{y}" PositionX="600" MethodName="wh::entitymodule::CreatePlayerReward" DeclaringType="wh::entitymodule">\n'
+            f'\t\t\t\t\t<Constant Name="ItemClass" Value="{answer}" />\n\t\t\t\t\t<Constant Name="Amount" Value="{amount}" />\n'
+            '\t\t\t\t\t<Constant Name="ShowUINotification" Value="false" />\n'
+            f'\t\t\t\t\t<Edge From="answer_if_{name}.True" To="Exec" />\n\t\t\t\t</EventFunction>\n'
+            for name, amount, y in (("henry_face", HENRY_KEPT_ANSWER, -450), ("was_woman", WAS_WOMAN_ANSWER, -675)))
         + "".join(
             f'\t\t\t\t<BodyPartOverride Name="henry_{part}" PositionY="{-450 + 70 * k}" PositionX="0">\n'
             '\t\t\t\t\t<Asset Name="Soul" Alias="henry" />\n'
@@ -787,9 +816,10 @@ def write_kcdff_standalone(looks):
                '<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">\n'
                '\t<!-- Generated by tools/generate_models.py from looks.toml. Edit that file, not this one. A woman\'s look on Henry\n'
                '\t     himself: its token turns on its head and body, and the reset token turns every look off. The first look makes him a\n'
-               '\t     woman, with her underwear and the rules of her clothes, and Henry\'s token makes him a man again. The states live in\n'
-               '\t     the project, so every map and every save keeps them, and the ask token gets as many answer tokens as the id of the\n'
-               '\t     look on. The new_ nodes do the same on the character of KCD2 Life. -->\n'
+               '\t     woman, with her underwear and the rules of her clothes, and Henry\'s token makes him a man again, with his head and\n'
+               '\t     body on until a woman\'s look or the reset token. The states live in the project, so every map and every save keeps\n'
+               f'\t     them, and the ask token gets as many answer tokens as the id of the look on, plus {HENRY_KEPT_ANSWER} with his head kept on and {WAS_WOMAN_ANSWER}\n'
+               '\t     if he was a woman. The new_ nodes do the same on the character of KCD2 Life. -->\n'
                '\t<Skald>\n\t\t<Module Name="ml_ff_face">\n\t\t\t<Nodes>\n' + "".join(nodes)
                + '\t\t\t</Nodes>\n\t\t\t<Assets>\n'
                f'\t\t\t\t<SoulAsset Name="henry" SharedSoulGuids="{HENRY_SOUL}" />\n'
@@ -800,6 +830,8 @@ def write_kcdff_standalone(looks):
            "-- with its id, shared with KCD2 Male Framework, the hair style and color it starts with, and its token on Henry.",
            f'FemaleCore.RESET_TOKEN = "{reset}"', f'FemaleCore.HENRY_TOKEN = "{own_face}"',
            f'FemaleCore.ASK_TOKEN = "{ask}"', f'FemaleCore.ANSWER_ITEM = "{answer}"',
+           "-- Added to the id of the look in the answer: Henry's head and body kept on, and that he was a woman in this save.",
+           f"FemaleCore.HENRY_KEPT_ANSWER = {HENRY_KEPT_ANSWER}", f"FemaleCore.WAS_WOMAN_ANSWER = {WAS_WOMAN_ANSWER}",
            "-- Older saves kept the look in its amount: it is only taken away.", f'FemaleCore.OLD_STATE_ITEM = "{state}"',
            "-- KCD2 Life gives it to Henry when SwitchPlayer ends: its new character is in use.", f'FemaleCore.NEW_STARTED_TOKEN = "{started}"',
            "-- With it in Henry's inventory, her next haircut at a barber is free (ml_ff_barber.xml).", f'FemaleCore.FREE_HAIRCUT_TOKEN = "{free_haircut}"',

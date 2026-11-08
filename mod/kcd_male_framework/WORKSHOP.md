@@ -25,7 +25,7 @@ The screen goes dark for a few seconds while he changes. Type the commands in th
 ## Good to know
 
 - It changes the barber's talk and the men's head models, so mods that change those can clash with it.
-- While Henry is a woman, with KCD2 Female Framework, the commands do nothing.
+- While Henry is a woman, with KCD2 Female Framework, the commands do nothing. Once she is Henry again, they work: use version 0.2.0 or later of both.
 
 ## Removing it
 

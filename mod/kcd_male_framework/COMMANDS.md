@@ -33,6 +33,6 @@ From Lua it is the last argument, `noScreen`. Left out, it is `false`, and the s
 ## When the commands do nothing
 
 - **Another character in use.** A mod that plays its own character instead of Henry, as KCD2 Life does, turns them off.
-- **Henry is a woman.** After `ml_ff_female` of [KCD2 Female Framework](https://github.com/vaiciant/kcd2-female-framework/blob/main/mod/kcd_female_framework/COMMANDS.md), they do nothing, so they do not put a man's face on her.
+- **Henry is a woman.** After `ml_ff_female` of [KCD2 Female Framework](https://github.com/vaiciant/kcd2-female-framework/blob/main/mod/kcd_female_framework/COMMANDS.md), they do nothing, so they do not put a man's face on her. After `ml_ff_henry` they work again, with version 0.2.0 or later of both.
 
 Each command writes what it did in the console and in `kcd.log`, in lines that start with `[ML_MF]`.
