@@ -41,7 +41,8 @@ def build(src: pathlib.Path, build_root: pathlib.Path) -> pathlib.Path:
     # brings its generators in its own tools/ folder. The recipes come from the game, with the pictures of their pages,
     # which are not in the repository, and so do the drinks of KCD2 Tavern Nights.
     for source, tool in (("origins.toml", "generate_origins.py"), ("jobs.toml", "generate_jobs.py"), ("orders.toml", "generate_orders.py"),
-                         ("tools/generate_recipes.py", "generate_recipes.py"), ("tools/generate_drinks.py", "generate_drinks.py")):
+                         ("tools/generate_recipes.py", "generate_recipes.py"), ("tools/generate_drinks.py", "generate_drinks.py"),
+                         ("tools/collect_voice.py", "collect_voice.py")):
         if (src / source).is_file():
             subprocess.run([sys.executable, "-I", "-X", "utf8", str(src / "tools" / tool), str(src)], check=True)
 

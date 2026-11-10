@@ -7,7 +7,7 @@
 -- =============================================================================
 MaleCore = MaleCore or {}
 
-MaleCore.API = 1
+MaleCore.API = 2
 MaleCore.TOKEN_MS = 1000
 MaleCore.REBUILD_MS = 1000
 -- Every head of the catalog has them, and so does Henry's.
@@ -387,12 +387,87 @@ function MaleCore.TakeOff()
 	end
 end
 
+-- A look chosen before the game starts: from the console of the main menu before New Game, or by another mod.
+-- The game tells no new game from a load (only OnGameplayStarted), so it goes on at the next start of the game, new
+-- or loaded, once the framework knows his state. START_WAIT_MS more lets the start of a new game settle.
+MaleCore.START_WAIT_MS = 2000
+MaleCore.startLook = nil
+-- A new game begins with Godwin, in Kuttenberg, on the first day of the world; Henry's part begins on the second, in
+-- Trosecko, after a cutscene (kcd.log of 2026-11-09: world day 1, then 2). The soul of the player cannot be told from
+-- Lua (soul:GetId is a runtime WUID), so the day tells it, and the look waits while it is the first.
+MaleCore.HENRY_FIRST_DAY = 2
+-- Only Engine/Config/CVarOverrides/Cutscene.cfg sets this cvar, to 1, while a cutscene plays: the look waits for its
+-- end, so it goes on once Henry is in the saddle.
+MaleCore.CUTSCENE_CVAR = "e_SkipInFrustumOptimizationWH"
+MaleCore.CUTSCENE_POLL_MS = 1000
+local startGen = 0
+
+-- name: a look, by name or id. nil, "" or "none" cancels it. Returns whether the look exists.
+function MaleCore.StartAs(name)
+	if name == nil or name == "" or name == "none" then
+		MaleCore.startLook = nil
+		MaleCore.Log("no look waits for the next start of the game")
+		return true
+	end
+	local look = find(name)
+	if not look then
+		MaleCore.Log("no look called", name, "- ml_mf_looks lists them")
+		return false
+	end
+	MaleCore.startLook = look.name
+	MaleCore.Log("the next game that starts or loads begins with the face of", look.name)
+	return true
+end
+
+-- The look that waits for the next start of the game, or nil.
+function MaleCore.StartLook()
+	return MaleCore.startLook
+end
+
+local function inCutscene()
+	local value = try("cutscene", System.GetCVar, MaleCore.CUTSCENE_CVAR)
+	return tonumber(value) == 1
+end
+
+local function applyStartLook()
+	local name = MaleCore.startLook
+	if not name then
+		return
+	end
+	local day = try("calendar", Calendar.GetWorldDay)
+	if day and day < MaleCore.HENRY_FIRST_DAY then
+		MaleCore.Log("world day", day, "- the prologue with Godwin: the look waits for Henry")
+		return
+	end
+	MaleCore.startLook = nil
+	local gen, waited = startGen, false
+	local function attempt()
+		-- Another save loaded meanwhile: the look waits for that one.
+		if gen ~= startGen then
+			MaleCore.startLook = MaleCore.startLook or name
+			return
+		end
+		if inCutscene() then
+			if not waited then
+				waited = true
+				MaleCore.Log("a cutscene plays: the look waits for its end")
+			end
+			Script.SetTimer(MaleCore.CUTSCENE_POLL_MS, attempt)
+			return
+		end
+		MaleCore.Log("look chosen before the start:", name)
+		try("start look", function() MaleCore.SetLook(name) end)
+	end
+	Script.SetTimer(MaleCore.START_WAIT_MS, attempt)
+end
+
 -- The overrides need a rebuild after every load and every map, or the model shows Henry's head again. The inventory is
 -- read a moment later: right at the start of the game it may not be there yet.
 MaleCore.LOAD_WAIT_MS = 3000
 
 function MaleCore:OnGameplayStarted()
 	MaleCore.Log("gameplay started")
+	startGen = startGen + 1
 	-- A load in the middle of a change.
 	hideScreen()
 	-- What memory has may belong to the save before.
@@ -410,6 +485,7 @@ function MaleCore:OnGameplayStarted()
 			if current > 0 then
 				rebuild()
 			end
+			applyStartLook()
 		end)
 	end)
 end
@@ -487,4 +563,14 @@ end
 
 function MaleCore.UninstallCommand()
 	inGame("ml_mf_uninstall", MaleCore.Uninstall)
+end
+
+-- It only remembers the look, so it works in the main menu too. With no look, it says which one waits.
+function MaleCore.StartCommand(line)
+	local list = words(line)
+	if not list[1] then
+		MaleCore.Log("look for the next start of the game:", MaleCore.startLook or "none")
+		return
+	end
+	MaleCore.StartAs(list[1])
 end

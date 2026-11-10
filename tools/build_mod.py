@@ -5,6 +5,7 @@ Expected layout of the source folder:
     <src>/data/...                        -> <out>/<modid>/Data/<modid>.pak
     <src>/localization/<Language>_xml/... -> <out>/<modid>/Localization/<Language>_xml.pak
     <src>/mod.cfg (optional)              -> copied as is
+    <src>/prebuilt/... (optional)         -> <out>/<modid>/..., as is: paks a mod's own tool wrote
 
 The .pak files are uncompressed ZIPs (ZIP_STORED). The official wiki (KM-A-3, KM-A-58)
 asks for compression 0 and warns that ZIPs made with 7-Zip do not work.
@@ -15,6 +16,7 @@ Example:
     python -I tools/build_mod.py mod/medieval_life build
     -> build/medieval_life/ ready to copy into <game>/Mods/
 """
+import os
 import pathlib
 import re
 import shutil
@@ -76,6 +78,18 @@ def main() -> int:
         for lang_dir in sorted(p for p in loc_dir.iterdir() if p.is_dir()):
             count = write_pak(lang_dir, out / "Localization" / f"{lang_dir.name}.pak")
             print(f"Localization/{lang_dir.name}.pak: {count} files")
+
+    # Paks that a mod's own tool already wrote: they go in as they are, as hard links when they can, so a large pak is
+    # not copied twice.
+    prebuilt = src / "prebuilt"
+    for path in sorted(p for p in prebuilt.rglob("*") if p.is_file()) if prebuilt.is_dir() else []:
+        target = out / path.relative_to(prebuilt)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            os.link(path, target)
+        except OSError:
+            shutil.copy2(path, target)
+        print(f"{path.relative_to(prebuilt).as_posix()}: as built, {path.stat().st_size / 1e9:.2f} GB")
 
     print(f"Mod ready in {out}")
     return 0

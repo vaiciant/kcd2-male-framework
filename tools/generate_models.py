@@ -786,6 +786,12 @@ def write_kcdff_standalone(looks):
         '\t\t\t\t\t<Constant Name="BodyPart" Value="Beard" />\n'
         f'\t\t\t\t\t<Constant Name="Component" Value="{MESHLESS_BEARD}" />\n'
         '\t\t\t\t\t<Edge From="woman.State" To="IsActive" />\n\t\t\t\t</BodyPartOverride>\n'
+        # A buff with no effect and no icon says that she is a woman, to the copies of the game's scenes that put
+        # Henry's parts on the player (write_story_scenes).
+        '\t\t\t\t<BuffEffect Name="woman_mark" PositionY="-460" PositionX="0">\n'
+        '\t\t\t\t\t<Asset Name="Souls" Alias="henry" />\n'
+        f'\t\t\t\t\t<Constant Name="BuffGUID" Value="{WOMAN_BUFF}" />\n'
+        '\t\t\t\t\t<Edge From="woman.State" To="IsActive" />\n\t\t\t\t</BuffEffect>\n'
         '\t\t\t\t<Timer Name="watch" PositionY="-1500" PositionX="-1200">\n'
         '\t\t\t\t\t<Constant Name="Duration" Value="1s" />\n\t\t\t\t\t<Constant Name="TimeType" Value="GameTime" />\n'
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetRunning" />\n' for l in looks)
@@ -1079,6 +1085,110 @@ def write_game_barber_dialog():
         dest.write_text(text, encoding="utf-8-sig", newline="")
 
 
+# The game's own scenes that put Henry's parts on the player soul: wet, wounded and bandaged in the prologue in
+# Trosecko, and wet at the swimming contest of the Cumans. An override of a quest of the level wins over hers, which lives
+# in the project, so while Henry was a woman she showed his wounded head, his body and his breeches there (kcd.log and
+# screenshots of 2026-11-09). A copy of each scene, from the game of whoever builds, puts those parts on only while the
+# player has no buff with the tag ml_ff_woman, which the graph keeps on her (woman_mark). Head, body and underwear: she
+# keeps her own, and her shift. Every other override in the game is on another soul. Only KCDFF ships these copies.
+# Each file is checked against the game's, like the barber's talk.
+STORY_SCENES = {
+    "Quests/Final/Barbora/trosecko/prepadeni/prepadeni/mokry_jindrich_a_ptacek.xml":
+        ("bfdcc506fd5a47e8a035a4e82fcbd4639b7bbd46a9b62cd3742eca0f24cff4f9", 2),
+    "Quests/Final/Barbora/trosecko/prepadeni/hibernovana_cast/honicka_ve_skalach/nastaveni_ptacka_a_jindricha.xml":
+        ("91458e2efe585197d5897386b1201870a1155de3f40a930311887c7ee49e8e72", 3),
+    "Quests/Final/Barbora/trosecko/zachrana/henryho_morfovani_tel_a_obvazu/henry__pred_prvni_cs.xml":
+        ("ef8fdf7853579bb949422231d73ec00fd1119c2346fc0386d5c154fc97adf087", 3),
+    "Quests/Final/Barbora/trosecko/zachrana/henryho_morfovani_tel_a_obvazu.xml":
+        ("7825d1025a0ab4bb57ba11be52d89c78bfb87633dba48bbb65bcdc2700545eb0", 4),
+    "Quests/Final/Barbora/trosecko/kumaniNaTrosecku/hibernation/kumansky_tabor/party_s_kumany/soutez_v_plavani.xml":
+        ("3c235c5960cb361448363311606c542f8d12b397fb71c69c43fde5175e0a33e8", 2),
+}
+# buff__kcd_female_framework.xml and buff_ai_tag__kcd_female_framework.xml, written by hand, have the same values.
+WOMAN_BUFF = guid("ml_ff_woman_buff")
+WOMAN_BUFF_TAG = 204
+# A woman is either of two things. The check reads the buff when the condition of the scene changes: that is enough
+# while the game runs. After a load, the scene can read it before the buff is back, so the bandaged body came back at
+# Bozhena's (kcd.log of 2026-11-09). So the scene also keeps a state that the buff sets when it arrives and clears
+# when it goes, and KCD2 Female Framework gives the buff again after each load (female_core.lua, markWoman).
+WOMAN_CHECK = (
+    '<Function Name="ml_ff_woman_check" PositionY="{y}" PositionX="{x}" MethodName="wh::rpgmodule::BuffTagCheck" DeclaringType="wh::rpgmodule">\n'
+    '\t\t\t\t\t<Asset Name="Souls" Alias="player" />\n'
+    f'\t\t\t\t\t<Constant Name="BuffTag" Value="{WOMAN_BUFF_TAG}" />\n'
+    '\t\t\t\t</Function>\n'
+    '\t\t\t\t<State Name="ml_ff_always_on" PositionY="{y2}" PositionX="{x}" TypeT="bool">\n'
+    '\t\t\t\t\t<Constant Name="DefaultValue" Value="true" />\n'
+    '\t\t\t\t</State>\n'
+    '\t\t\t\t<MakeArray Name="ml_ff_woman_tags" PositionY="{y3}" PositionX="{x}" TypeT="wh::rpgmodule::BuffDefinitionAITags">\n'
+    f'\t\t\t\t\t<Constant Name="A" Value="{WOMAN_BUFF_TAG}" />\n'
+    '\t\t\t\t</MakeArray>\n'
+    '\t\t\t\t<BuffTagTrigger Name="ml_ff_woman_buff" PositionY="{y2}" PositionX="{x2}">\n'
+    '\t\t\t\t\t<Asset Name="Souls" Alias="player" />\n'
+    '\t\t\t\t\t<Edge From="ml_ff_always_on.State" To="IsActive" />\n'
+    '\t\t\t\t\t<Edge From="ml_ff_woman_tags.Array" To="BuffTags" />\n'
+    '\t\t\t\t</BuffTagTrigger>\n'
+    '\t\t\t\t<State Name="ml_ff_woman_seen" PositionY="{y2}" PositionX="{x3}" TypeT="bool">\n'
+    '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
+    '\t\t\t\t\t<Edge From="ml_ff_woman_buff.OnAdded" To="SetTrue" />\n'
+    '\t\t\t\t\t<Edge From="ml_ff_woman_buff.OnRemoved" To="SetFalse" />\n'
+    '\t\t\t\t</State>\n'
+    '\t\t\t\t<Function Name="ml_ff_is_woman" PositionY="{y}" PositionX="{x3}" MethodName="math::boolean::Or" DeclaringType="math::boolean">\n'
+    '\t\t\t\t\t<Edge From="ml_ff_woman_check.HaveBuffTag" To="A" />\n'
+    '\t\t\t\t\t<Edge From="ml_ff_woman_seen.State" To="B" />\n'
+    '\t\t\t\t</Function>\n'
+    '\t\t\t\t<Function Name="ml_ff_not_woman" PositionY="{y}" PositionX="{x4}" MethodName="math::boolean::Not" DeclaringType="math::boolean">\n'
+    '\t\t\t\t\t<Edge From="ml_ff_is_woman.bool" To="Value" />\n'
+    '\t\t\t\t</Function>\n\t\t\t\t')
+
+
+def gate_player_overrides(text, scene):
+    """Each override of the player soul goes on only with its own condition AND not a woman. Its condition, with any
+    vertex of the editor, moves into an And in front of it."""
+    gated = []
+
+    def gate(found):
+        block = found.group(0)
+        if 'Alias="player"' not in block:
+            return block
+        node = re.search(r'Name="([^"]+)"', block).group(1)
+        y, x = (int(re.search(rf'{a}="(-?\d+)"', block).group(1)) for a in ("PositionY", "PositionX"))
+        edges = re.findall(r'<Edge From="[^"]+" To="IsActive"(?: />|>.*?</Edge>)', block, flags=re.S)
+        if len(edges) != 1:
+            raise SystemExit(f"{scene}: {node} has {len(edges)} conditions, not one. Did the game change?")
+        name = f"ml_ff_gate_{node}"
+        condition = edges[0].replace('To="IsActive"', 'To="A"')
+        gated.append((y, x))
+        return (f'<Function Name="{name}" PositionY="{y}" PositionX="{x - 250}" MethodName="math::boolean::And" DeclaringType="math::boolean">\n'
+                f'\t\t\t\t\t{condition}\n'
+                '\t\t\t\t\t<Edge From="ml_ff_not_woman.bool" To="B" />\n'
+                '\t\t\t\t</Function>\n\t\t\t\t'
+                + block.replace(edges[0], f'<Edge From="{name}.bool" To="IsActive" />'))
+
+    text = re.sub(r'<BodyPartOverride .*?</BodyPartOverride>', gate, text, flags=re.S)
+    y = min(p[0] for p in gated) - 200
+    x = min(p[1] for p in gated) - 800
+    first = '<Function Name="ml_ff_gate_'
+    text = text.replace(first, WOMAN_CHECK.format(y=y, y2=y - 100, y3=y - 200, x=x, x2=x + 250, x3=x + 500, x4=x + 750) + first, 1)
+    return text, len(gated)
+
+
+def write_story_scenes():
+    with zipfile.ZipFile(GAME / "Data" / "Scripts.pak") as z:
+        names = {n.replace("\\", "/").lower(): n for n in z.namelist()}
+        for scene, (sha, expected) in STORY_SCENES.items():
+            raw = z.read(names[scene.lower()])
+            found = hashlib.sha256(raw).hexdigest()
+            if found != sha:
+                raise SystemExit(f"{scene} changed in the game (sha256 {found}). Compare it with the copy of KCD2 Female "
+                                 "Framework, check its overrides of the player, and then update STORY_SCENES.")
+            text, count = gate_player_overrides(raw.decode("utf-8-sig"), scene)
+            if count != expected:
+                raise SystemExit(f"{scene}: {count} overrides of the player, not {expected}. Did the game change?")
+            dest = GENDERS["woman"]["folder"] / "data" / scene
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(text, encoding="utf-8-sig", newline="")
+
+
 def main():
     catalogs = extend_catalog()
     write_frameworks(catalogs)
@@ -1087,7 +1197,9 @@ def main():
     if "woman" in PRESENT:
         write_kcdff_standalone(sorted(catalogs["woman"], key=lambda l: l["id"]))
     write_game_barber_dialog()
-    counts = collections.Counter((g, l["age"], l["ethnicity"] or "named") for g, c in catalogs.items() for l in c)
+    if "woman" in PRESENT:
+        write_story_scenes()
+    counts =collections.Counter((g, l["age"], l["ethnicity"] or "named") for g, c in catalogs.items() for l in c)
     for key in sorted(counts):
         print(key, counts[key])
 

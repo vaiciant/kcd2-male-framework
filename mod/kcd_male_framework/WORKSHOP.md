@@ -19,6 +19,7 @@ Open the console with the key under Esc, and type:
 - `ml_mf_looks` to see every face.
 - `ml_mf_look man_czech_2` to give Henry that face, or `ml_mf_random` for one at random.
 - `ml_mf_henry` to give him his own face back.
+- `ml_mf_start man_romani_4` in the main menu, before New Game, to start the new game with that face. It goes on once Henry rides out after the prologue with Godwin.
 
 The screen goes dark for a few seconds while he changes. Type the commands in the game, not in the inventory or the map: there, the change waits until you close them.
 
@@ -43,6 +44,6 @@ Subscribe, or download it from Nexus Mods and put its folder in the game's `Mods
 
 ## For mod makers
 
-Any mod can use it: one line of Lua gives Henry another face. It is free for any mod, closed or open, free or paid, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-male-framework).
+Any mod can use it: one line of Lua gives Henry another face. It is free for any mod, closed or open, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-male-framework).
 
 *Required by KCD2 Life.*

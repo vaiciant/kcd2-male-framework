@@ -20,6 +20,7 @@ System.AddCCommand("ml_mf_random", "MaleCore.RandomCommand(%line)", "Gives Henry
 System.AddCCommand("ml_mf_henry", "MaleCore.HenryCommand(%line)", "Gives Henry his own face, hair and beard back. ml_mf_henry true leaves out the black screen")
 System.AddCCommand("ml_mf_uninstall", "MaleCore.UninstallCommand()", "Gives Henry his own face back, before removing the framework: then save and remove it")
 System.AddCCommand("ml_mf_refresh", "MaleCore.RefreshCommand()", "Rebuilds the model, for when the face of the look does not show")
+System.AddCCommand("ml_mf_start", "MaleCore.StartCommand(%line)", "The next game that starts or loads begins with the face of that look, like ml_mf_start man_romani_4: type it in the main menu before New Game. ml_mf_start none cancels it")
 
 local ok, problem = pcall(function() UIAction.RegisterEventSystemListener(MaleCore, "System", "OnGameplayStarted", "OnGameplayStarted") end)
 MaleCore.Log(ok and "listening to OnGameplayStarted" or ("ERROR listener " .. tostring(problem)))
