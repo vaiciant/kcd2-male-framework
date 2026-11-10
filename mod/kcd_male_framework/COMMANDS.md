@@ -13,7 +13,18 @@ A look is its name or its id: `man_czech_2` or `2`. `ml_mf_looks` lists them all
 | `ml_mf_random [true]` | Gives Henry a look at random among all but the one he wears, with its hair and beard | `MaleCore.SetRandomLook(noScreen)` |
 | `ml_mf_henry [true]` | Gives Henry his own face, hair and beard back | `MaleCore.Henry(noScreen)` |
 | `ml_mf_refresh` | Rebuilds the model, for when the face of the look does not show | `MaleCore.Refresh()` |
+| `ml_mf_start [look]` | The next game that starts or loads begins with the face of that look. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `MaleCore.StartAs(look)` |
 | `ml_mf_uninstall` | Gives Henry his face back and clears what the framework left in the save. Run it, save, and then remove the mod | `MaleCore.Uninstall()` |
+
+## Before the game starts
+
+`ml_mf_start` chooses his face before you play, and works in the main menu too: open the console there, type it, and start a new game.
+
+```text
+ml_mf_start man_romani_4
+```
+
+The game does not tell a new game from a loaded one, so the face goes on at the next start of the game, new or loaded, a few seconds after you have control, under the black screen. A new game begins with Godwin: the face waits for Henry's part, and for the end of the cutscene that starts it, so it goes on once he rides. It goes on once: `ml_mf_start none` cancels it before that. From Lua, `MaleCore.StartAs(look)` does the same, and `MaleCore.StartLook()` says which look waits.
 
 ## The black screen
 

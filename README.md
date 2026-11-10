@@ -31,6 +31,7 @@ A small library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that g
 | `ml_mf_random` | Gives Henry a look at random among all, with its hair and beard |
 | `ml_mf_henry` | Gives Henry his own face back |
 | `ml_mf_refresh` | Rebuilds the model, for when the face does not show |
+| `ml_mf_start [look]` | The next game that starts or loads begins with the face of that look: type it in the main menu before New Game |
 | `ml_mf_uninstall` | Gives Henry his face back before removing the mod. Then save, and remove it |
 
 While the model changes, the screen goes black for a few seconds. A last `true` leaves it as it is. Typed with the inventory, the map or a menu open, a command waits until you close it. [COMMANDS.md](mod/kcd_male_framework/COMMANDS.md) has every command, with its Lua call.
@@ -78,4 +79,4 @@ Plans, not promises.
 
 ## License
 
-Free for any use, also in closed or paid work. The only condition: credit KCD2 Male Framework where people can see it, like a line in your mod's description or credits. You do not need to include the license or publish your source. It does not cover the game's files or anything derived from them, such as the meshes. See [LICENSE](LICENSE).
+Free for any use, also in closed work. The only condition: credit KCD2 Male Framework where people can see it, like a line in your mod's description or credits. Asking for donations or Patreon support is fine, as long as nothing in your mod is only for those who pay: Warhorse's rules do not allow selling KCD2 mods. You do not need to include the license or publish your source. It does not cover the game's files or anything derived from them, such as the meshes. See [LICENSE](LICENSE).
