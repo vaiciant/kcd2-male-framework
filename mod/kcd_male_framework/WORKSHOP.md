@@ -17,7 +17,7 @@ Give Henry any man's face of Kingdom Come: Deliverance II with one console comma
 
 Open the console with the key under Esc, and type:
 
-- `ml_mf_looks` to see every face, and which characters of the game wear it.
+- `ml_mf_looks` to see every face, and which characters of the game wear it. [LOOKS.md](LOOKS.md) has the same list.
 - `ml_mf_look man_czech_2` to give Henry that face, or `ml_mf_random` for one at random.
 - `ml_mf_henry` to give him his own face back.
 - `ml_mf_start man_romani_4` in the main menu, before New Game, to start the new game with that face. It goes on once Henry rides out after the prologue with Godwin.
