@@ -2,6 +2,25 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 0.4.0
+
+His face now reaches the game's cutscenes, and the framework works on its own.
+
+### New
+
+- **Cutscenes.** The doubles of Henry that the game's cutscenes make wear his face. The five scenes of the prologue and the Cumans' contest show his face and body, not Henry's.
+- **The pillory.** His face comes back right after it.
+- **On its own.** It no longer needs KCD2 Female Framework, and works with it as before. KCD2 Life needs both.
+- **From a woman to a face.** With KCD2 Female Framework, `ml_mf_look` and `ml_mf_random` turn her into a man with that face, without going back to Henry first.
+- **LOOKS.md** says which named characters of the game wear each face, and `ml_mf_looks` shows their names. Olda, for one, is `man_czech_28`.
+- **For modders:** `MaleCore.Ready()`.
+
+### Fixes
+
+- **Her shift** no longer shows on him after switching from a woman: every face wears Henry's underwear.
+- **His beard** no longer goes missing when a command is typed right after loading: commands wait until both frameworks have read the save.
+- **The doubles of the cutscenes** keep the haircut from the barber.
+
 ## 0.3.0
 
 - **Start a new game with another face.** `ml_mf_start man_romani_4`, in the console of the main menu before New Game, chooses his face. It goes on once Henry's part begins, after the prologue with Godwin and the cutscene that ends it. It works for the next game that starts or loads, once, and `ml_mf_start none` cancels it.

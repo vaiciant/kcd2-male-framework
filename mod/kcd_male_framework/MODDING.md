@@ -63,9 +63,12 @@ From Lua:
 ```lua
 for _, look in ipairs(MaleCore.ListLooks()) do
 	-- look.id, look.name, look.ethnicity ("czech", "hungarian", "romani" or nil),
-	-- look.age ("young" or "old"), look.villager (false for a named character's face)
+	-- look.age ("young" or "old"), look.villager (false for a named character's face),
+	-- look.characters (the characters of the game with a name of their own who wear its face, maybe none)
 end
 ```
+
+[LOOKS.md](LOOKS.md) lists them all, by look and by character.
 
 Use `look.villager` and `look.age` to offer only the faces that suit your story, as KCD2 Life offers only young villagers.
 
@@ -111,7 +114,7 @@ A mod that switches to that same soul can do the same.
 
 ## With KCD2 Female Framework and KCD2 Life
 
-They work alone or together. After `ml_ff_female` of KCD2 Female Framework, Henry is a woman, and the commands of this framework do nothing. After its `ml_ff_henry` they work again: before a look, this framework calls `FemaleCore.TakeOffHenry()`, so the head of Henry that KCD2 Female Framework keeps on does not cover it, and `ml_mf_henry` calls `FemaleCore.KeepHenry()` before its last rebuild, so a beard never lands on her head. Use 0.2.0 or later of both. A new life of KCD2 Life is its own character, and there they do nothing either. Both frameworks share the numbers of the looks, so a look's id means the same face in both.
+They work alone or together. After `ml_ff_female` of KCD2 Female Framework, Henry is a woman. `MaleCore.SetLook` then goes straight to the face: it calls `FemaleCore.Henry(true, after)`, which turns her back into Henry, and puts the face on once that is done, under its own black screen. That needs `FemaleCore.API` 4 (KCD2 Female Framework 0.4.0 or later); with an older one it does nothing until `ml_ff_henry`. The other calls do nothing while she is a woman. After `ml_ff_henry` they all work: before a look, this framework calls `FemaleCore.TakeOffHenry()`, so the head of Henry that KCD2 Female Framework keeps on does not cover it, and `ml_mf_henry` calls `FemaleCore.KeepHenry()` before its last rebuild, so a beard never lands on her head. Use 0.2.0 or later of both. A new life of KCD2 Life is its own character, and there they do nothing either. Both frameworks share the numbers of the looks, so a look's id means the same face in both.
 
 ## Credit
 

@@ -8,7 +8,7 @@ A look is its name or its id: `man_czech_2` or `2`. `ml_mf_looks` lists them all
 
 | Command | What it does | From Lua |
 |---|---|---|
-| `ml_mf_looks` | Writes every look in the console: its name, its people, its age and its id | `MaleCore.ListLooks()` |
+| `ml_mf_looks` | Writes every look in the console: its name, its people, its age, its id and the characters of the game with a name of their own who wear its face, as in [LOOKS.md](LOOKS.md) | `MaleCore.ListLooks()` |
 | `ml_mf_look [look] [true]` | Gives Henry the head and the body of that look, and its hair and beard. Without a look, the first one | `MaleCore.SetLook(look, noScreen)` |
 | `ml_mf_random [true]` | Gives Henry a look at random among all but the one he wears, with its hair and beard | `MaleCore.SetRandomLook(noScreen)` |
 | `ml_mf_henry [true]` | Gives Henry his own face, hair and beard back | `MaleCore.Henry(noScreen)` |
@@ -44,6 +44,6 @@ From Lua it is the last argument, `noScreen`. Left out, it is `false`, and the s
 ## When the commands do nothing
 
 - **Another character in use.** A mod that plays its own character instead of Henry, as KCD2 Life does, turns them off.
-- **Henry is a woman.** After `ml_ff_female` of [KCD2 Female Framework](https://github.com/vaiciant/kcd2-female-framework/blob/main/mod/kcd_female_framework/COMMANDS.md), they do nothing, so they do not put a man's face on her. After `ml_ff_henry` they work again, with version 0.2.0 or later of both.
+- **Henry is a woman.** After `ml_ff_female` of [KCD2 Female Framework](https://github.com/vaiciant/kcd2-female-framework/blob/main/mod/kcd_female_framework/COMMANDS.md), `ml_mf_look` and `ml_mf_random` turn her back into Henry first, with that framework, and then put the face on, under one black screen: no `ml_ff_henry` needed. That needs KCD2 Female Framework 0.4.0 or later; with an older one they do nothing until `ml_ff_henry`. The other commands do nothing while she is a woman.
 
 Each command writes what it did in the console and in `kcd.log`, in lines that start with `[ML_MF]`.

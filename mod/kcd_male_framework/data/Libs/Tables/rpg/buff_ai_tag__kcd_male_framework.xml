@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by hand. The copies of the game's scenes, the same in both frameworks, ask for both tags: the woman of KCD2
+     Female Framework (204) and a look of this one (205). So both frameworks have both rows, the same. -->
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<buff_ai_tags version="1">
+		<buff_ai_tag buff_ai_tag_id="204" buff_ai_tag_name="ml_ff_woman" />
+		<buff_ai_tag buff_ai_tag_id="205" buff_ai_tag_name="ml_mf_look" />
+	</buff_ai_tags>
+</database>

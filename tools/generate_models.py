@@ -8,6 +8,8 @@ an entry that is already there: entries can be edited by hand. Then it writes:
 - In each framework: the souls and the STORM rules of the preview models, and the look tokens.
 - In each framework, its graph, its tokens and its Lua: the look on Henry and on the character of KCD2 Life. KCD2 Life
   no longer has anything generated: it only calls the frameworks.
+- In each framework, LOOKS.md, and the characters of each look in its Lua: who wears each face in the game, from the
+  STORM rules and the English names of the game.
 
 The meshes come afterwards: generate_women.py (KCDFF) and generate_heads.py (KCDMF) read this data.
 
@@ -15,6 +17,7 @@ Usage, from the root of the repository: python -I -X utf8 tools/generate_models.
 """
 import collections
 import hashlib
+import html
 import os
 import pathlib
 import re
@@ -83,28 +86,52 @@ def usable_heads():
 
 
 def head_uses():
-    """Per head, the souls that wear it in the game's STORM rules, with their hair, beard and body."""
+    """Per head, the souls that wear it in the game's STORM rules, with their hair, beard and body. The rules write the
+    attribute both as name and as Name: Olda of Semine's is <hasName Name="tsem_seminjr" />."""
     souls = {}
     for table in SOUL_TABLES.glob("soul*.xml"):
         for row in re.findall(r"<soul [^>]*>", table.read_text(encoding="utf-8", errors="replace")):
             a = dict(re.findall(r'(\w+)="([^"]*)"', row))
             if "soul_name" in a:
-                souls[a["soul_name"]] = {"village": bool(VILLAGE_TABLE.search(table.name)), "class": int(a.get("social_class_id") or 0),
-                                         "vip": int(a.get("soul_vip_class_id") or 0), "faction": a.get("factionName", "")}
+                souls[a["soul_name"].lower()] = {
+                    "village": bool(VILLAGE_TABLE.search(table.name)), "class": int(a.get("social_class_id") or 0),
+                    "vip": int(a.get("soul_vip_class_id") or 0), "faction": a.get("factionName", ""),
+                    "soul_name": a["soul_name"], "character": a.get("skald_character_name", "")}
     uses = collections.defaultdict(list)
     for xml in sorted(APPEARANCE.rglob("*.xml")):
         quest = xml.relative_to(APPEARANCE).parts[0] == "quests"
-        for rule in re.findall(r"<rule .*?</rule>", xml.read_text(encoding="utf-8", errors="replace"), re.S):
-            head = re.search(r'<setHead name="([^"]+)"', rule)
+        for rule in re.findall(r"<rule .*?</rule>", xml.read_text(encoding="utf-8", errors="replace"), re.S | re.I):
+            head = re.search(r'<setHead name="([^"]+)"', rule, re.I)
             if not head:
                 continue
             # m_head_036_b00 is the same head with another material.
             base = re.sub(r"_b\d+$", "", head.group(1))
-            parts = {k: (re.search(rf'<set{k} name="([^"]+)"', rule) or [None, None])[1] for k in ("Hair", "Beard", "Body")}
-            for soul in re.findall(r'<hasName name="([^"]+)"', rule):
-                if soul in souls:
-                    uses[base].append({**souls[soul], **parts, "quest": quest})
+            parts = {k: (re.search(rf'<set{k} name="([^"]+)"', rule, re.I) or [None, None])[1] for k in ("Hair", "Beard", "Body")}
+            for soul in re.findall(r'<hasName name="([^"]+)"', rule, re.I):
+                if soul.lower() in souls:
+                    uses[base].append({**souls[soul.lower()], **parts, "quest": quest})
     return uses
+
+
+def character_names():
+    """The English name of each character of the game with a name of its own, by its Skald character: char_SEMIN_JUNIOR is
+    Olda of Semine, from char_SEMIN_JUNIOR_uiName. The generic souls have none."""
+    with zipfile.ZipFile(GAME / "Localization" / "English_xml.pak") as pak:
+        text = pak.read("text_ui_soul.xml").decode("utf-8", errors="replace")
+    rows = re.findall(r"<Row><Cell>([^<]*)_uiName</Cell><Cell>[^<]*</Cell><Cell>([^<]*)</Cell>", text)
+    return {key: html.unescape(name).strip() for key, name in rows if name.strip()}
+
+
+def look_characters(uses, names):
+    """Per head, the characters with a name of their own that wear it, in alphabetical order, each once, with the hair and
+    the beard of its rule: the one out of a quest if there is one."""
+    found = collections.defaultdict(dict)
+    for head, wearers in uses.items():
+        for use in sorted(wearers, key=lambda u: u["quest"]):
+            name = names.get(use["character"])
+            if name and name not in found[head]:
+                found[head][name] = {"name": name, "hair": use["Hair"], "beard": use["Beard"]}
+    return {head: sorted(by_name.values(), key=lambda c: c["name"].casefold()) for head, by_name in found.items()}
 
 
 def villager_use(uses):
@@ -159,6 +186,11 @@ def woman_defaults(head, info, example, ethnicity):
 
 def guid(text):
     return str(uuid.uuid5(uuid.NAMESPACE_URL, f"{GUID_NAMESPACE}/{text}"))
+
+
+def lua_list(texts):
+    """A Lua list of strings."""
+    return "{ " + ", ".join('"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"' for s in texts) + " }"
 
 
 def toml_entry(look):
@@ -268,6 +300,11 @@ def write_frameworks(catalogs):
 HENRY_SOUL = "4c2dcffb-dea1-6263-72d7-b39f4db2d8b5"
 # What KCDFF adds to the answer: Henry's head and body kept on after ml_ff_henry, and that he was a woman in this save.
 HENRY_KEPT_ANSWER, WAS_WOMAN_ANSWER = 500, 1000
+# And that her state woman is still on: with a man, KCDFF turns it off on the load.
+WOMAN_ON_ANSWER = 2000
+# Henry's underwear, in the game's STORM rule appearance_player_henry. Each look of a man and Henry's own face put it on
+# with an override, as her look puts on her shift: turned off, an override of hers left her shift in the soul.
+HENRY_UNDERWEAR = "m_underwear01_m01"
 
 
 def answer_nodes(looks, ask, answer):
@@ -364,13 +401,15 @@ def write_kcdmf_standalone(looks):
     template = re.search(r'\t\t<MiscItem [^\n]*Name="ml_mf_look_\d+" />', text).group(0)
     text = re.sub(r'\t\t<!-- On Henry:[^\n]*-->\n', "", text)
     text = re.sub(r'\t\t<MiscItem [^\n]*Name="ml_mf_(?:set_\d+|reset|state|henry_face|ask|answer|new_started|free_haircut|price_low|price_game)" />\n', "", text)
+    text = text.replace(SCENE_REBUILD_ROW, "")
     row = lambda g, n: re.sub(r'Id="[^"]+" Name="[^"]+"', f'Id="{g}" Name="{n}"', template) + "\n"
     text = text.replace("\t</ItemClasses>",
-                        "\t\t<!-- On Henry: one token per look, one that takes it away, and the question and the answer of the look he wears, for a moment. ml_mf_state is from older saves. -->\n"
+                        "\t\t<!-- On Henry: one token per look, one that takes it away, and the question and the answer of the look he wears, and the one of a scene that dressed him, for a moment. ml_mf_state is from older saves. -->\n"
                         + "".join(row(tokens[l["id"]], f"ml_mf_set_{l['id']}") for l in looks)
                         + row(reset, "ml_mf_reset") + row(state, "ml_mf_state") + row(own_face, "ml_mf_henry_face")
                         + row(ask, "ml_mf_ask") + row(answer, "ml_mf_answer") + row(started, "ml_mf_new_started")
                         + row(free, "ml_mf_free_haircut") + row(low, "ml_mf_price_low") + row(game, "ml_mf_price_game")
+                        + SCENE_REBUILD_ROW
                         + "\t</ItemClasses>", 1)
     write_file(path, text)
     # Graph.
@@ -403,7 +442,7 @@ def write_kcdmf_standalone(looks):
             f'\t\t\t\t\t<Constant Name="BodyPart" Value="{part.capitalize()}" />\n'
             f'\t\t\t\t\t<Constant Name="Component" Value="{piece}" />\n'
             '\t\t\t\t\t<Edge From="henry_face.State" To="IsActive" />\n\t\t\t\t</BodyPartOverride>\n'
-            for k, (part, piece) in enumerate((("head", "henry"), ("body", "henry_body"))))]
+            for k, (part, piece) in enumerate((("head", "henry"), ("body", "henry_body"), ("underwear", HENRY_UNDERWEAR))))]
     for n, l in enumerate(looks):
         i, y = l["id"], 200 * n
         nodes.append(
@@ -421,9 +460,9 @@ def write_kcdmf_standalone(looks):
                 f'\t\t\t\t<BodyPartOverride Name="{part}_{i}" PositionY="{y + 70 * k}" PositionX="0">\n'
                 '\t\t\t\t\t<Asset Name="Soul" Alias="henry" />\n'
                 f'\t\t\t\t\t<Constant Name="BodyPart" Value="{part.capitalize()}" />\n'
-                f'\t\t\t\t\t<Constant Name="Component" Value="{l[part]}" />\n'
+                f'\t\t\t\t\t<Constant Name="Component" Value="{piece}" />\n'
                 f'\t\t\t\t\t<Edge From="chosen_{i}.State" To="IsActive" />\n\t\t\t\t</BodyPartOverride>\n'
-                for k, part in enumerate(("head", "body"))))
+                for k, (part, piece) in enumerate((("head", l["head"]), ("body", l["body"]), ("underwear", HENRY_UNDERWEAR)))))
     write_file(folder / "data/Quests/kcd_male_framework/ml_mf_face.xml",
                '<?xml version="1.0" encoding="utf-8"?>\n'
                '<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">\n'
@@ -450,13 +489,17 @@ def write_kcdmf_standalone(looks):
            "-- The hair and the beards of the barber of a man with a look, in the order of its talk (barber.toml).",
            "MaleCore.BARBER_HAIRS = { " + ", ".join(f'"{h["mesh"]}"' for h in hairs) + " }",
            "MaleCore.BARBER_BEARDS = { " + ", ".join(f'"{b["mesh"]}"' for b in beards) + " }",
-           "-- new_token picks the look of that new character, and soul is the model that shows it in a selector.",
+           "-- A scene of the game gives it when it dresses the player or takes the outfit off: the face rebuilds (the pillory).",
+           "-- KCD2 Female Framework has the same one.",
+           f'MaleCore.SCENE_REBUILD_TOKEN = "{SCENE_REBUILD_TOKEN}"',
+           "-- new_token picks the look of that new character, and soul is the model that shows it in a selector. characters",
+           "-- are the characters of the game with a name of their own who wear its face (LOOKS.md).",
            "MaleCore.LOOKS = {"]
     for l in looks:
         ethnicity = f'"{l["ethnicity"]}"' if l["ethnicity"] else "nil"
         lua.append(f'\t{{ id = {l["id"]}, name = "{l["name"]}", ethnicity = {ethnicity}, age = "{l["age"]}", '
                    f'villager = {"true" if l["villager"] else "false"}, hair = "{l["hair"]}", beard = "{l["beard"]}", token = "{tokens[l["id"]]}", '
-                   f'new_token = "{l["token"]}", soul = "{l["soul"]}" }},')
+                   f'new_token = "{l["token"]}", soul = "{l["soul"]}", characters = {lua_list(c["name"] for c in l["characters"])} }},')
     lua += ["}", ""]
     write_file(folder / "data/Scripts/MaleCore/looks_data.lua", "\n".join(lua))
 
@@ -671,16 +714,18 @@ def write_kcdff_standalone(looks):
     template = re.search(r'\t\t<MiscItem [^\n]*Name="ml_ff_look_\d+" />', text).group(0)
     # The comment takes more than one line: without re.S it stayed, and every run added another one.
     text = re.sub(r'\t\t<!-- On Henry:.*?-->\n', "", text, flags=re.S)
-    text = re.sub(r'\t\t<MiscItem [^\n]*Name="ml_ff_(?:set_\d+|reset|state|henry_face|ask|answer|new_started|free_haircut|price_low|price_game|henry_stripped_[a-z_]+)" />\n', "", text)
+    text = re.sub(r'\t\t<MiscItem [^\n]*Name="ml_ff_(?:set_\d+|reset|state|henry_face|ask|answer|new_started|free_haircut|price_low|price_game|rebuild|henry_stripped_[a-z_]+)" />\n', "", text)
+    text = text.replace(SCENE_REBUILD_ROW, "")
     row = lambda g, n: re.sub(r'Id="[^"]+" Name="[^"]+"', f'Id="{g}" Name="{n}"', template) + "\n"
     text = text.replace("\t</ItemClasses>",
                         "\t\t<!-- On Henry: one token per look, one that takes it away, the question and the answer of the look she wears, and the\n"
-                        "\t\t     ones that say what clothes came off, the one of a free haircut and those of its price, for a moment. ml_ff_state is from older\n"
-                        "\t\t     saves. -->\n"
+                        "\t\t     ones that say what clothes came off, the one of a free haircut and those of its price, and the one of a scene that\n"
+                        "\t\t     dressed her, for a moment. ml_ff_state is from older saves. -->\n"
                         + "".join(row(tokens[l["id"]], f"ml_ff_set_{l['id']}") for l in looks)
                         + row(reset, "ml_ff_reset") + row(state, "ml_ff_state") + row(own_face, "ml_ff_henry_face")
                         + row(ask, "ml_ff_ask") + row(answer, "ml_ff_answer") + row(started, "ml_ff_new_started")
                         + row(free_haircut, "ml_ff_free_haircut") + row(price_low, "ml_ff_price_low") + row(price_game, "ml_ff_price_game")
+                        + SCENE_REBUILD_ROW
                         + "".join(row(g, f"ml_ff_henry_stripped_{p}") for p, g in notices.items())
                         + "\t</ItemClasses>", 1)
     write_file(path, text)
@@ -752,7 +797,7 @@ def write_kcdff_standalone(looks):
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetTrue" />\n' for l in looks)
         + '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetTrue" />\n'
         '\t\t\t\t</State>\n'
-        # The ask token also learns these two, added to the id of the look.
+        # The ask token also learns these three, added to the id of the look.
         + "".join(
             f'\t\t\t\t<If Name="answer_if_{name}" PositionY="{y}" PositionX="300">\n'
             f'\t\t\t\t\t<Edge From="{name}.State" To="Condition" />\n'
@@ -761,19 +806,23 @@ def write_kcdff_standalone(looks):
             f'\t\t\t\t\t<Constant Name="ItemClass" Value="{answer}" />\n\t\t\t\t\t<Constant Name="Amount" Value="{amount}" />\n'
             '\t\t\t\t\t<Constant Name="ShowUINotification" Value="false" />\n'
             f'\t\t\t\t\t<Edge From="answer_if_{name}.True" To="Exec" />\n\t\t\t\t</EventFunction>\n'
-            for name, amount, y in (("henry_face", HENRY_KEPT_ANSWER, -450), ("was_woman", WAS_WOMAN_ANSWER, -675)))
+            for name, amount, y in (("henry_face", HENRY_KEPT_ANSWER, -450), ("was_woman", WAS_WOMAN_ANSWER, -675),
+                                    ("woman", WOMAN_ON_ANSWER, -600)))
         + "".join(
             f'\t\t\t\t<BodyPartOverride Name="henry_{part}" PositionY="{-450 + 70 * k}" PositionX="0">\n'
             '\t\t\t\t\t<Asset Name="Soul" Alias="henry" />\n'
             f'\t\t\t\t\t<Constant Name="BodyPart" Value="{part.capitalize()}" />\n'
             f'\t\t\t\t\t<Constant Name="Component" Value="{piece}" />\n'
             '\t\t\t\t\t<Edge From="henry_face.State" To="IsActive" />\n\t\t\t\t</BodyPartOverride>\n'
-            for k, (part, piece) in enumerate((("head", "henry"), ("body", "henry_body"))))
-        # A woman from the first look until ml_ff_henry.
+            for k, (part, piece) in enumerate((("head", "henry"), ("body", "henry_body"), ("underwear", HENRY_UNDERWEAR))))
+        # A woman from the first look until ml_ff_henry. The reset turns it off too: a look of KCD2 Male Framework
+        # sends it before its own, and with her underwear and her beard left on, her shift came out on his doubles. A
+        # change of her look sends a token of a look right after the reset, which turns it on again.
         + '\t\t\t\t<State Name="woman" PositionY="-600" PositionX="-300" TypeT="bool">\n'
         '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetTrue" />\n' for l in looks)
         + '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetFalse" />\n'
+        '\t\t\t\t\t<Edge From="reset_token.OnAcquire" To="SetFalse" />\n'
         '\t\t\t\t</State>\n'
         '\t\t\t\t<BodyPartOverride Name="woman_underwear" PositionY="-600" PositionX="0">\n'
         '\t\t\t\t\t<Asset Name="Soul" Alias="henry" />\n'
@@ -838,21 +887,28 @@ def write_kcdff_standalone(looks):
            f'FemaleCore.ASK_TOKEN = "{ask}"', f'FemaleCore.ANSWER_ITEM = "{answer}"',
            "-- Added to the id of the look in the answer: Henry's head and body kept on, and that he was a woman in this save.",
            f"FemaleCore.HENRY_KEPT_ANSWER = {HENRY_KEPT_ANSWER}", f"FemaleCore.WAS_WOMAN_ANSWER = {WAS_WOMAN_ANSWER}",
+           "-- And that her state woman is on: a man with it on gets it turned off on the load.",
+           f"FemaleCore.WOMAN_ON_ANSWER = {WOMAN_ON_ANSWER}",
            "-- Older saves kept the look in its amount: it is only taken away.", f'FemaleCore.OLD_STATE_ITEM = "{state}"',
            "-- KCD2 Life gives it to Henry when SwitchPlayer ends: its new character is in use.", f'FemaleCore.NEW_STARTED_TOKEN = "{started}"',
            "-- With it in Henry's inventory, her next haircut at a barber is free (ml_ff_barber.xml).", f'FemaleCore.FREE_HAIRCUT_TOKEN = "{free_haircut}"',
            "-- One of these on each load sets the price of her haircut: 5 groschen with Realish Economy, or the game's 50.",
            f'FemaleCore.PRICE_LOW_TOKEN = "{price_low}"', f'FemaleCore.PRICE_GAME_TOKEN = "{price_game}"',
+           "-- A scene of the game gives it when it dresses the player or takes the outfit off: the look rebuilds (the pillory).",
+           "-- KCD2 Male Framework has the same one.",
+           f'FemaleCore.REBUILD_TOKEN = "{SCENE_REBUILD_TOKEN}"',
            "-- Skald gives one of these when it takes clothes off.", "FemaleCore.STRIPPED = {"]
     lua += [f'\t["{notices[p]}"] = "@{notice_text}",' for p, notice_text in CLOTHES_NOTICES.items()]
     lua += ["}", "-- new_token picks the look of the new character of KCD2 Life, and soul is the model that shows it in a selector.",
+            "-- characters are the characters of the game with a name of their own who wear its face (LOOKS.md).",
             "FemaleCore.LOOKS = {"]
     for l in looks:
         ethnicity = f'"{l["ethnicity"]}"' if l["ethnicity"] else "nil"
         m = re.fullmatch(r"f_hair_(\d{3})_(\w+)", l["hair"])
         lua.append(f'\t{{ id = {l["id"]}, name = "{l["name"]}", ethnicity = {ethnicity}, age = "{l["age"]}", '
                    f'villager = {"true" if l["villager"] else "false"}, style = {int(m.group(1))}, color = {HAIR_COLORS.index(m.group(2)) + 1}, '
-                   f'token = "{tokens[l["id"]]}", new_token = "{l["token"]}", soul = "{l["soul"]}" }},')
+                   f'token = "{tokens[l["id"]]}", new_token = "{l["token"]}", soul = "{l["soul"]}", '
+                   f'characters = {lua_list(c["name"] for c in l["characters"])} }},')
     lua += ["}", ""]
     write_file(folder / "data/Scripts/FemaleCore/looks_data.lua", "\n".join(lua))
 
@@ -1090,23 +1146,53 @@ def write_game_barber_dialog():
 # in the project, so while Henry was a woman she showed his wounded head, his body and his breeches there (kcd.log and
 # screenshots of 2026-11-09). A copy of each scene, from the game of whoever builds, puts those parts on only while the
 # player has no buff with the tag ml_ff_woman, which the graph keeps on her (woman_mark). Head, body and underwear: she
-# keeps her own, and her shift. Every other override in the game is on another soul. Only KCDFF ships these copies.
+# keeps her own, and her shift. A look of KCD2 Male Framework had Henry's wounded head on his face the same way: its
+# buff ml_mf_look keeps Henry's head and body off him, and his breeches stay, a man's clothes. Each framework
+# works on its own, so both ship the same copies, and both have both tags. Every other override in the game is on another
+# soul.
 # Each file is checked against the game's, like the barber's talk.
+# Each scene: its sha256, how many overrides of the player it has, and their kind.
 STORY_SCENES = {
     "Quests/Final/Barbora/trosecko/prepadeni/prepadeni/mokry_jindrich_a_ptacek.xml":
-        ("bfdcc506fd5a47e8a035a4e82fcbd4639b7bbd46a9b62cd3742eca0f24cff4f9", 2),
+        ("bfdcc506fd5a47e8a035a4e82fcbd4639b7bbd46a9b62cd3742eca0f24cff4f9", 2, "BodyPartOverride"),
     "Quests/Final/Barbora/trosecko/prepadeni/hibernovana_cast/honicka_ve_skalach/nastaveni_ptacka_a_jindricha.xml":
-        ("91458e2efe585197d5897386b1201870a1155de3f40a930311887c7ee49e8e72", 3),
+        ("91458e2efe585197d5897386b1201870a1155de3f40a930311887c7ee49e8e72", 3, "BodyPartOverride"),
     "Quests/Final/Barbora/trosecko/zachrana/henryho_morfovani_tel_a_obvazu/henry__pred_prvni_cs.xml":
-        ("ef8fdf7853579bb949422231d73ec00fd1119c2346fc0386d5c154fc97adf087", 3),
+        ("ef8fdf7853579bb949422231d73ec00fd1119c2346fc0386d5c154fc97adf087", 3, "BodyPartOverride"),
     "Quests/Final/Barbora/trosecko/zachrana/henryho_morfovani_tel_a_obvazu.xml":
-        ("7825d1025a0ab4bb57ba11be52d89c78bfb87633dba48bbb65bcdc2700545eb0", 4),
+        ("7825d1025a0ab4bb57ba11be52d89c78bfb87633dba48bbb65bcdc2700545eb0", 4, "BodyPartOverride"),
     "Quests/Final/Barbora/trosecko/kumaniNaTrosecku/hibernation/kumansky_tabor/party_s_kumany/soutez_v_plavani.xml":
-        ("3c235c5960cb361448363311606c542f8d12b397fb71c69c43fde5175e0a33e8", 2),
+        ("3c235c5960cb361448363311606c542f8d12b397fb71c69c43fde5175e0a33e8", 2, "BodyPartOverride"),
 }
+# The scenes that dress the player with a PlayerOutfitOverride, and keep doing it for her. In the pillory in Troskowitz,
+# socky_Henry_cutscene_NoShirt puts Henry's hose and boots on the player. That outfit put his body under her head,
+# but a load in the middle of the pillory showed her right, in the hose and boots, as the cutscene shows her: the outfit
+# goes on the model without her overrides, and a rebuild puts them back. U369 took the outfit off her and she stayed in
+# her own clothes; she wants the hose, as in the cutscene. So the copy keeps the outfit and gives the player the
+# token ml_scene_rebuild when it goes on and when it comes off, and the tick of the framework of the character in use
+# rebuilds the look. A face of KCD2 Male Framework is an override too. Each framework works on its own, so both
+# ship the same copy, as they do the barber's talk, and the same row of the token: whichever loads last, the scene and
+# the token are the same. KCD2 Female Framework takes the token while a woman is in use, KCD2 Male Framework the rest
+# of the time, and either one always when the other is not there.
+# The game has about 40 more PlayerOutfitOverrides (a disguise, tournaments, baths), each still to be checked when she
+# meets it. Each scene: its sha256, how many outfits of the player it has, and the outputs where they go on and off.
+OUTFIT_SCENES = {
+    "Quests/Final/Barbora/trosecko/socky/hibernable/pranyr.xml":
+        ("74f518c9550a0b8f39d8d0b8f7aad84051b3f539c26fc506c4fa6952fa38e72b", 1,
+         ("cin_m0360t_socky__stocks_dialogue.after_play", "cin_m0370t_socky__stocks_release.afterplay")),
+}
+SCENE_REBUILD_TOKEN = guid("ml_scene_rebuild")
+# The same row in the item table of both frameworks.
+SCENE_REBUILD_ROW = (f'\t\t<MiscItem Type="5" SubType="0" IsDivisible="true" IconId="loot_sackOfNails" UIInfo="ui_in_ml_scene_rebuild" '
+                     f'UIName="ui_nm_ml_scene_rebuild" Model="manmade/common_furniture/sacks/sack_items/sack_items.cgf" Weight="0" '
+                     f'Price="0" FadeCoef="1" VisibilityCoef="1" Id="{SCENE_REBUILD_TOKEN}" Name="ml_scene_rebuild" />\n')
 # buff__kcd_female_framework.xml and buff_ai_tag__kcd_female_framework.xml, written by hand, have the same values.
 WOMAN_BUFF = guid("ml_ff_woman_buff")
 WOMAN_BUFF_TAG = 204
+# buff__kcd_male_framework.xml and buff_ai_tag__kcd_male_framework.xml, written by hand, have the same values, and
+# MaleCore.LOOK_BUFF: a look of KCD2 Male Framework on Henry. Both frameworks have both tags.
+MAN_LOOK_BUFF = guid("ml_mf_look_buff")
+MAN_LOOK_BUFF_TAG = 205
 # A woman is either of two things. The check reads the buff when the condition of the scene changes: that is enough
 # while the game runs. After a load, the scene can read it before the buff is back, so the bandaged body came back at
 # Bozhena's (kcd.log of 2026-11-09). So the scene also keeps a state that the buff sets when it arrives and clears
@@ -1138,12 +1224,43 @@ WOMAN_CHECK = (
     '\t\t\t\t</Function>\n'
     '\t\t\t\t<Function Name="ml_ff_not_woman" PositionY="{y}" PositionX="{x4}" MethodName="math::boolean::Not" DeclaringType="math::boolean">\n'
     '\t\t\t\t\t<Edge From="ml_ff_is_woman.bool" To="Value" />\n'
+    '\t\t\t\t</Function>\n\t\t\t\t'
+    # The same for a look of KCD2 Male Framework, with its buff ml_mf_look, and whether either look is on.
+    '<Function Name="ml_mf_look_check" PositionY="{y4}" PositionX="{x}" MethodName="wh::rpgmodule::BuffTagCheck" DeclaringType="wh::rpgmodule">\n'
+    '\t\t\t\t\t<Asset Name="Souls" Alias="player" />\n'
+    f'\t\t\t\t\t<Constant Name="BuffTag" Value="{MAN_LOOK_BUFF_TAG}" />\n'
+    '\t\t\t\t</Function>\n'
+    '\t\t\t\t<MakeArray Name="ml_mf_look_tags" PositionY="{y5}" PositionX="{x}" TypeT="wh::rpgmodule::BuffDefinitionAITags">\n'
+    f'\t\t\t\t\t<Constant Name="A" Value="{MAN_LOOK_BUFF_TAG}" />\n'
+    '\t\t\t\t</MakeArray>\n'
+    '\t\t\t\t<BuffTagTrigger Name="ml_mf_look_buff" PositionY="{y5}" PositionX="{x2}">\n'
+    '\t\t\t\t\t<Asset Name="Souls" Alias="player" />\n'
+    '\t\t\t\t\t<Edge From="ml_ff_always_on.State" To="IsActive" />\n'
+    '\t\t\t\t\t<Edge From="ml_mf_look_tags.Array" To="BuffTags" />\n'
+    '\t\t\t\t</BuffTagTrigger>\n'
+    '\t\t\t\t<State Name="ml_mf_look_seen" PositionY="{y5}" PositionX="{x3}" TypeT="bool">\n'
+    '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
+    '\t\t\t\t\t<Edge From="ml_mf_look_buff.OnAdded" To="SetTrue" />\n'
+    '\t\t\t\t\t<Edge From="ml_mf_look_buff.OnRemoved" To="SetFalse" />\n'
+    '\t\t\t\t</State>\n'
+    '\t\t\t\t<Function Name="ml_mf_is_look" PositionY="{y4}" PositionX="{x3}" MethodName="math::boolean::Or" DeclaringType="math::boolean">\n'
+    '\t\t\t\t\t<Edge From="ml_mf_look_check.HaveBuffTag" To="A" />\n'
+    '\t\t\t\t\t<Edge From="ml_mf_look_seen.State" To="B" />\n'
+    '\t\t\t\t</Function>\n'
+    '\t\t\t\t<Function Name="ml_any_look" PositionY="{y4}" PositionX="{x4}" MethodName="math::boolean::Or" DeclaringType="math::boolean">\n'
+    '\t\t\t\t\t<Edge From="ml_ff_is_woman.bool" To="A" />\n'
+    '\t\t\t\t\t<Edge From="ml_mf_is_look.bool" To="B" />\n'
+    '\t\t\t\t</Function>\n'
+    '\t\t\t\t<Function Name="ml_no_look" PositionY="{y4}" PositionX="{x5}" MethodName="math::boolean::Not" DeclaringType="math::boolean">\n'
+    '\t\t\t\t\t<Edge From="ml_any_look.bool" To="Value" />\n'
     '\t\t\t\t</Function>\n\t\t\t\t')
 
 
-def gate_player_overrides(text, scene):
-    """Each override of the player soul goes on only with its own condition AND not a woman. Its condition, with any
-    vertex of the editor, moves into an And in front of it."""
+def gate_player_overrides(text, scene, kind):
+    """Each override of the given kind on the player soul goes on only with its own condition AND no look: Henry's
+    head and body neither on a woman of KCD2 Female Framework nor on a look of KCD2 Male Framework, his breeches not on
+    a woman, and on a man they stay. Its condition, with any vertex of the editor, moves into an And in front of
+    it."""
     gated = []
 
     def gate(found):
@@ -1157,48 +1274,135 @@ def gate_player_overrides(text, scene):
             raise SystemExit(f"{scene}: {node} has {len(edges)} conditions, not one. Did the game change?")
         name = f"ml_ff_gate_{node}"
         condition = edges[0].replace('To="IsActive"', 'To="A"')
+        part = re.search(r'<Constant Name="BodyPart" Value="([^"]+)"', block)
+        if not part or part.group(1) not in ("Head", "Body", "Underwear"):
+            raise SystemExit(f"{scene}: {node} overrides {part and part.group(1)}, not the head, the body or the underwear. Did the game change?")
+        unless = "ml_ff_not_woman" if part.group(1) == "Underwear" else "ml_no_look"
         gated.append((y, x))
         return (f'<Function Name="{name}" PositionY="{y}" PositionX="{x - 250}" MethodName="math::boolean::And" DeclaringType="math::boolean">\n'
                 f'\t\t\t\t\t{condition}\n'
-                '\t\t\t\t\t<Edge From="ml_ff_not_woman.bool" To="B" />\n'
+                f'\t\t\t\t\t<Edge From="{unless}.bool" To="B" />\n'
                 '\t\t\t\t</Function>\n\t\t\t\t'
                 + block.replace(edges[0], f'<Edge From="{name}.bool" To="IsActive" />'))
 
-    text = re.sub(r'<BodyPartOverride .*?</BodyPartOverride>', gate, text, flags=re.S)
+    text = re.sub(rf'<{kind} .*?</{kind}>', gate, text, flags=re.S)
     y = min(p[0] for p in gated) - 200
     x = min(p[1] for p in gated) - 800
     first = '<Function Name="ml_ff_gate_'
-    text = text.replace(first, WOMAN_CHECK.format(y=y, y2=y - 100, y3=y - 200, x=x, x2=x + 250, x3=x + 500, x4=x + 750) + first, 1)
+    text = text.replace(first, WOMAN_CHECK.format(y=y, y2=y - 100, y3=y - 200, y4=y - 300, y5=y - 400,
+                                                  x=x, x2=x + 250, x3=x + 500, x4=x + 750, x5=x + 1000) + first, 1)
     return text, len(gated)
 
 
 def write_story_scenes():
     with zipfile.ZipFile(GAME / "Data" / "Scripts.pak") as z:
         names = {n.replace("\\", "/").lower(): n for n in z.namelist()}
-        for scene, (sha, expected) in STORY_SCENES.items():
+        for scene, (sha, expected, kind) in STORY_SCENES.items():
             raw = z.read(names[scene.lower()])
             found = hashlib.sha256(raw).hexdigest()
             if found != sha:
                 raise SystemExit(f"{scene} changed in the game (sha256 {found}). Compare it with the copy of KCD2 Female "
                                  "Framework, check its overrides of the player, and then update STORY_SCENES.")
-            text, count = gate_player_overrides(raw.decode("utf-8-sig"), scene)
+            text, count = gate_player_overrides(raw.decode("utf-8-sig"), scene, kind)
             if count != expected:
                 raise SystemExit(f"{scene}: {count} overrides of the player, not {expected}. Did the game change?")
-            dest = GENDERS["woman"]["folder"] / "data" / scene
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_text(text, encoding="utf-8-sig", newline="")
+            for gender in PRESENT:
+                dest = GENDERS[gender]["folder"] / "data" / scene
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_text(text, encoding="utf-8-sig", newline="")
+        for scene, (sha, expected, outputs) in OUTFIT_SCENES.items():
+            raw = z.read(names[scene.lower()])
+            found = hashlib.sha256(raw).hexdigest()
+            if found != sha:
+                raise SystemExit(f"{scene} changed in the game (sha256 {found}). Compare it with the copy of KCD2 Female "
+                                 "Framework, check its outfits of the player, and then update OUTFIT_SCENES.")
+            text = rebuild_on_outfits(raw.decode("utf-8-sig"), scene, expected, outputs)
+            for gender in PRESENT:
+                dest = GENDERS[gender]["folder"] / "data" / scene
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                dest.write_text(text, encoding="utf-8-sig", newline="")
+
+
+def rebuild_on_outfits(text, scene, expected, outputs):
+    """The scene as the game's, plus a CreatePlayerReward of ml_scene_rebuild on each output where an outfit of the
+    player goes on or off. The framework of the character in use takes the token and rebuilds the look."""
+    outfits = re.findall(r'<PlayerOutfitOverride Name="([^"]+)" PositionY="(-?\d+)" PositionX="(-?\d+)">', text)
+    if len(outfits) != expected or len(outfits) != text.count("<PlayerOutfitOverride "):
+        raise SystemExit(f"{scene}: {len(outfits)} outfits of the player, not {expected}. Did the game change?")
+    name, y, x = outfits[0]
+    nodes = ""
+    for k, output in enumerate(outputs):
+        if f'<Edge From="{output}" ' not in text:
+            raise SystemExit(f"{scene}: no edge from {output}. Did the game change?")
+        nodes += (f'<EventFunction Name="ml_scene_rebuild_{k}" PositionY="{int(y) - 200 - 100 * k}" PositionX="{x}" MethodName="wh::entitymodule::CreatePlayerReward" DeclaringType="wh::entitymodule">\n'
+                  f'\t\t\t\t\t<Constant Name="ItemClass" Value="{SCENE_REBUILD_TOKEN}" />\n'
+                  '\t\t\t\t\t<Constant Name="Amount" Value="1" />\n'
+                  '\t\t\t\t\t<Constant Name="ShowUINotification" Value="false" />\n'
+                  f'\t\t\t\t\t<Edge From="{output}" To="Exec" />\n'
+                  '\t\t\t\t</EventFunction>\n\t\t\t\t')
+    first = f'<PlayerOutfitOverride Name="{name}" '
+    return text.replace(first, nodes + first, 1)
+
+
+PEOPLE = {"czech": "Czech", "hungarian": "Hungarian", "romani": "Romani", "": "named"}
+
+
+def woman_hair_command(hair):
+    """ml_ff_hair for a hair of the game that the framework has, or nothing."""
+    m = re.fullmatch(r"f_hair_(\d{3})_(\w+)", hair or "")
+    style = int(m.group(1)) if m else 0
+    if style in HAIR_STYLES and m.group(2) in HAIR_COLORS[:HAIR_STYLES[style]]:
+        return f"`ml_ff_hair {style} {m.group(2)}`"
+    return ""
+
+
+def write_look_maps(catalogs):
+    """LOOKS.md in each framework: who wears each face in the game, by look and by character."""
+    for gender in PRESENT:
+        prefix = GENDERS[gender]["prefix"]
+        looks = sorted(catalogs[gender], key=lambda l: l["id"])
+        title = "KCD2 Male Framework" if gender == "man" else "KCD2 Female Framework"
+        lines = [f"# {title}: the faces and who wears them", "",
+                 "<!-- Written by tools/generate_models.py from looks.toml and the game's files: edit those, not this file. -->", "",
+                 "The game gives each of its faces to several of its characters. Here are, for every look of the framework, the "
+                 "characters of the game with a name of their own who wear its face, as the game's appearance rules give it. "
+                 f"`{prefix}looks` writes the same names in the console, next to each look.", "",
+                 f"`{prefix}look <name>` puts on the face with the look's own hair{' and beard' if gender == 'man' else ''}, "
+                 "which may not be that character's. The second table has the hair "
+                 f"{'and the beard ' if gender == 'man' else ''}each character wears in the game.", "",
+                 "The game's generic people, a peasant or a guard with no name of their own, wear these faces too and are not "
+                 "listed. A character may have more than one face: a quest can give another.", "",
+                 "## By look", "", "| Id | Look | Head | People | Age | Characters with this face |", "|---:|---|---|---|---|---|"]
+        for l in looks:
+            names = ", ".join(c["name"] for c in l["characters"]) or "—"
+            lines.append(f"| {l['id']} | `{l['name']}` | `{l['head']}` | {PEOPLE[l['ethnicity']]} | {l['age']} | {names} |")
+        rows = sorted(((c, l) for l in looks for c in l["characters"]), key=lambda p: (p[0]["name"].casefold(), p[1]["id"]))
+        code = lambda text: f"`{text}`" if text else "—"  # noqa: E731
+        lines += ["", "## By character", ""]
+        if gender == "man":
+            lines += ["| Character | Look | Their hair | Their beard |", "|---|---|---|---|"]
+            lines += [f"| {c['name']} | `{l['name']}` | {code(c['hair'])} | {code(c['beard'])} |" for c, l in rows]
+        else:
+            lines += ["| Character | Look | Her hair | In the console |", "|---|---|---|---|"]
+            lines += [f"| {c['name']} | `{l['name']}` | {code(c['hair'])} | {woman_hair_command(c['hair']) or '—'} |" for c, l in rows]
+        write_file(GENDERS[gender]["folder"] / "LOOKS.md", "\n".join(lines) + "\n")
+        print(f"{gender}: LOOKS.md, {len(rows)} characters")
 
 
 def main():
     catalogs = extend_catalog()
+    characters = look_characters(head_uses(), character_names())
+    for catalog in catalogs.values():
+        for look in catalog:
+            look["characters"] = characters.get(look["head"], [])
+    write_look_maps(catalogs)
     write_frameworks(catalogs)
     if "man" in PRESENT:
         write_kcdmf_standalone(sorted(catalogs["man"], key=lambda l: l["id"]))
     if "woman" in PRESENT:
         write_kcdff_standalone(sorted(catalogs["woman"], key=lambda l: l["id"]))
     write_game_barber_dialog()
-    if "woman" in PRESENT:
-        write_story_scenes()
+    write_story_scenes()
     counts =collections.Counter((g, l["age"], l["ethnicity"] or "named") for g, c in catalogs.items() for l in c)
     for key in sorted(counts):
         print(key, counts[key])

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Written by hand, with the same values as MAN_LOOK_BUFF in tools/generate_models.py and MaleCore.LOOK_BUFF: a buff with
+     no effect and no icon on Henry while he wears a look, for the copies of the game's scenes. -->
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<buffs version="1">
+		<buff buff_ai_tag_id="205" buff_class_id="15" buff_exclusivity_id="1" buff_id="85020dc3-349b-5717-a236-adaf7e2a7001" buff_lifetime_id="0" buff_name="ml_mf_look" buff_params="charisma+0" duration="-1" icon_id="0" implementation="Cpp:Constant" is_persistent="true" />
+	</buffs>
+</database>
