@@ -129,8 +129,30 @@ function MaleCore.Current()
 	return MaleCore.current
 end
 
+-- The buff ml_mf_look tells the copies of the game's scenes that the framework ships, the same as KCD2 Female
+-- Framework's, that Henry wears a look: five scenes of the prologue and of the Cumans put Henry's wounded head and his
+-- wet or bandaged body on the player, and leave them off him then. After a load a scene can look before the buff
+-- is back, as with a woman: each load starts with setCurrent(0), which takes it off, and puts it on again once
+-- Skald says the look, before the rebuild, so each scene hears it arrive. Only on Henry: a scene of his story is never
+-- on the character of another mod. buff__kcd_male_framework.xml has the same id.
+MaleCore.LOOK_BUFF = "85020dc3-349b-5717-a236-adaf7e2a7001"
+
+local function markLook(on)
+	local ok, other = pcall(MaleCore.OtherCharacter)
+	if ok and other then
+		return
+	end
+	try("look mark", function()
+		player.soul:RemoveAllBuffsByGuid(MaleCore.LOOK_BUFF)
+		if on then
+			player.soul:AddBuff(MaleCore.LOOK_BUFF)
+		end
+	end)
+end
+
 local function setCurrent(id)
 	MaleCore.current = id
+	markLook(id > 0)
 end
 
 local function count(class)
@@ -192,8 +214,10 @@ end
 -- MaleCore.LOOKS is a list in menu order. Each look keeps its id, shared with KCD2 Female Framework, so the ids of the
 -- men are not one after another.
 -- soul is the model with that look, for a mod that shows it before choosing, as the selector of KCD2 Life does.
+-- characters are the characters of the game with a name of their own who wear its face, as in LOOKS.md.
 local function copy(look)
-	return look and { id = look.id, name = look.name, ethnicity = look.ethnicity, age = look.age, villager = look.villager, soul = look.soul }
+	return look and { id = look.id, name = look.name, ethnicity = look.ethnicity, age = look.age, villager = look.villager, soul = look.soul,
+		characters = { unpack(look.characters or {}) } }
 end
 
 local function find(key)
@@ -221,9 +245,40 @@ function MaleCore.FindLook(name)
 	return copy(find(name))
 end
 
+-- A woman of KCD2 Female Framework goes straight to a face: that framework turns her back into Henry first, and
+-- then the face goes on as after ml_ff_henry, all under one black screen. Its way back puts Henry's head and body on as
+-- a look, because her head may still be his soul's own and a beard on it has crashed the game. It needs FemaleCore.API
+-- 4, whose Henry says when it is done. Says whether she was a woman, and then whether the change started.
+local function fromWoman(name, noScreen)
+	local _, woman = pcall(function() return FemaleCore and FemaleCore.IsWoman and FemaleCore.IsWoman() end)
+	local ok, other = pcall(MaleCore.OtherCharacter)
+	if not woman or (ok and other) then
+		return false
+	end
+	if not (name and find(name) or MaleCore.LOOKS[1]) then
+		MaleCore.Log("no look called", name, "- ml_mf_looks lists them")
+		return true, false
+	end
+	if (FemaleCore.API or 0) < 4 or type(FemaleCore.Henry) ~= "function" then
+		MaleCore.Log("Henry is a woman now: ml_ff_henry first, or KCD2 Female Framework 0.3.8 or later")
+		return true, false
+	end
+	MaleCore.Log("Henry is a woman: KCD2 Female Framework turns her back into Henry first")
+	showScreen(noScreen)
+	local started = try("female framework", FemaleCore.Henry, true, function() MaleCore.SetLook(name, noScreen) end)
+	if not started then
+		hideScreen()
+	end
+	return true, started == true
+end
+
 -- Henry takes the face of that look: a name or an id. Without one, the first look. noScreen true leaves out the black
 -- screen.
 function MaleCore.SetLook(name, noScreen)
+	local woman, started = fromWoman(name, noScreen)
+	if woman then
+		return started
+	end
 	if notHenry() then
 		return false
 	end
@@ -356,7 +411,29 @@ local function sendPrice()
 	MaleCore.Log("barber price:", low and "5 groschen, with Realish Economy" or "50 groschen")
 end
 
--- Once a second, for the barber: one chain per load, and the one before stops on its own.
+-- The pillory in Troskowitz dresses the player in Henry's hose and boots with an outfit of its own, which goes on the
+-- model without the overrides of the face. The framework ships a copy of that scene, the same as KCD2 Female
+-- Framework's, that gives the player SCENE_REBUILD_TOKEN when the outfit goes on and when it comes off. This takes it
+-- while the character in use is not a woman of KCD2 Female Framework, which takes it then, and rebuilds the face if a
+-- look is on.
+local function sceneOutfit()
+	local _, woman = pcall(function() return FemaleCore and FemaleCore.WomanInUse and FemaleCore.WomanInUse() end)
+	if woman then
+		return
+	end
+	local found = count(MaleCore.SCENE_REBUILD_TOKEN)
+	if found <= 0 then
+		return
+	end
+	try("token", function() player.inventory:DeleteItemOfClass(MaleCore.SCENE_REBUILD_TOKEN, found) end)
+	if MaleCore.ModelInUse() then
+		MaleCore.Log("an outfit of a scene changed: rebuild")
+		rebuild()
+	end
+end
+
+-- Once a second, for the barber, the outfit of a scene and Henry's doubles in the cutscenes (cutscene_doubles.lua): one
+-- chain per load, and the one before stops on its own.
 MaleCore.TICK_MS = 1000
 local tickGen = 0
 
@@ -366,6 +443,12 @@ local function startTick()
 	local function tick()
 		if gen == tickGen then
 			try("barber tick", MaleCore.Barber.Update)
+			if MaleCore.SCENE_REBUILD_TOKEN then
+				try("scene outfit", sceneOutfit)
+			end
+			if MaleCore.CutsceneDoubles then
+				try("cutscene doubles", MaleCore.CutsceneDoubles)
+			end
 			Script.SetTimer(MaleCore.TICK_MS, tick)
 		end
 	end
@@ -465,8 +548,18 @@ end
 -- read a moment later: right at the start of the game it may not be there yet.
 MaleCore.LOAD_WAIT_MS = 3000
 
+-- Ready once the look of the save is known and the model rebuilt with it. A command or a change of the other framework
+-- in the seconds before met the look of the save before: a face went on while KCD2 Female Framework did not know
+-- yet that she was a woman, and a double made during the rebuild came out with no beard.
+local ready = false
+
+function MaleCore.Ready()
+	return ready
+end
+
 function MaleCore:OnGameplayStarted()
 	MaleCore.Log("gameplay started")
+	ready = false
 	startGen = startGen + 1
 	-- A load in the middle of a change.
 	hideScreen()
@@ -482,8 +575,14 @@ function MaleCore:OnGameplayStarted()
 		sendPrice()
 		askCurrent(function(current)
 			MaleCore.Log("look on load", current)
+			local function done()
+				ready = true
+				MaleCore.Log("ready")
+			end
 			if current > 0 then
-				rebuild()
+				rebuild(nil, nil, done)
+			else
+				done()
 			end
 			applyStartLook()
 		end)
@@ -521,23 +620,47 @@ end
 -- change started under them breaks. Those screens pause the game, and a timer of the game waits while it is paused
 --, so the change starts once the game runs again.
 MaleCore.IN_GAME_MS = 500
+-- And once both frameworks know the look of the save and rebuilt with it. If that never comes, after this long
+-- it starts anyway.
+MaleCore.READY_WAIT_MS = 30000
+
+local function bothReady()
+	local ok, other = pcall(function() return not (FemaleCore and FemaleCore.Ready) or FemaleCore.Ready() end)
+	return ready and (not ok or other == true)
+end
 
 local function inGame(label, fn)
 	local asked = try("clock", System.GetCurrAsyncTime)
-	MaleCore.Log(label .. ": it starts in the game, once no inventory, map or menu is open")
-	Script.SetTimer(MaleCore.IN_GAME_MS, function()
+	MaleCore.Log(label .. ": it starts in the game, once no inventory, map or menu is open, and the look of the save is on")
+	local waited, told = 0, false
+	local function attempt()
+		if not bothReady() and waited < MaleCore.READY_WAIT_MS then
+			if not told then
+				told = true
+				MaleCore.Log(label, "waits for the look of the save")
+			end
+			waited = waited + MaleCore.IN_GAME_MS
+			Script.SetTimer(MaleCore.IN_GAME_MS, attempt)
+			return
+		end
 		-- In real time: much more than IN_GAME_MS means the game was paused.
 		local now = try("clock", System.GetCurrAsyncTime)
 		if asked and now then
 			MaleCore.Log(label, "starts after", string.format("%.1f", now - asked), "s")
 		end
 		try(label, fn)
-	end)
+	end
+	Script.SetTimer(MaleCore.IN_GAME_MS, attempt)
 end
 
+-- Each look, and after it the characters of the game who wear its face.
 function MaleCore.PrintLooks()
 	for _, look in ipairs(MaleCore.ListLooks()) do
-		System.LogAlways(string.format("%s: man, %s, %s, id %d", look.name, look.ethnicity or "named character", look.age, look.id))
+		local line = string.format("%s: man, %s, %s, id %d", look.name, look.ethnicity or "named character", look.age, look.id)
+		if #look.characters > 0 then
+			line = line .. " - " .. table.concat(look.characters, ", ")
+		end
+		System.LogAlways(line)
 	end
 end
 

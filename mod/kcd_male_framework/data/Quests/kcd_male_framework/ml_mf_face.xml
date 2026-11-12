@@ -2956,6 +2956,12 @@
 					<Constant Name="Component" Value="henry_body" />
 					<Edge From="henry_face.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="henry_underwear" PositionY="-310" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="henry_face.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_1" PositionY="0" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="2cadc1aa-e506-5673-91c2-6596711aa973" />
 					<Constant Name="Amount" Value="1" />
@@ -2980,6 +2986,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_1.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_1" PositionY="140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_1.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_2" PositionY="200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3008,6 +3020,12 @@
 					<Constant Name="Component" Value="m_body_pale_03" />
 					<Edge From="chosen_2.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_2" PositionY="340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_2.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_3" PositionY="400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="89f7d73d-6683-5672-a17d-48dc1991b49b" />
 					<Constant Name="Amount" Value="1" />
@@ -3032,6 +3050,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_tan_02" />
+					<Edge From="chosen_3.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_3" PositionY="540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_3.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_7" PositionY="600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3060,6 +3084,12 @@
 					<Constant Name="Component" Value="m_body_pale_01" />
 					<Edge From="chosen_7.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_7" PositionY="740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_7.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_8" PositionY="800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="b7c7a674-a704-5cc8-a46e-d0d82b96e023" />
 					<Constant Name="Amount" Value="1" />
@@ -3084,6 +3114,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_04" />
+					<Edge From="chosen_8.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_8" PositionY="940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_8.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_56" PositionY="1000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3112,6 +3148,12 @@
 					<Constant Name="Component" Value="m_body_tan_06" />
 					<Edge From="chosen_56.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_56" PositionY="1140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_56.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_57" PositionY="1200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="b8106ac5-30ef-5f3a-99c3-33800d998d82" />
 					<Constant Name="Amount" Value="1" />
@@ -3136,6 +3178,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_tan_01" />
+					<Edge From="chosen_57.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_57" PositionY="1340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_57.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_58" PositionY="1400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3164,6 +3212,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_58.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_58" PositionY="1540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_58.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_59" PositionY="1600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="c6cd5f08-eb21-50cc-ba69-42d013bfc656" />
 					<Constant Name="Amount" Value="1" />
@@ -3188,6 +3242,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_59.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_59" PositionY="1740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_59.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_60" PositionY="1800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3216,6 +3276,12 @@
 					<Constant Name="Component" Value="m_body_tan_03" />
 					<Edge From="chosen_60.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_60" PositionY="1940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_60.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_61" PositionY="2000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="6480d7c3-28f8-5577-93a1-020c6bc91e15" />
 					<Constant Name="Amount" Value="1" />
@@ -3240,6 +3306,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_61.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_61" PositionY="2140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_61.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_62" PositionY="2200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3268,6 +3340,12 @@
 					<Constant Name="Component" Value="m_body_roma_02" />
 					<Edge From="chosen_62.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_62" PositionY="2340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_62.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_63" PositionY="2400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="5bfcf2bc-f17b-5943-bea1-0b07105f82d7" />
 					<Constant Name="Amount" Value="1" />
@@ -3292,6 +3370,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_63.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_63" PositionY="2540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_63.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_64" PositionY="2600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3320,6 +3404,12 @@
 					<Constant Name="Component" Value="m_body_pale_old_01" />
 					<Edge From="chosen_64.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_64" PositionY="2740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_64.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_65" PositionY="2800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="4d4d770a-41ec-58d0-b29d-c28e200c878e" />
 					<Constant Name="Amount" Value="1" />
@@ -3344,6 +3434,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_65.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_65" PositionY="2940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_65.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_66" PositionY="3000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3372,6 +3468,12 @@
 					<Constant Name="Component" Value="m_body_pale_01" />
 					<Edge From="chosen_66.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_66" PositionY="3140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_66.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_67" PositionY="3200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="1af08b5e-b7c4-5a77-966e-3e09f74f898f" />
 					<Constant Name="Amount" Value="1" />
@@ -3396,6 +3498,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_67.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_67" PositionY="3340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_67.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_68" PositionY="3400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3424,6 +3532,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_68.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_68" PositionY="3540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_68.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_69" PositionY="3600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="2a73eedf-1364-5588-811e-677e7c3c635b" />
 					<Constant Name="Amount" Value="1" />
@@ -3448,6 +3562,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_69.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_69" PositionY="3740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_69.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_70" PositionY="3800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3476,6 +3596,12 @@
 					<Constant Name="Component" Value="m_body_tan_03" />
 					<Edge From="chosen_70.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_70" PositionY="3940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_70.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_71" PositionY="4000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="de5c150c-638d-581b-8321-65180bdb952c" />
 					<Constant Name="Amount" Value="1" />
@@ -3500,6 +3626,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_71.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_71" PositionY="4140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_71.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_72" PositionY="4200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3528,6 +3660,12 @@
 					<Constant Name="Component" Value="m_body_roma_02" />
 					<Edge From="chosen_72.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_72" PositionY="4340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_72.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_73" PositionY="4400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="18801362-10b9-5bba-b933-6a27503efde7" />
 					<Constant Name="Amount" Value="1" />
@@ -3552,6 +3690,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_73.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_73" PositionY="4540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_73.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_74" PositionY="4600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3580,6 +3724,12 @@
 					<Constant Name="Component" Value="m_body_tan_04" />
 					<Edge From="chosen_74.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_74" PositionY="4740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_74.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_75" PositionY="4800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="93c9db7a-0971-5e48-9326-179d722abb39" />
 					<Constant Name="Amount" Value="1" />
@@ -3604,6 +3754,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_tan_03" />
+					<Edge From="chosen_75.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_75" PositionY="4940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_75.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_76" PositionY="5000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3632,6 +3788,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_76.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_76" PositionY="5140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_76.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_77" PositionY="5200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="d75ce1f1-052a-5227-9bc5-14275961da0c" />
 					<Constant Name="Amount" Value="1" />
@@ -3656,6 +3818,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_77.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_77" PositionY="5340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_77.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_78" PositionY="5400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3684,6 +3852,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_78.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_78" PositionY="5540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_78.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_79" PositionY="5600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="f81374ba-c7a9-5511-b318-f9019900768d" />
 					<Constant Name="Amount" Value="1" />
@@ -3708,6 +3882,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_79.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_79" PositionY="5740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_79.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_80" PositionY="5800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3736,6 +3916,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_80.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_80" PositionY="5940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_80.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_81" PositionY="6000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="c66c89a5-f9cf-5d41-981b-93f3f61fdecd" />
 					<Constant Name="Amount" Value="1" />
@@ -3760,6 +3946,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_tan_02" />
+					<Edge From="chosen_81.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_81" PositionY="6140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_81.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_82" PositionY="6200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3788,6 +3980,12 @@
 					<Constant Name="Component" Value="m_body_pale_03" />
 					<Edge From="chosen_82.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_82" PositionY="6340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_82.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_83" PositionY="6400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="3546110b-155f-501d-a0cc-5c71d6afa3f4" />
 					<Constant Name="Amount" Value="1" />
@@ -3812,6 +4010,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_tan_old_02" />
+					<Edge From="chosen_83.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_83" PositionY="6540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_83.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_84" PositionY="6600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3840,6 +4044,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_84.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_84" PositionY="6740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_84.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_85" PositionY="6800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="1c2bd999-0011-53f3-9853-fddd9af86d21" />
 					<Constant Name="Amount" Value="1" />
@@ -3864,6 +4074,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_85.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_85" PositionY="6940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_85.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_86" PositionY="7000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3892,6 +4108,12 @@
 					<Constant Name="Component" Value="m_body_roma_04" />
 					<Edge From="chosen_86.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_86" PositionY="7140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_86.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_87" PositionY="7200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="517751bb-5e95-5f83-b4b5-c186ad5ca509" />
 					<Constant Name="Amount" Value="1" />
@@ -3916,6 +4138,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_87.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_87" PositionY="7340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_87.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_88" PositionY="7400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3944,6 +4172,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_88.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_88" PositionY="7540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_88.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_89" PositionY="7600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="d0a9db7c-ec93-58c0-859f-d7e8d3595920" />
 					<Constant Name="Amount" Value="1" />
@@ -3968,6 +4202,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_02" />
+					<Edge From="chosen_89.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_89" PositionY="7740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_89.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_90" PositionY="7800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -3996,6 +4236,12 @@
 					<Constant Name="Component" Value="m_body_pale_03" />
 					<Edge From="chosen_90.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_90" PositionY="7940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_90.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_91" PositionY="8000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="bdce2a96-73c4-5c7f-96bd-56a5c0dc91f7" />
 					<Constant Name="Amount" Value="1" />
@@ -4020,6 +4266,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_01" />
+					<Edge From="chosen_91.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_91" PositionY="8140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_91.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_92" PositionY="8200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4048,6 +4300,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_92.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_92" PositionY="8340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_92.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_93" PositionY="8400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="c6ad2c1e-f299-5f52-9cf0-865d20b33a18" />
 					<Constant Name="Amount" Value="1" />
@@ -4072,6 +4330,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_01" />
+					<Edge From="chosen_93.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_93" PositionY="8540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_93.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_94" PositionY="8600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4100,6 +4364,12 @@
 					<Constant Name="Component" Value="m_body_pale_old_01" />
 					<Edge From="chosen_94.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_94" PositionY="8740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_94.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_95" PositionY="8800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="b5f64429-217b-52d7-b203-db345c0ae0f5" />
 					<Constant Name="Amount" Value="1" />
@@ -4124,6 +4394,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_old_01" />
+					<Edge From="chosen_95.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_95" PositionY="8940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_95.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_96" PositionY="9000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4152,6 +4428,12 @@
 					<Constant Name="Component" Value="m_body_tan_old_05" />
 					<Edge From="chosen_96.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_96" PositionY="9140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_96.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_97" PositionY="9200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="92922ad4-78eb-579d-8afa-94ad9803dd4f" />
 					<Constant Name="Amount" Value="1" />
@@ -4176,6 +4458,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_old_01" />
+					<Edge From="chosen_97.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_97" PositionY="9340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_97.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_98" PositionY="9400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4204,6 +4492,12 @@
 					<Constant Name="Component" Value="m_body_roma_02" />
 					<Edge From="chosen_98.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_98" PositionY="9540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_98.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_99" PositionY="9600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="4e955084-bf7e-5b05-8fe8-1c8145600c26" />
 					<Constant Name="Amount" Value="1" />
@@ -4228,6 +4522,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_02" />
+					<Edge From="chosen_99.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_99" PositionY="9740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_99.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_100" PositionY="9800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4256,6 +4556,12 @@
 					<Constant Name="Component" Value="m_body_tan_old_01" />
 					<Edge From="chosen_100.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_100" PositionY="9940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_100.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_101" PositionY="10000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="4da3a8d8-3367-5a3b-a8dc-67bcedce3390" />
 					<Constant Name="Amount" Value="1" />
@@ -4280,6 +4586,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_02" />
+					<Edge From="chosen_101.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_101" PositionY="10140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_101.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_102" PositionY="10200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4308,6 +4620,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_102.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_102" PositionY="10340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_102.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_103" PositionY="10400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="1f1268a7-9dd1-50d6-8df7-ae3227e21313" />
 					<Constant Name="Amount" Value="1" />
@@ -4332,6 +4650,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_103.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_103" PositionY="10540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_103.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_104" PositionY="10600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4360,6 +4684,12 @@
 					<Constant Name="Component" Value="m_body_roma_02" />
 					<Edge From="chosen_104.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_104" PositionY="10740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_104.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_105" PositionY="10800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="5c86d17e-c669-5459-8f77-0e9775110a09" />
 					<Constant Name="Amount" Value="1" />
@@ -4384,6 +4714,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_105.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_105" PositionY="10940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_105.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_106" PositionY="11000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4412,6 +4748,12 @@
 					<Constant Name="Component" Value="m_body_pale_old_01" />
 					<Edge From="chosen_106.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_106" PositionY="11140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_106.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_107" PositionY="11200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="c635daff-a539-529b-bbef-ca3c14f09133" />
 					<Constant Name="Amount" Value="1" />
@@ -4436,6 +4778,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_old_01" />
+					<Edge From="chosen_107.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_107" PositionY="11340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_107.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_108" PositionY="11400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4464,6 +4812,12 @@
 					<Constant Name="Component" Value="m_body_roma_02" />
 					<Edge From="chosen_108.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_108" PositionY="11540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_108.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_109" PositionY="11600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="51927951-a47e-589b-9215-c694114c2d9f" />
 					<Constant Name="Amount" Value="1" />
@@ -4488,6 +4842,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_02" />
+					<Edge From="chosen_109.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_109" PositionY="11740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_109.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_110" PositionY="11800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4516,6 +4876,12 @@
 					<Constant Name="Component" Value="m_body_tan_old_05" />
 					<Edge From="chosen_110.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_110" PositionY="11940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_110.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_111" PositionY="12000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="10b161e9-d919-5329-b07c-7e4c7ad8adfd" />
 					<Constant Name="Amount" Value="1" />
@@ -4540,6 +4906,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_111.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_111" PositionY="12140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_111.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_112" PositionY="12200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4568,6 +4940,12 @@
 					<Constant Name="Component" Value="m_body_pale_old_01" />
 					<Edge From="chosen_112.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_112" PositionY="12340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_112.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_113" PositionY="12400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="32584075-7630-54d6-b47d-98d86b4b8bce" />
 					<Constant Name="Amount" Value="1" />
@@ -4592,6 +4970,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_03" />
+					<Edge From="chosen_113.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_113" PositionY="12540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_113.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_114" PositionY="12600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4620,6 +5004,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_114.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_114" PositionY="12740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_114.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_115" PositionY="12800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="1bd9a828-310b-5d02-b925-b378451ce757" />
 					<Constant Name="Amount" Value="1" />
@@ -4644,6 +5034,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_roma_02" />
+					<Edge From="chosen_115.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_115" PositionY="12940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_115.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_116" PositionY="13000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4672,6 +5068,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_116.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_116" PositionY="13140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_116.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_117" PositionY="13200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="ebf4913e-616e-5920-9447-8f1bcde7d49f" />
 					<Constant Name="Amount" Value="1" />
@@ -4696,6 +5098,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_117.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_117" PositionY="13340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_117.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_118" PositionY="13400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4724,6 +5132,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_118.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_118" PositionY="13540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_118.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_119" PositionY="13600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="aff8b54a-1e2f-5321-8a96-009de73a6029" />
 					<Constant Name="Amount" Value="1" />
@@ -4748,6 +5162,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_119.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_119" PositionY="13740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_119.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_120" PositionY="13800" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4776,6 +5196,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_120.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_120" PositionY="13940" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_120.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_121" PositionY="14000" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="8b1eae1a-acde-5e88-b544-efdcca1ea353" />
 					<Constant Name="Amount" Value="1" />
@@ -4800,6 +5226,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_121.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_121" PositionY="14140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_121.State" To="IsActive" />
 				</BodyPartOverride>
 				<Function Name="set_descriptor_122" PositionY="14200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
@@ -4828,6 +5260,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_122.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_122" PositionY="14340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_122.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_123" PositionY="14400" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="7c7f2c60-a033-5b76-9f88-f1359441fd76" />
 					<Constant Name="Amount" Value="1" />
@@ -4854,6 +5292,12 @@
 					<Constant Name="Component" Value="m_body_pale_02" />
 					<Edge From="chosen_123.State" To="IsActive" />
 				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_123" PositionY="14540" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_123.State" To="IsActive" />
+				</BodyPartOverride>
 				<Function Name="set_descriptor_129" PositionY="14600" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
 					<Constant Name="ItemClass" Value="fa79b53b-a046-5c95-a4af-8d4f94924834" />
 					<Constant Name="Amount" Value="1" />
@@ -4878,6 +5322,12 @@
 					<Asset Name="Soul" Alias="henry" />
 					<Constant Name="BodyPart" Value="Body" />
 					<Constant Name="Component" Value="m_body_pale_02" />
+					<Edge From="chosen_129.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_129" PositionY="14740" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
 					<Edge From="chosen_129.State" To="IsActive" />
 				</BodyPartOverride>
 			</Nodes>

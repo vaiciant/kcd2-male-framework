@@ -8,8 +8,9 @@ MaleCore.LOADED = true
 Script.LoadScript("Scripts/MaleCore/male_core.lua")
 Script.LoadScript("Scripts/MaleCore/looks_data.lua")
 Script.LoadScript("Scripts/MaleCore/barber.lua")
+Script.LoadScript("Scripts/MaleCore/cutscene_doubles.lua")
 
-if not (MaleCore.SetLook and MaleCore.LOOKS and MaleCore.Barber) then
+if not (MaleCore.SetLook and MaleCore.LOOKS and MaleCore.Barber and MaleCore.CutsceneDoubles) then
 	System.LogAlways("[ML_MF] ERROR a file did not load")
 	return
 end
