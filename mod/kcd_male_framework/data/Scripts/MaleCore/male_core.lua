@@ -7,7 +7,8 @@
 -- =============================================================================
 MaleCore = MaleCore or {}
 
-MaleCore.API = 2
+-- 3: SetLook and StartAs take a hair and a beard besides the look's.
+MaleCore.API = 3
 MaleCore.TOKEN_MS = 1000
 MaleCore.REBUILD_MS = 1000
 -- Every head of the catalog has them, and so does Henry's.
@@ -245,11 +246,39 @@ function MaleCore.FindLook(name)
 	return copy(find(name))
 end
 
+-- A hair and a beard instead of the look's: any hair of the game for a man (MaleCore.HAIRS), and a beard its head
+-- has a mesh for (the look's beards), because a beard without one on the head has crashed the game. A name that is
+-- neither is said in the log, and the look's own goes on. Returns the hair and the beard to put on.
+local hairs
+local function partsOf(look, hair, beard)
+	if not hairs then
+		hairs = {}
+		for _, known in ipairs(MaleCore.HAIRS or {}) do
+			hairs[known] = true
+		end
+	end
+	if hair and not hairs[hair] then
+		MaleCore.Log("no hair called", hair, "- the look's own goes on:", look.hair)
+		hair = nil
+	end
+	if beard then
+		local found = false
+		for _, known in ipairs(look.beards or {}) do
+			found = found or known == beard
+		end
+		if not found then
+			MaleCore.Log("the head of", look.name, "has no beard", beard, "- the look's own goes on:", look.beard)
+			beard = nil
+		end
+	end
+	return hair or look.hair, beard or look.beard
+end
+
 -- A woman of KCD2 Female Framework goes straight to a face: that framework turns her back into Henry first, and
 -- then the face goes on as after ml_ff_henry, all under one black screen. Its way back puts Henry's head and body on as
 -- a look, because her head may still be his soul's own and a beard on it has crashed the game. It needs FemaleCore.API
 -- 4, whose Henry says when it is done. Says whether she was a woman, and then whether the change started.
-local function fromWoman(name, noScreen)
+local function fromWoman(name, noScreen, hair, beard)
 	local _, woman = pcall(function() return FemaleCore and FemaleCore.IsWoman and FemaleCore.IsWoman() end)
 	local ok, other = pcall(MaleCore.OtherCharacter)
 	if not woman or (ok and other) then
@@ -265,7 +294,7 @@ local function fromWoman(name, noScreen)
 	end
 	MaleCore.Log("Henry is a woman: KCD2 Female Framework turns her back into Henry first")
 	showScreen(noScreen)
-	local started = try("female framework", FemaleCore.Henry, true, function() MaleCore.SetLook(name, noScreen) end)
+	local started = try("female framework", FemaleCore.Henry, true, function() MaleCore.SetLook(name, noScreen, hair, beard) end)
 	if not started then
 		hideScreen()
 	end
@@ -273,9 +302,9 @@ local function fromWoman(name, noScreen)
 end
 
 -- Henry takes the face of that look: a name or an id. Without one, the first look. noScreen true leaves out the black
--- screen.
-function MaleCore.SetLook(name, noScreen)
-	local woman, started = fromWoman(name, noScreen)
+-- screen. hair and beard, names of the game, go on instead of the look's own, if they fit.
+function MaleCore.SetLook(name, noScreen, hair, beard)
+	local woman, started = fromWoman(name, noScreen, hair, beard)
 	if woman then
 		return started
 	end
@@ -287,7 +316,8 @@ function MaleCore.SetLook(name, noScreen)
 		MaleCore.Log("no look called", name, "- ml_mf_looks lists them")
 		return false
 	end
-	MaleCore.Log("look", look.name, "id", look.id)
+	hair, beard = partsOf(look, hair, beard)
+	MaleCore.Log("look", look.name, "id", look.id, "hair", hair, "beard", beard)
 	showScreen(noScreen)
 	try("barber forget", MaleCore.Barber.Forget)
 	-- The beard of the head of now may not exist on the next one.
@@ -300,7 +330,7 @@ function MaleCore.SetLook(name, noScreen)
 	Script.SetTimer(MaleCore.TOKEN_MS + 200, function()
 		sendToken(look.token)
 		setCurrent(look.id)
-		Script.SetTimer(MaleCore.TOKEN_MS + 200, function() rebuild(look.hair, look.beard, hideScreen) end)
+		Script.SetTimer(MaleCore.TOKEN_MS + 200, function() rebuild(hair, beard, hideScreen) end)
 	end)
 	return true
 end
@@ -486,9 +516,9 @@ MaleCore.CUTSCENE_POLL_MS = 1000
 local startGen = 0
 
 -- name: a look, by name or id. nil, "" or "none" cancels it. Returns whether the look exists.
-function MaleCore.StartAs(name)
+function MaleCore.StartAs(name, hair, beard)
 	if name == nil or name == "" or name == "none" then
-		MaleCore.startLook = nil
+		MaleCore.startLook, MaleCore.startParts = nil, nil
 		MaleCore.Log("no look waits for the next start of the game")
 		return true
 	end
@@ -497,8 +527,10 @@ function MaleCore.StartAs(name)
 		MaleCore.Log("no look called", name, "- ml_mf_looks lists them")
 		return false
 	end
-	MaleCore.startLook = look.name
-	MaleCore.Log("the next game that starts or loads begins with the face of", look.name)
+	-- With a hair or a beard of its own, checked now, so the log says at once if one does not fit.
+	hair, beard = partsOf(look, hair, beard)
+	MaleCore.startLook, MaleCore.startParts = look.name, { hair = hair, beard = beard }
+	MaleCore.Log("the next game that starts or loads begins with the face of", look.name, "hair", hair, "beard", beard)
 	return true
 end
 
@@ -522,12 +554,15 @@ local function applyStartLook()
 		MaleCore.Log("world day", day, "- the prologue with Godwin: the look waits for Henry")
 		return
 	end
-	MaleCore.startLook = nil
+	local parts = MaleCore.startParts or {}
+	MaleCore.startLook, MaleCore.startParts = nil, nil
 	local gen, waited = startGen, false
 	local function attempt()
 		-- Another save loaded meanwhile: the look waits for that one.
 		if gen ~= startGen then
-			MaleCore.startLook = MaleCore.startLook or name
+			if not MaleCore.startLook then
+				MaleCore.startLook, MaleCore.startParts = name, parts
+			end
 			return
 		end
 		if inCutscene() then
@@ -539,7 +574,7 @@ local function applyStartLook()
 			return
 		end
 		MaleCore.Log("look chosen before the start:", name)
-		try("start look", function() MaleCore.SetLook(name) end)
+		try("start look", function() MaleCore.SetLook(name, nil, parts.hair, parts.beard) end)
 	end
 	Script.SetTimer(MaleCore.START_WAIT_MS, attempt)
 end
@@ -664,10 +699,28 @@ function MaleCore.PrintLooks()
 	end
 end
 
+-- After the look, a hair and a beard of the game, by their names and in any order, as LOOKS.md gives them for each
+-- character: ml_mf_look man_czech_28 m_hair_009_dark_brown m_beard_00. A word that is neither is said in the log.
+local function hairAndBeard(list)
+	local hair, beard
+	for i = 2, #list do
+		local word = list[i]
+		if word:find("^m_beard_") then
+			beard = word
+		elseif word:find("_hair_") then
+			hair = word
+		else
+			MaleCore.Log("not a hair or a beard of the game, left out:", word)
+		end
+	end
+	return hair, beard
+end
+
 function MaleCore.LookCommand(line)
 	local list = words(line)
 	local noScreen = noScreenWord(list)
-	inGame("ml_mf_look", function() MaleCore.SetLook(list[1], noScreen) end)
+	local hair, beard = hairAndBeard(list)
+	inGame("ml_mf_look", function() MaleCore.SetLook(list[1], noScreen, hair, beard) end)
 end
 
 function MaleCore.RandomCommand(line)
@@ -695,5 +748,5 @@ function MaleCore.StartCommand(line)
 		MaleCore.Log("look for the next start of the game:", MaleCore.startLook or "none")
 		return
 	end
-	MaleCore.StartAs(list[1])
+	MaleCore.StartAs(list[1], hairAndBeard(list))
 end

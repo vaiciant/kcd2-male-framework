@@ -30,7 +30,7 @@ A small library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that g
 | Command | What it does |
 |---|---|
 | `ml_mf_looks` | Lists every face: its name, its people, its age, its id and the characters of the game who wear it. [LOOKS.md](mod/kcd_male_framework/LOOKS.md) has the same list, and who wears what |
-| `ml_mf_look <name>` | Gives Henry that look, head and body, like `ml_mf_look man_czech_2` |
+| `ml_mf_look <name> [hair] [beard]` | Gives Henry that look, head and body, like `ml_mf_look man_czech_2`, with its hair and beard or with those given: any hair of the game, and a beard the head has, like `ml_mf_look man_czech_28 m_hair_009_dark_brown m_beard_00` |
 | `ml_mf_random` | Gives Henry a look at random among all, with its hair and beard |
 | `ml_mf_henry` | Gives Henry his own face back |
 | `ml_mf_refresh` | Rebuilds the model, for when the face does not show |

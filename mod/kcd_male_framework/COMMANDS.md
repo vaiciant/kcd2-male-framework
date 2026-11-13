@@ -9,12 +9,20 @@ A look is its name or its id: `man_czech_2` or `2`. `ml_mf_looks` lists them all
 | Command | What it does | From Lua |
 |---|---|---|
 | `ml_mf_looks` | Writes every look in the console: its name, its people, its age, its id and the characters of the game with a name of their own who wear its face, as in [LOOKS.md](LOOKS.md) | `MaleCore.ListLooks()` |
-| `ml_mf_look [look] [true]` | Gives Henry the head and the body of that look, and its hair and beard. Without a look, the first one | `MaleCore.SetLook(look, noScreen)` |
+| `ml_mf_look [look] [hair] [beard] [true]` | Gives Henry the head and the body of that look, and its hair and beard. Without a look, the first one. A hair and a beard of the game go on instead of the look's, like `ml_mf_look man_czech_28 m_hair_009_dark_brown m_beard_00`: [LOOKS.md](LOOKS.md) has this command for every character | `MaleCore.SetLook(look, noScreen, hair, beard)` |
 | `ml_mf_random [true]` | Gives Henry a look at random among all but the one he wears, with its hair and beard | `MaleCore.SetRandomLook(noScreen)` |
 | `ml_mf_henry [true]` | Gives Henry his own face, hair and beard back | `MaleCore.Henry(noScreen)` |
 | `ml_mf_refresh` | Rebuilds the model, for when the face of the look does not show | `MaleCore.Refresh()` |
-| `ml_mf_start [look]` | The next game that starts or loads begins with the face of that look. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `MaleCore.StartAs(look)` |
+| `ml_mf_start [look] [hair] [beard]` | The next game that starts or loads begins with the face of that look, and the hair and the beard if given, as in `ml_mf_look`. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `MaleCore.StartAs(look, hair, beard)` |
 | `ml_mf_uninstall` | Gives Henry his face back and clears what the framework left in the save. Run it, save, and then remove the mod | `MaleCore.Uninstall()` |
+
+## A hair and a beard of the game
+
+After the look, `ml_mf_look` takes a hair and a beard by their names in the game, in any order. Any hair of the game for a man goes, also those the barber does not have, like a character's own; whether it sits well on another head is up to the game. A beard goes only if the head of the look has it, because a beard missing on a head has crashed the game: one that does not is left out, the look's own goes on, and the console says so. `m_beard_00` is no beard, and fits any head.
+
+```text
+ml_mf_look man_czech_28 m_hair_009_dark_brown m_beard_00
+```
 
 ## Before the game starts
 

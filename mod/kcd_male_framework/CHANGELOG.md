@@ -2,6 +2,20 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 0.5.0
+
+Any hair and beard of the game goes on with the face, from one command.
+
+### New
+
+- **A hair and a beard in `ml_mf_look`.** `ml_mf_look man_czech_28 m_hair_009_dark_brown m_beard_00` gives Henry that face with that hair and beard: any hair of the game for a man, also those the barber does not have, and a beard the face has. `ml_mf_start` takes them too.
+- **LOOKS.md** has, for every character of the game, the command that gives the face with their hair and beard. Olda of Semine is `ml_mf_look man_czech_28 m_hair_009_dark_brown m_beard_00`.
+- **For modders:** `MaleCore.SetLook(look, noScreen, hair, beard)` and `MaleCore.StartAs(look, hair, beard)`. `MaleCore.API` is 3.
+
+### Fixes
+
+- **`ml_mf_look`** no longer ignores what comes after the look. A beard the face does not have is left out, and the console says so, because a missing beard has crashed the game.
+
 ## 0.4.0
 
 His face now reaches the game's cutscenes, and the framework works on its own.

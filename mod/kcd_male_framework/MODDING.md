@@ -25,14 +25,14 @@ That is all. Henry keeps playing as himself, with his story, his skills and his 
 
 `ml_mf_random`, or `MaleCore.SetRandomLook()`, gives him a look at random among all but the one he wears, and returns that look.
 
-It takes a few seconds, under a black screen with a line that says so. If your mod covers the screen on its own, pass `true` as the last argument to leave it as it is: `MaleCore.SetLook("man_romani_4", true)`. Every command is in [COMMANDS.md](COMMANDS.md).
+It takes a few seconds, under a black screen with a line that says so. If your mod covers the screen on its own, pass `true` as the second argument to leave it as it is: `MaleCore.SetLook("man_romani_4", true)`. A hair and a beard of the game can go on instead of the look's: `MaleCore.SetLook("man_czech_28", false, "m_hair_009_dark_brown", "m_beard_00")`. Any hair of the game for a man goes; a beard only if the head of the look has it, or the look's own goes on. From 0.5.0, `MaleCore.API` is 3. Every command is in [COMMANDS.md](COMMANDS.md).
 
 ## From the start of a game
 
 To start a game with another face, choose it before it starts:
 
 ```lua
-MaleCore.StartAs("man_romani_4")   -- or nil to cancel it
+MaleCore.StartAs("man_romani_4")   -- or nil to cancel it; a hair and a beard may follow, as in SetLook
 ```
 
 The game does not tell a new game from a loaded one, so the face goes on at the next start of the game, new or loaded, once the framework knows his state, a few seconds after the player has control. In a new game it waits for Henry's part, after the prologue with Godwin (the first day of the world), and for the end of any cutscene. It goes on once. Call it when your mod knows a game is about to start, for example from a choice in the main menu. `MaleCore.StartLook()` says which look waits. In the console it is `ml_mf_start`.
