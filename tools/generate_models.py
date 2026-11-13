@@ -85,6 +85,19 @@ def usable_heads():
     return result
 
 
+def man_hairs():
+    """Every hair of the game for a man: the leaves under Hair in the Male branch, each colour its own."""
+    male = next(n for n in ET.parse(CHARACTER_COMPONENTS).getroot().iter() if n.get("Name") == "Male")
+    return sorted(n.get("Name") for n in male.iter("Hair") if n.get("Name") and not any(c is not n for c in n.iter("Hair")))
+
+
+def head_beards(files, head):
+    """The beards that a head has a mesh for, and the meshless one, which goes on any head. A beard without its
+    mesh on the head has crashed the game."""
+    found = {f[len("beards/"):-len(".skin")] for f in files.get(head, ()) if re.fullmatch(r"beards/m_beard_\d+\.skin", f)}
+    return sorted(found | {MESHLESS_BEARD})
+
+
 def head_uses():
     """Per head, the souls that wear it in the game's STORM rules, with their hair, beard and body. The rules write the
     attribute both as name and as Name: Olda of Semine's is <hasName Name="tsem_seminjr" />."""
@@ -489,17 +502,25 @@ def write_kcdmf_standalone(looks):
            "-- The hair and the beards of the barber of a man with a look, in the order of its talk (barber.toml).",
            "MaleCore.BARBER_HAIRS = { " + ", ".join(f'"{h["mesh"]}"' for h in hairs) + " }",
            "MaleCore.BARBER_BEARDS = { " + ", ".join(f'"{b["mesh"]}"' for b in beards) + " }",
+           "-- Every hair of the game for a man: ml_mf_look and MaleCore.SetLook take any of them instead of the look's.",
+           "MaleCore.HAIRS = {"]
+    hair_names = man_hairs()
+    lua += ["\t" + ", ".join(f'"{h}"' for h in hair_names[i:i + 6]) + "," for i in range(0, len(hair_names), 6)]
+    lua += ["}",
            "-- A scene of the game gives it when it dresses the player or takes the outfit off: the face rebuilds (the pillory).",
            "-- KCD2 Female Framework has the same one.",
            f'MaleCore.SCENE_REBUILD_TOKEN = "{SCENE_REBUILD_TOKEN}"',
            "-- new_token picks the look of that new character, and soul is the model that shows it in a selector. characters",
-           "-- are the characters of the game with a name of their own who wear its face (LOOKS.md).",
+           "-- are the characters of the game with a name of their own who wear its face (LOOKS.md). beards are those its head",
+           "-- has a mesh for, which ml_mf_look takes instead of the look's.",
            "MaleCore.LOOKS = {"]
+    files = head_files()
     for l in looks:
         ethnicity = f'"{l["ethnicity"]}"' if l["ethnicity"] else "nil"
         lua.append(f'\t{{ id = {l["id"]}, name = "{l["name"]}", ethnicity = {ethnicity}, age = "{l["age"]}", '
                    f'villager = {"true" if l["villager"] else "false"}, hair = "{l["hair"]}", beard = "{l["beard"]}", token = "{tokens[l["id"]]}", '
-                   f'new_token = "{l["token"]}", soul = "{l["soul"]}", characters = {lua_list(c["name"] for c in l["characters"])} }},')
+                   f'new_token = "{l["token"]}", soul = "{l["soul"]}", beards = {lua_list(head_beards(files, l["head"]))}, '
+                   f'characters = {lua_list(c["name"] for c in l["characters"])} }},')
     lua += ["}", ""]
     write_file(folder / "data/Scripts/MaleCore/looks_data.lua", "\n".join(lua))
 
@@ -1347,12 +1368,21 @@ def rebuild_on_outfits(text, scene, expected, outputs):
 PEOPLE = {"czech": "Czech", "hungarian": "Hungarian", "romani": "Romani", "": "named"}
 
 
-def woman_hair_command(hair):
-    """ml_ff_hair for a hair of the game that the framework has, or nothing."""
+# The hairs of women of the story that KCDFF fits too, out of the barber: generate_women.py mounts them, and
+# FemaleCore.NAMED_HAIRS takes them by name.
+NAMED_HAIRS = ["katherine", "rose", "mother", "miriam"]
+
+
+def woman_hair_words(hair):
+    """The words of ml_ff_hair, and of ml_ff_look after the look, for a hair of the game that the framework has, or
+    nothing."""
     m = re.fullmatch(r"f_hair_(\d{3})_(\w+)", hair or "")
     style = int(m.group(1)) if m else 0
     if style in HAIR_STYLES and m.group(2) in HAIR_COLORS[:HAIR_STYLES[style]]:
-        return f"`ml_ff_hair {style} {m.group(2)}`"
+        return f"{style} {m.group(2)}"
+    named = re.fullmatch(r"f_hair_(\w+)", hair or "")
+    if named and named.group(1) in NAMED_HAIRS:
+        return named.group(1)
     return ""
 
 
@@ -1369,7 +1399,8 @@ def write_look_maps(catalogs):
                  f"`{prefix}looks` writes the same names in the console, next to each look.", "",
                  f"`{prefix}look <name>` puts on the face with the look's own hair{' and beard' if gender == 'man' else ''}, "
                  "which may not be that character's. The second table has the hair "
-                 f"{'and the beard ' if gender == 'man' else ''}each character wears in the game.", "",
+                 f"{'and the beard ' if gender == 'man' else ''}each character wears in the game, and the command that puts "
+                 "on the face with them.", "",
                  "The game's generic people, a peasant or a guard with no name of their own, wear these faces too and are not "
                  "listed. A character may have more than one face: a quest can give another.", "",
                  "## By look", "", "| Id | Look | Head | People | Age | Characters with this face |", "|---:|---|---|---|---|---|"]
@@ -1380,11 +1411,13 @@ def write_look_maps(catalogs):
         code = lambda text: f"`{text}`" if text else "—"  # noqa: E731
         lines += ["", "## By character", ""]
         if gender == "man":
-            lines += ["| Character | Look | Their hair | Their beard |", "|---|---|---|---|"]
-            lines += [f"| {c['name']} | `{l['name']}` | {code(c['hair'])} | {code(c['beard'])} |" for c, l in rows]
+            command = lambda c, l: " ".join(filter(None, [f"ml_mf_look {l['name']}", c["hair"], c["beard"]]))  # noqa: E731
+            lines += ["| Character | Look | Their hair | Their beard | In the console |", "|---|---|---|---|---|"]
+            lines += [f"| {c['name']} | `{l['name']}` | {code(c['hair'])} | {code(c['beard'])} | `{command(c, l)}` |" for c, l in rows]
         else:
+            command = lambda c, l: " ".join(filter(None, [f"ml_ff_look {l['name']}", woman_hair_words(c["hair"])]))  # noqa: E731
             lines += ["| Character | Look | Her hair | In the console |", "|---|---|---|---|"]
-            lines += [f"| {c['name']} | `{l['name']}` | {code(c['hair'])} | {woman_hair_command(c['hair']) or '—'} |" for c, l in rows]
+            lines += [f"| {c['name']} | `{l['name']}` | {code(c['hair'])} | `{command(c, l)}` |" for c, l in rows]
         write_file(GENDERS[gender]["folder"] / "LOOKS.md", "\n".join(lines) + "\n")
         print(f"{gender}: LOOKS.md, {len(rows)} characters")
 
