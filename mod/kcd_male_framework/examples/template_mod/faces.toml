@@ -1,0 +1,28 @@
+# The faces of your mod (MAKING_FACES.md). From the root of the framework's repository, after every change:
+#     python -I -X utf8 mod/kcd_male_framework/tools/make_face_pack.py path/to/your_mod
+
+[pack]
+id = "template_mod"              # the id of your mod, the same as in mod.manifest: lowercase letters, digits and _
+name = "Template Mod"
+description = "A template mod for KCD2 Male Framework"
+author = "Your name"
+version = "0.1.0"
+# block = 7                      # optional: your ids are 1000 + 10 x block, from 0 to 29
+
+[[face]]
+name = "template_hero"           # the name players type, as ml_mf_look template_hero
+head = "m_head_013"              # a head of the framework: LOOKS.md lists them
+body = "m_body_tan_02"           # a body of the framework's looks
+hair = "m_hair_013_black"        # a man's hair of the game
+beard = "m_beard_16"             # a beard that head has
+age = "young"                    # optional: young or old
+
+# A head of your own: in place of head, its mesh and its material, with its LODs, its poses and its beards next to it
+# (MAKING_FACES.md, "A head of your own").
+# [[face]]
+# name = "template_own_head"
+# head_mesh = "source/my_head/my_head.skin"
+# material = "source/my_head/my_head.mtl"
+# body = "m_body_tan_02"
+# hair = "m_hair_013_black"
+# beard = "m_beard_04"

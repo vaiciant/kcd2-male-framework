@@ -8,7 +8,13 @@ dist/
 
 # Made from the game's files by the tools: they are built, never committed
 *.skin
+# Except the fitted gear by Cytyryz (FITTED_GEAR.md), refitted by hand: it cannot be built again, and it is not the game's
+!mod/kcd_female_framework/data/Objects/characters/humans/male/clothing/**/*_fffit*.skin
+!mod/kcd_female_framework/data/Objects/characters/humans/male/clothing/**/*_ffslim*.skin
 mod/*/data/Objects/**/*_poses.xml
+# The stand-in heads of the face samples (MAKING_FACES.md): a head of the game, as a head of your own
+mod/*/examples/*/source/
+mod/*/examples/*/data/Objects/
 mod/*/data/Libs/UI/Textures/Books/
 mod/*/data/Quests/Final/
 

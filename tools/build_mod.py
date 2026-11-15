@@ -23,6 +23,10 @@ import shutil
 import sys
 import zipfile
 
+# The refitted meshes of KCD2 Female Framework are sources: its tables wear their copies with the morph back to the game's
+# shape (_ffmen, mod/kcd_female_framework/tools/fitted_gear.py), so the pak does not take them twice.
+NOT_PACKED = re.compile(r".+_(?:fffit|ffslim)(?:_lod\d)?\.skin", re.IGNORECASE)
+
 
 def read_modid(manifest: pathlib.Path) -> str:
     text = manifest.read_text(encoding="utf-8-sig")
@@ -37,7 +41,7 @@ def read_modid(manifest: pathlib.Path) -> str:
 
 
 def write_pak(src_dir: pathlib.Path, pak_path: pathlib.Path) -> int:
-    files = sorted(p for p in src_dir.rglob("*") if p.is_file())
+    files = sorted(p for p in src_dir.rglob("*") if p.is_file() and not NOT_PACKED.fullmatch(p.name))
     pak_path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(pak_path, "w", compression=zipfile.ZIP_STORED) as pak:
         for path in files:

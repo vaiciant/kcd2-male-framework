@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="item.xsd">
+	<ItemClasses version="8">
+		<!-- Written by make_face_pack.py of KCD2 Male Framework: the token of each face. -->
+		<MiscItem Type="5" SubType="0" IsDivisible="true" IconId="loot_sackOfNails" UIInfo="ui_in_ml_mf_state" UIName="ui_nm_ml_mf_state" Model="manmade/common_furniture/sacks/sack_items/sack_items.cgf" Weight="0" Price="0" FadeCoef="1" VisibilityCoef="1" Id="62c2bc66-12b1-5481-a844-f9863adff620" Name="sample_men_own_head_face_1030" />
+	</ItemClasses>
+</database>

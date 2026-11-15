@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="barbora" xsi:noNamespaceSchemaLocation="../database.xsd">
+	<!-- Written by make_face_pack.py of KCD2 Male Framework: the heads of this mod. -->
+	<CharacterComponents version="6">
+		<Component Name="Male" Race="Human" Gender="Male">
+			<DerivedComponents>
+				<Head Name="Head" FilePath="humans/male/" SourceForUberlodPart="face">
+					<Elements>
+							<SkinElement EquipmentPart="face" BodyLayerId="0" Model="uberlod/uberlod_body/uberlod_head.skin" />
+					</Elements>
+					<DerivedComponents>
+								<Head Name="sample_men_own_head_sample_own_man" FilePath="humans/male/head/sample_men_own_head_sample_own_man" Paleness="Pale Ordinary Suntanned" Age="YoungAdult">
+									<Elements>
+										<SkinElement EquipmentPart="face" Model="sample_men_own_head_sample_own_man.skin" Material="sample_men_own_head_sample_own_man.mtl" />
+									</Elements>
+								</Head>
+					</DerivedComponents>
+				</Head>
+			</DerivedComponents>
+		</Component>
+	</CharacterComponents>
+</database>

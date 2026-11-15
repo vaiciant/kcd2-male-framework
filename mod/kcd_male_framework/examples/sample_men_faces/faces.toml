@@ -1,0 +1,29 @@
+# A face pack for KCD2 Male Framework (MAKING_FACES.md): this file is all you write. Then, from the root of the
+# framework's repository, with the game's tables extracted (tools/extract_game.py):
+#     python -I -X utf8 mod/kcd_male_framework/tools/make_face_pack.py path/to/your_mod
+# and the tool writes the rest into your mod: the tokens, the Skald project and the Lua that registers the faces.
+
+[pack]
+id = "sample_men_faces"          # the id of your mod: lowercase letters, digits and _
+name = "Sample Men's Faces"      # for mod.manifest, if your mod has none yet
+description = "Two sample faces for KCD2 Male Framework"
+author = "KCD2 Life"
+version = "0.1.0"
+# block = 7                      # optional: your ids are 1000 + 10 x block, from 0 to 29. Without it, the tool picks
+                                 # one from the id of your mod.
+
+# One [[face]] for each face, up to ten.
+[[face]]
+name = "sample_bearded"          # the name players type, as ml_mf_look sample_bearded
+head = "m_head_008"              # a head of the framework: LOOKS.md lists them
+body = "m_body_tan_03"           # a body of the framework's looks: m_body_pale_01, m_body_tan_03...
+hair = "m_hair_009_dark_brown"   # a man's hair of the game, as ml_mf_look takes it
+beard = "m_beard_04"             # a beard that head has: the tool says which, if it has not
+age = "young"                    # optional: young or old
+
+[[face]]
+name = "sample_shaven"
+head = "m_head_042"
+body = "m_body_pale_03"
+hair = "m_hair_002_dark_ginger"
+beard = "m_beard_00"

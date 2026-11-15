@@ -7,8 +7,9 @@
 -- =============================================================================
 MaleCore = MaleCore or {}
 
--- 3: SetLook and StartAs take a hair and a beard besides the look's.
-MaleCore.API = 3
+-- 3: SetLook and StartAs take a hair and a beard besides the look's. 4: RegisterStartCharacter. 5: RegisterLooks,
+-- and the faces of Scripts/MaleCore/Looks.
+MaleCore.API = 5
 MaleCore.TOKEN_MS = 1000
 MaleCore.REBUILD_MS = 1000
 -- Every head of the catalog has them, and so does Henry's.
@@ -218,7 +219,7 @@ end
 -- characters are the characters of the game with a name of their own who wear its face, as in LOOKS.md.
 local function copy(look)
 	return look and { id = look.id, name = look.name, ethnicity = look.ethnicity, age = look.age, villager = look.villager, soul = look.soul,
-		characters = { unpack(look.characters or {}) } }
+		outside = look.outside, characters = { unpack(look.characters or {}) } }
 end
 
 local function find(key)
@@ -244,6 +245,56 @@ end
 
 function MaleCore.FindLook(name)
 	return copy(find(name))
+end
+
+-- The faces of other mods (MAKING_FACES.md): a face pack, written by tools/make_face_pack.py of this framework's
+-- repository, has its own tokens and its own Skald project, and its Lua file in Scripts/MaleCore/Looks registers them here.
+-- The save keeps a look by its id, shared with KCD2 Female Framework, so the ids of a pack go from OUTSIDE_FIRST to
+-- OUTSIDE_LAST, in blocks of ten that the tool chooses. A look that clashes, by id or by name, is left out, and the log
+-- says it. Every face needs its beards: those its head has a mesh for, as the tool writes them. Returns how many went in.
+MaleCore.OUTSIDE_FIRST, MaleCore.OUTSIDE_LAST = 1000, 1299
+
+local function idTaken(id)
+	if find(id) then
+		return "KCD2 Male Framework"
+	end
+	for _, look in ipairs(FemaleCore and FemaleCore.LOOKS or {}) do
+		if look.id == id then
+			return "KCD2 Female Framework"
+		end
+	end
+	return nil
+end
+
+function MaleCore.RegisterLooks(pack, looks)
+	local added = 0
+	for _, look in ipairs(type(looks) == "table" and looks or {}) do
+		local id, name = tonumber(look.id), look.name
+		local problem
+		if type(name) ~= "string" or type(look.token) ~= "string" or type(look.hair) ~= "string" or type(look.beard) ~= "string" then
+			problem = "it needs a name, a token, a hair and a beard"
+		elseif type(look.beards) ~= "table" or #look.beards == 0 then
+			problem = "it needs the beards its head has"
+		elseif not id or id ~= math.floor(id) or id < MaleCore.OUTSIDE_FIRST or id > MaleCore.OUTSIDE_LAST then
+			problem = string.format("its id %s is not between %d and %d", tostring(look.id), MaleCore.OUTSIDE_FIRST, MaleCore.OUTSIDE_LAST)
+		elseif find(name) then
+			problem = "a look has that name already"
+		elseif idTaken(id) then
+			problem = "id " .. id .. " is taken in " .. idTaken(id)
+		end
+		if problem then
+			MaleCore.Log("look", tostring(name), "of", tostring(pack), "left out:", problem)
+		else
+			MaleCore.LOOKS[#MaleCore.LOOKS + 1] = {
+				id = id, name = name, ethnicity = look.ethnicity, age = look.age or "young", villager = false,
+				hair = look.hair, beard = look.beard, beards = look.beards, token = look.token,
+				characters = type(look.characters) == "table" and look.characters or {}, outside = tostring(pack),
+			}
+			added = added + 1
+		end
+	end
+	MaleCore.Log("looks of", tostring(pack) .. ":", added)
+	return added
 end
 
 -- A hair and a beard instead of the look's: any hair of the game for a man (MaleCore.HAIRS), and a beard its head
@@ -390,6 +441,10 @@ function MaleCore.ChooseNewCharacter(name)
 	local look = find(name)
 	if not look then
 		MaleCore.Log("no look called", name, "for the new character")
+		return false
+	end
+	if not look.new_token then
+		MaleCore.Log(look.name, "is a look of", tostring(look.outside), "and has no token for the new character of KCD2 Life")
 		return false
 	end
 	MaleCore.Log("new character look", look.name, "id", look.id)
@@ -544,6 +599,61 @@ local function inCutscene()
 	return tonumber(value) == 1
 end
 
+-- The character of a mod: a mod that plays a man of its own tells it once, and the framework puts his face on at
+-- every start of the game, new or loaded, as StartAs does, with no command. Only his look: his face, his hair and his
+-- beard. Several mods: the last one wins, and the log says it; KCD2 Female Framework drops its own.
+--   MaleCore.RegisterStartCharacter({
+--       name = "...",                   -- optional, for the log
+--       look = "man_czech_1",           -- a look, by name or id (ml_mf_looks)
+--       hair = "m_hair_009_dark_brown", -- optional, as StartAs takes it
+--       beard = "m_beard_00",           -- optional, as StartAs takes it
+--   })
+-- Returns whether the look exists. nil drops the character.
+MaleCore.startCharacter = nil
+
+function MaleCore.RegisterStartCharacter(character)
+	if character == nil then
+		MaleCore.startCharacter = nil
+		MaleCore.Log("no start character")
+		return true
+	end
+	if type(character) ~= "table" or not find(character.look) then
+		MaleCore.Log("start character: no look called", type(character) == "table" and tostring(character.look) or tostring(character),
+			"- ml_mf_looks lists them")
+		return false
+	end
+	if MaleCore.startCharacter and MaleCore.startCharacter ~= character then
+		MaleCore.Log("start character", tostring(MaleCore.startCharacter.name), "is replaced by", tostring(character.name))
+	end
+	MaleCore.startCharacter = character
+	if FemaleCore and FemaleCore.DropStartCharacter then
+		try("female start character", FemaleCore.DropStartCharacter, "KCD2 Male Framework")
+	end
+	MaleCore.Log("start character:", tostring(character.name), "- look", character.look, "hair", tostring(character.hair),
+		"beard", tostring(character.beard))
+	return true
+end
+
+-- KCD2 Female Framework calls it when a mod registers a woman of its own: the last one wins.
+function MaleCore.DropStartCharacter(by)
+	if MaleCore.startCharacter then
+		MaleCore.Log("start character", tostring(MaleCore.startCharacter.name), "dropped: a character of", tostring(by), "came after")
+		MaleCore.startCharacter = nil
+	end
+end
+
+-- At every start of the game, before applyStartLook: his face, if he does not have it yet.
+local function armStartCharacter(current)
+	local character = MaleCore.startCharacter
+	if not character or MaleCore.startLook then
+		return
+	end
+	local look = find(character.look)
+	if look and look.id ~= current then
+		MaleCore.StartAs(character.look, character.hair, character.beard)
+	end
+end
+
 local function applyStartLook()
 	local name = MaleCore.startLook
 	if not name then
@@ -619,6 +729,7 @@ function MaleCore:OnGameplayStarted()
 			else
 				done()
 			end
+			armStartCharacter(current)
 			applyStartLook()
 		end)
 	end)
@@ -691,7 +802,7 @@ end
 -- Each look, and after it the characters of the game who wear its face.
 function MaleCore.PrintLooks()
 	for _, look in ipairs(MaleCore.ListLooks()) do
-		local line = string.format("%s: man, %s, %s, id %d", look.name, look.ethnicity or "named character", look.age, look.id)
+		local line = string.format("%s: man, %s, %s, id %d", look.name, look.ethnicity or (look.outside and ("of " .. look.outside)) or "named character", look.age, look.id)
 		if #look.characters > 0 then
 			line = line .. " - " .. table.concat(look.characters, ", ")
 		end
@@ -749,4 +860,43 @@ function MaleCore.StartCommand(line)
 		return
 	end
 	MaleCore.StartAs(list[1], hairAndBeard(list))
+end
+
+-- ml_mf_start_character <look> [hair] [beard]: a start character for a test, as a mod would register it, so it works in
+-- the main menu too.
+function MaleCore.StartCharacterCommand(line)
+	local list = words(line)
+	if not list[1] then
+		MaleCore.Log("ml_mf_start_character needs a look, like ml_mf_start_character man_czech_1 m_hair_009_dark_brown m_beard_00")
+		return
+	end
+	local hair, beard = hairAndBeard(list)
+	MaleCore.RegisterStartCharacter({ name = "test", look = list[1], hair = hair, beard = beard })
+end
+
+-- Developer mode: ml_developer registers the test commands of the framework until the game closes. KCD2 Female
+-- Framework and KCD2 Life register the same command: whichever loads last answers, and each one turns on all three.
+MaleCore.DEVELOPER = {
+	{ "ml_mf_start_character", "MaleCore.StartCharacterCommand(%line)", "Test: a start character, as a mod registers it: his look, at every start of the game, new or loaded, like ml_mf_start_character man_czech_1 m_hair_009_dark_brown m_beard_00" },
+}
+
+function MaleCore.Developer()
+	if MaleCore.developer then
+		return
+	end
+	MaleCore.developer = true
+	for _, command in ipairs(MaleCore.DEVELOPER) do
+		try("command " .. command[1], function() System.AddCCommand(command[1], command[2], command[3]) end)
+	end
+	MaleCore.Log("developer mode on:", #MaleCore.DEVELOPER, "test commands until the game closes")
+end
+
+function MaleCore.DeveloperCommand()
+	MaleCore.Developer()
+	if FemaleCore and FemaleCore.Developer then
+		try("KCD2 Female Framework developer mode", FemaleCore.Developer)
+	end
+	if MedievalLife and MedievalLife.Commands and MedievalLife.Commands.Developer then
+		try("KCD2 Life developer mode", MedievalLife.Commands.Developer)
+	end
 end

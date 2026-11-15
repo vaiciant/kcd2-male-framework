@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">
+	<!-- Written by make_face_pack.py of KCD2 Male Framework: the faces of this mod (MAKING_FACES.md). -->
+	<Skald>
+		<Project Name="template_mod">
+			<Definitions>
+				<Definition File="template_mod/template_mod_faces.xml" />
+			</Definitions>
+			<Nodes>
+				<template_mod_faces Name="template_mod_faces" PositionY="0" PositionX="0" />
+			</Nodes>
+			<Text Text="template_mod" />
+			<ObjectiveValueTypes>
+				<ObjectiveValueType Type="None" IsPast="false" Icon="Exclamation" />
+				<ObjectiveValueType Type="Started" IsPast="false" Icon="Exclamation" Hint="objective_HintStarted" />
+				<ObjectiveValueType Type="Updated" IsPast="false" Icon="Exclamation" Hint="objective_HintUpdated" />
+				<ObjectiveValueType Type="Completed" IsPast="true" Icon="Check" Hint="objective_HintCompleted" />
+				<ObjectiveValueType Type="Canceled" IsPast="true" Icon="Cross" Hint="objective_HintCanceled" />
+			</ObjectiveValueTypes>
+		</Project>
+	</Skald>
+</Database>
