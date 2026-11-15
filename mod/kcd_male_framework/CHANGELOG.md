@@ -2,6 +2,20 @@
 
 Only minor versions are listed here: 0.1.0, 0.2.0 and so on. Every build between them raises the last number of the version, and those builds are not listed.
 
+## 1.0.0
+
+Other mods can add faces of their own, with the framework's heads or heads they made, and play a man of their own from the start.
+
+### New
+
+- **Faces from other mods.** A mod adds faces of its own from one file, `faces.toml`, and `tools/make_face_pack.py` writes the rest: its tokens, its Skald project and its Lua. Players use them like the framework's: `ml_mf_looks` lists them with their mod, and `ml_mf_look` puts them on. [MAKING_FACES.md](MAKING_FACES.md) explains it.
+- **Heads of your own.** A face can bring its own head, with its LODs, its face poses and its beards. The tool hides it and its beards in first-person view, as the framework hides the game's heads.
+- **A character of your mod.** `MaleCore.RegisterStartCharacter` makes a face the start of every game, new or loaded, with no command.
+- **A template mod,** `examples/template_mod`: a face of its own and a man it plays from the start, with the steps to make it yours.
+- **Clothes for men from other mods** fit every face as they are, young and old: tested with Outer Garments. [MAKING_CLOTHES.md](MAKING_CLOTHES.md) explains how to make them, with hats, hair and beards.
+- **Developer mode.** `ml_developer` turns on `ml_mf_start_character`, to try a start character without a mod.
+- **For modders:** `MaleCore.RegisterLooks` and `MaleCore.RegisterStartCharacter`. `MaleCore.API` is 5.
+
 ## 0.5.0
 
 Any hair and beard of the game goes on with the face, from one command.

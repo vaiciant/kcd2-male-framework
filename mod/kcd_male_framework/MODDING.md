@@ -2,6 +2,8 @@
 
 How to give Henry another man's face in your story or your mod, with one command and nothing to set up, and how to give him his own face back.
 
+To start from a mod that already works, copy [`examples/template_mod`](examples/template_mod): a face of its own and a man it plays from the start, with the steps to make it yours. KCD2 Female Framework has the same for a woman, in its [`examples/template_mod`](https://github.com/vaiciant/kcd2-female-framework/blob/main/mod/kcd_female_framework/examples/template_mod).
+
 ## One command
 
 From the console:
@@ -36,6 +38,26 @@ MaleCore.StartAs("man_romani_4")   -- or nil to cancel it; a hair and a beard ma
 ```
 
 The game does not tell a new game from a loaded one, so the face goes on at the next start of the game, new or loaded, once the framework knows his state, a few seconds after the player has control. In a new game it waits for Henry's part, after the prologue with Godwin (the first day of the world), and for the end of any cutscene. It goes on once. Call it when your mod knows a game is about to start, for example from a choice in the main menu. `MaleCore.StartLook()` says which look waits. In the console it is `ml_mf_start`.
+
+## A character of your mod
+
+If your mod plays a man of its own, register his look once, when your mod loads. Then nobody needs a command:
+
+```lua
+MaleCore.RegisterStartCharacter({
+    name = "...",                    -- optional, for the log
+    look = "man_czech_1",            -- his face: a look, by name or id (ml_mf_looks)
+    hair = "m_hair_009_dark_brown",  -- optional, as StartAs takes it
+    beard = "m_beard_00",            -- optional, as StartAs takes it
+})
+```
+
+- **His face** goes on at every start of the game, new or loaded, as `StartAs` does, if he does not have it yet. A new game waits for Henry's part, after the prologue with Godwin.
+- **Only his look:** his face, his hair and his beard. His clothes are the ones Henry has.
+- **Several mods:** the last one that registers wins, and the log says which. A woman of KCD2 Female Framework registered after him takes his place, and so does he after her.
+- `nil` drops him: `MaleCore.RegisterStartCharacter(nil)`.
+
+Call it once `MaleCore` is there (see "Before you call it"): from your `OnGameplayStarted` handler, or before the game starts. `MaleCore.API` is 4 from then on. To try it without a mod, `ml_developer` and then, in the console of the main menu, `ml_mf_start_character man_czech_1 m_hair_009_dark_brown m_beard_00`.
 
 ## Going back to Henry
 
@@ -74,7 +96,9 @@ Use `look.villager` and `look.age` to offer only the faces that suit your story,
 
 ## Adding faces
 
-Every look is an entry of [`looks.toml`](looks.toml): the head of the game, the body, the hair, the beard, and its people. To add a face, even one from another mod:
+From your own mod, without changing the framework: a face pack, written by a tool from one file, with the framework's heads or a head of your own. [MAKING_FACES.md](MAKING_FACES.md) explains it. `MaleCore.API` is 5 from then on.
+
+In the framework itself, every look is an entry of [`looks.toml`](looks.toml): the head of the game, the body, the hair, the beard, and its people. To add a face, even one from another mod:
 
 1. Add an entry with the next `id` and the name of its head. Without `ethnicity`, it shows with its internal name.
 2. Run `tools/generate_models.py` and then `tools/generate_heads.py`, from the root of the repository. They write the rest: the model, the token, and the copies of the head and the beards that hide in first-person view.
@@ -111,6 +135,10 @@ The framework also puts a look on the playable character of KCD2 Life, its soul 
 | After every load and every map | `MaleCore.Refresh()` |
 
 A mod that switches to that same soul can do the same.
+
+## Clothes for men
+
+Clothes and armour for men, from the game or from your mod, fit every face as they fit the men of the game: every look is Henry with another man's head, on his skeleton and body. There is nothing to register. [MAKING_CLOTHES.md](MAKING_CLOTHES.md) covers hats, hair and beards.
 
 ## With KCD2 Female Framework and KCD2 Life
 

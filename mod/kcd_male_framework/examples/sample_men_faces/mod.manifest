@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kcd_mod>
+	<info>
+		<name>Sample Men's Faces</name>
+		<modid>sample_men_faces</modid>
+		<description>Two sample faces for KCD2 Male Framework</description>
+		<author>KCD2 Life</author>
+		<version>0.1.0</version>
+		<modifies_level>false</modifies_level>
+	</info>
+	<supports>
+		<version>1.5*</version>
+	</supports>
+</kcd_mod>

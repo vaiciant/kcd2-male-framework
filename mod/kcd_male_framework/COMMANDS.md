@@ -16,6 +16,14 @@ A look is its name or its id: `man_czech_2` or `2`. `ml_mf_looks` lists them all
 | `ml_mf_start [look] [hair] [beard]` | The next game that starts or loads begins with the face of that look, and the hair and the beard if given, as in `ml_mf_look`. It works in the main menu, before New Game. `none` cancels it; with nothing, it says which look waits | `MaleCore.StartAs(look, hair, beard)` |
 | `ml_mf_uninstall` | Gives Henry his face back and clears what the framework left in the save. Run it, save, and then remove the mod | `MaleCore.Uninstall()` |
 
+## Developer mode
+
+`ml_developer` turns on the test commands of the framework until the game closes. KCD2 Female Framework and KCD2 Life have the same command, and any of them turns on the test commands of all three.
+
+| Command | What it does |
+|---|---|
+| `ml_mf_start_character <look> [hair] [beard]` | A start character, as a mod registers it with `MaleCore.RegisterStartCharacter`: his look at every start of the game, new or loaded, like `ml_mf_start_character man_czech_1 m_hair_009_dark_brown m_beard_00`. Type it in the main menu, before New Game |
+
 ## A hair and a beard of the game
 
 After the look, `ml_mf_look` takes a hair and a beard by their names in the game, in any order. Any hair of the game for a man goes, also those the barber does not have, like a character's own; whether it sits well on another head is up to the game. A beard goes only if the head of the look has it, because a beard missing on a head has crashed the game: one that does not is left out, the look's own goes on, and the console says so. `m_beard_00` is no beard, and fits any head.

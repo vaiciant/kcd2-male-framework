@@ -12,6 +12,8 @@ Give Henry any man's face of Kingdom Come: Deliverance II with one console comma
 - **A barber that fits.** Ask any barber for a haircut and pick the hair and the beard in the talk, among those that fit the face, and see each one before you take it. It costs the usual 50 groschen, or 5 with Realish Economy. With his own face, Henry has the game's barber as always.
 - **The game's scenes** keep his face where Henry is wet, wounded or bandaged, and in the pillory.
 - **Saving and loading** keep the face.
+- **Clothes and armour mods** for men work with every face, as the game's clothes do.
+- **Faces from other mods** join the list, and go on with `ml_mf_look` like the rest.
 
 ## How to play
 
@@ -34,18 +36,18 @@ The screen goes dark for a few seconds while he changes. Type the commands in th
 
 Type `ml_mf_uninstall` in the console, save, and then remove the mod. Henry keeps his own face.
 
-## Roadmap to 1.0.0
-
-Plans, not promises.
-
-- **Clothes from other mods:** tested with clothing and armor mods, with clear steps to make their pieces fit every face and body.
-
 ## Installing
 
 Subscribe, or download it from Nexus Mods and put its folder in the game's `Mods` folder. That is all: no launch options and no tools.
 
 ## For mod makers
 
-Any mod can use it: one line of Lua gives Henry another face. It is free for any mod, closed or open, as long as you credit it where people can see it. The source and the guide for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-male-framework).
+Any mod can use it, closed or open, as long as you credit it where people can see it. The source and the guides for mod makers are on [GitHub](https://github.com/vaiciant/kcd2-male-framework).
+
+- **One line of Lua** gives Henry another face, or his own back.
+- **New faces.** Your mod can add faces of its own: a head of the framework, or a head you made with its beards. You write one small file, and a tool writes the rest. Players use them like any other face.
+- **Your own character.** One call makes one of your faces the start of every game, new or loaded.
+- **Clothes and armour** for men fit every face as they are, with nothing to register, and the guide shows how to make them.
+- **A template mod**, with a face and a character, ready to copy.
 
 *Works on its own or with KCD2 Female Framework. Required by KCD2 Life.*

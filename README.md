@@ -4,6 +4,14 @@
 
 A small library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that gives Henry another man's face, and changes nothing else. One command gives him his own face back. It is the men's side of [KCD2 Female Framework](https://github.com/vaiciant/kcd2-female-framework), and much simpler: a man's face already fits the player's skeleton, so there is no body or clothing to adapt. Any mod may use it, with a credit as the only condition.
 
+## Collaborators
+
+- **vaiciant** ([GitHub](https://github.com/vaiciant)): the framework and its tools.
+
+Everyone with a commit in this repository:
+
+[![Collaborators](https://contrib.rocks/image?repo=vaiciant/kcd2-male-framework)](https://github.com/vaiciant/kcd2-male-framework/graphs/contributors)
+
 ## How it works
 
 - **The look.** Head and body are `BodyPartOverride` nodes in the framework's Skald project, on Henry's soul, and so is Henry's own underwear, `m_underwear01_m01`: after a woman of KCD2 Female Framework, her shift stayed on the soul when her look went off, as her head once did. Lua picks a look with a token in Henry's inventory. The native `Barber` object puts on the look's hair and beard, and two real beard changes force the model to rebuild and show the overrides.
@@ -22,6 +30,7 @@ A small library for *Kingdom Come: Deliverance II* (PC, game version 1.5) that g
 | Every face of the game | All 73 generic men's faces, young and old, and one named man of the story whose face fits |
 | Head and body | Each face comes with its body, so the arms and the skin match |
 | First-person heads | Each face is rebuilt so it hides in first person, like Henry's |
+| Faces of other mods | A mod adds faces of its own, with the framework's heads or a head of its own, from one file: `tools/make_face_pack.py` writes the rest. [MAKING_FACES.md](mod/kcd_male_framework/MAKING_FACES.md) |
 | His haircut | With a look, at any barber of the game, the hair and the beard are chosen in the talk and tried on at once, among those every face can wear, for the game's price: 50 groschen, or 5 with Realish Economy |
 | A new character of another mod | The same looks on the playable character of KCD2 Life |
 
@@ -41,7 +50,7 @@ While the model changes, the screen goes black for a few seconds. A last `true` 
 
 ## For modders
 
-One call gives Henry another man's face: `MaleCore.SetLook(name)` from your mod, and `MaleCore.Henry()` brings his own back. [MODDING.md](mod/kcd_male_framework/MODDING.md) shows how, in a few lines.
+One call gives Henry another man's face: `MaleCore.SetLook(name)` from your mod, and `MaleCore.Henry()` brings his own back. [MODDING.md](mod/kcd_male_framework/MODDING.md) shows how, in a few lines. Your mod can add faces of its own, with the framework's heads or heads you made: [MAKING_FACES.md](mod/kcd_male_framework/MAKING_FACES.md). Clothes and armour for men from your mod fit every face as they are: [MAKING_CLOTHES.md](mod/kcd_male_framework/MAKING_CLOTHES.md). [`examples/template_mod`](mod/kcd_male_framework/examples/template_mod) is a mod to copy, with a face and a man it plays from the start.
 
 ## Compatibility and known limits
 
@@ -74,15 +83,10 @@ python -I tools/install_mod.py mod/kcd_male_framework
 | `tools/extract_game.py` | The game tables that the tools read, from your game into `game_files/`. Once, and again after a game update |
 | `tools/generate_models.py` | The catalog of looks in `looks.toml` and `LOOKS.md`, the Skald graphs, the tokens and the Lua data of both frameworks, the barber's talk from `barber.toml`, and the game's barber dialog with its haircut hidden while a look is on |
 | `tools/generate_heads.py` | The heads and their beards, with the first-person mask. It uses `fp_mask.py` |
+| `tools/make_face_pack.py` | A face pack in another mod, from its `faces.toml`: [MAKING_FACES.md](mod/kcd_male_framework/MAKING_FACES.md) |
 | `tools/install_mod.py` | Packs the mod and copies it to the game. The game must be closed |
 
 Set `KCD2_GAME` to the game's folder if it is not in the default Steam library.
-
-## Roadmap to 1.0.0
-
-Plans, not promises.
-
-- **Clothes from other mods:** tested with clothing and armor mods, and a clear pipeline to make their pieces fit every face and body.
 
 ## License
 

@@ -722,6 +722,9 @@ def write_kcdff_standalone(looks):
     reset, state, own_face = guid("ml_ff_reset"), guid("ml_ff_state"), guid("ml_ff_henry_face")
     ask, answer, started = guid("ml_ff_ask"), guid("ml_ff_answer"), guid("ml_ff_new_started")
     free_haircut = guid("ml_ff_free_haircut")
+    # A look of another mod (MAKING_FACES.md): its own project has its token, its state and its override, and Lua
+    # sends this one with it, which does here what the token of each look of the framework does.
+    outside = guid("ml_ff_outside")
     # The price of her haircut, for a moment on each load: the game's, or that of Realish Economy.
     price_low, price_game = guid("ml_ff_price_low"), guid("ml_ff_price_game")
     tokens = {l["id"]: guid(f"ml_ff_set_{l['head']}") for l in looks}
@@ -735,7 +738,7 @@ def write_kcdff_standalone(looks):
     template = re.search(r'\t\t<MiscItem [^\n]*Name="ml_ff_look_\d+" />', text).group(0)
     # The comment takes more than one line: without re.S it stayed, and every run added another one.
     text = re.sub(r'\t\t<!-- On Henry:.*?-->\n', "", text, flags=re.S)
-    text = re.sub(r'\t\t<MiscItem [^\n]*Name="ml_ff_(?:set_\d+|reset|state|henry_face|ask|answer|new_started|free_haircut|price_low|price_game|rebuild|henry_stripped_[a-z_]+)" />\n', "", text)
+    text = re.sub(r'\t\t<MiscItem [^\n]*Name="ml_ff_(?:set_\d+|reset|state|henry_face|ask|answer|new_started|free_haircut|price_low|price_game|rebuild|outside|henry_stripped_[a-z_]+)" />\n', "", text)
     text = text.replace(SCENE_REBUILD_ROW, "")
     row = lambda g, n: re.sub(r'Id="[^"]+" Name="[^"]+"', f'Id="{g}" Name="{n}"', template) + "\n"
     text = text.replace("\t</ItemClasses>",
@@ -746,6 +749,7 @@ def write_kcdff_standalone(looks):
                         + row(reset, "ml_ff_reset") + row(state, "ml_ff_state") + row(own_face, "ml_ff_henry_face")
                         + row(ask, "ml_ff_ask") + row(answer, "ml_ff_answer") + row(started, "ml_ff_new_started")
                         + row(free_haircut, "ml_ff_free_haircut") + row(price_low, "ml_ff_price_low") + row(price_game, "ml_ff_price_game")
+                        + row(outside, "ml_ff_outside")
                         + SCENE_REBUILD_ROW
                         + "".join(row(g, f"ml_ff_henry_stripped_{p}") for p, g in notices.items())
                         + "\t</ItemClasses>", 1)
@@ -804,11 +808,19 @@ def write_kcdff_standalone(looks):
         '\t\t\t\t\t<Edge From="henry.Inventory" To="Inventory" />\n'
         '\t\t\t\t\t<Edge From="henry_descriptor.ItemDescriptor" To="ItemDescriptor" />\n'
         '\t\t\t\t\t<Edge From="always_on.State" To="IsActive" />\n\t\t\t\t</ItemDescriptorTrigger>\n'
+        # A look of another mod: its token sets nothing here, this one does what a look's token does.
+        '\t\t\t\t<Function Name="outside_descriptor" PositionY="-900" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">\n'
+        f'\t\t\t\t\t<Constant Name="ItemClass" Value="{outside}" />\n\t\t\t\t\t<Constant Name="Amount" Value="1" />\n\t\t\t\t</Function>\n'
+        '\t\t\t\t<ItemDescriptorTrigger Name="outside_token" PositionY="-900" PositionX="-600">\n'
+        '\t\t\t\t\t<Edge From="henry.Inventory" To="Inventory" />\n'
+        '\t\t\t\t\t<Edge From="outside_descriptor.ItemDescriptor" To="ItemDescriptor" />\n'
+        '\t\t\t\t\t<Edge From="always_on.State" To="IsActive" />\n\t\t\t\t</ItemDescriptorTrigger>\n'
         '\t\t\t\t<State Name="henry_face" PositionY="-450" PositionX="-300" TypeT="bool">\n'
         '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
         '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetTrue" />\n'
         '\t\t\t\t\t<Edge From="reset_token.OnAcquire" To="SetFalse" />\n'
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetFalse" />\n' for l in looks)
+        + '\t\t\t\t\t<Edge From="outside_token.OnAcquire" To="SetFalse" />\n'
         + '\t\t\t\t</State>\n'
         # Whether Henry was ever a woman in this save: then her head may be his soul's own, and KCDMF puts his head
         # back on through KCDFF when his own face comes back.
@@ -816,7 +828,8 @@ def write_kcdff_standalone(looks):
         '\t\t\t\t<State Name="was_woman" PositionY="-675" PositionX="-300" TypeT="bool">\n'
         '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetTrue" />\n' for l in looks)
-        + '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetTrue" />\n'
+        + '\t\t\t\t\t<Edge From="outside_token.OnAcquire" To="SetTrue" />\n'
+        '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetTrue" />\n'
         '\t\t\t\t</State>\n'
         # The ask token also learns these three, added to the id of the look.
         + "".join(
@@ -842,7 +855,8 @@ def write_kcdff_standalone(looks):
         + '\t\t\t\t<State Name="woman" PositionY="-600" PositionX="-300" TypeT="bool">\n'
         '\t\t\t\t\t<Constant Name="DefaultValue" Value="false" />\n'
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetTrue" />\n' for l in looks)
-        + '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetFalse" />\n'
+        + '\t\t\t\t\t<Edge From="outside_token.OnAcquire" To="SetTrue" />\n'
+        '\t\t\t\t\t<Edge From="henry_token.OnAcquire" To="SetFalse" />\n'
         '\t\t\t\t\t<Edge From="reset_token.OnAcquire" To="SetFalse" />\n'
         '\t\t\t\t</State>\n'
         '\t\t\t\t<BodyPartOverride Name="woman_underwear" PositionY="-600" PositionX="0">\n'
@@ -865,6 +879,7 @@ def write_kcdff_standalone(looks):
         '\t\t\t\t<Timer Name="watch" PositionY="-1500" PositionX="-1200">\n'
         '\t\t\t\t\t<Constant Name="Duration" Value="1s" />\n\t\t\t\t\t<Constant Name="TimeType" Value="GameTime" />\n'
         + "".join(f'\t\t\t\t\t<Edge From="set_token_{l["id"]}.OnAcquire" To="SetRunning" />\n' for l in looks)
+        + '\t\t\t\t\t<Edge From="outside_token.OnAcquire" To="SetRunning" />\n'
         + '\t\t\t\t\t<Edge From="watch.OnFinished" To="SetRunning" />\n\t\t\t\t</Timer>\n'
         + rules]
     for n, l in enumerate(looks):
@@ -906,6 +921,8 @@ def write_kcdff_standalone(looks):
            "-- with its id, shared with KCD2 Male Framework, the hair style and color it starts with, and its token on Henry.",
            f'FemaleCore.RESET_TOKEN = "{reset}"', f'FemaleCore.HENRY_TOKEN = "{own_face}"',
            f'FemaleCore.ASK_TOKEN = "{ask}"', f'FemaleCore.ANSWER_ITEM = "{answer}"',
+           "-- Sent with the token of a look of another mod (RegisterLooks): it makes her a woman as a look of the framework does.",
+           f'FemaleCore.OUTSIDE_TOKEN = "{outside}"',
            "-- Added to the id of the look in the answer: Henry's head and body kept on, and that he was a woman in this save.",
            f"FemaleCore.HENRY_KEPT_ANSWER = {HENRY_KEPT_ANSWER}", f"FemaleCore.WAS_WOMAN_ANSWER = {WAS_WOMAN_ANSWER}",
            "-- And that her state woman is on: a man with it on gets it turned off on the load.",
@@ -1188,8 +1205,8 @@ STORY_SCENES = {
 # The scenes that dress the player with a PlayerOutfitOverride, and keep doing it for her. In the pillory in Troskowitz,
 # socky_Henry_cutscene_NoShirt puts Henry's hose and boots on the player. That outfit put his body under her head,
 # but a load in the middle of the pillory showed her right, in the hose and boots, as the cutscene shows her: the outfit
-# goes on the model without her overrides, and a rebuild puts them back. U369 took the outfit off her and she stayed in
-# her own clothes; she wants the hose, as in the cutscene. So the copy keeps the outfit and gives the player the
+# goes on the model without her overrides, and a rebuild puts them back. Taking the outfit off her left her in her own
+# clothes; she wants the hose, as in the cutscene. So the copy keeps the outfit and gives the player the
 # token ml_scene_rebuild when it goes on and when it comes off, and the tick of the framework of the character in use
 # rebuilds the look. A face of KCD2 Male Framework is an override too. Each framework works on its own, so both
 # ship the same copy, as they do the barber's talk, and the same row of the token: whichever loads last, the scene and

@@ -1,0 +1,22 @@
+# A face pack with a head of its own for KCD2 Male Framework (MAKING_FACES.md, "A head of your own"). Its head is a
+# stand-in: stand_in.py copies a head of the game into source/, where your own head would go. Then, from the root of the
+# framework's repository:
+#     python -I -X utf8 mod/kcd_male_framework/examples/sample_men_own_head/stand_in.py
+#     python -I -X utf8 mod/kcd_male_framework/tools/make_face_pack.py mod/kcd_male_framework/examples/sample_men_own_head
+# and the tool writes the head into the mod, hidden in first-person view, with its beards and its node.
+
+[pack]
+id = "sample_men_own_head"
+name = "Sample Man's Own Head"
+description = "A sample face with a head of its own for KCD2 Male Framework"
+author = "KCD2 Life"
+version = "0.1.0"
+
+[[face]]
+name = "sample_own_man"
+head_mesh = "source/m_head_008/m_head_008.skin"   # your head, on the game's male skeleton: its LODs, its poses and
+                                                  # beards/ go next to it
+material = "source/m_head_008/m_head_008.mtl"     # its material
+body = "m_body_tan_03"
+hair = "m_hair_009_dark_brown"
+beard = "m_beard_13"

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="brambora">
+	<!-- Written by make_face_pack.py of KCD2 Male Framework from faces.toml. Each face: its token turns it on, and the
+	     framework's reset turns it off; it answers the framework's question with its id, and puts its head and body,
+	     and Henry's underwear, on Henry while it is on. -->
+	<Skald>
+		<Module Name="sample_men_faces_faces">
+			<Nodes>
+				<ObjectProperties Name="henry" PositionY="0" PositionX="-1200" DeclaringType="wh::rpgmodule::I_Soul">
+					<Asset Name="I_Soul" Alias="henry" />
+				</ObjectProperties>
+				<State Name="always_on" PositionY="-150" PositionX="-1200" TypeT="bool">
+					<Constant Name="DefaultValue" Value="true" />
+				</State>
+				<Function Name="reset_descriptor" PositionY="-300" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="47460f63-da06-50ce-be86-d3563c6b5141" />
+					<Constant Name="Amount" Value="1" />
+				</Function>
+				<ItemDescriptorTrigger Name="reset_token" PositionY="-300" PositionX="-600">
+					<Edge From="henry.Inventory" To="Inventory" />
+					<Edge From="reset_descriptor.ItemDescriptor" To="ItemDescriptor" />
+					<Edge From="always_on.State" To="IsActive" />
+				</ItemDescriptorTrigger>
+				<Function Name="ask_descriptor" PositionY="-450" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="b08ed506-d774-5f6f-978d-ae0c970d4129" />
+					<Constant Name="Amount" Value="1" />
+				</Function>
+				<ItemDescriptorTrigger Name="ask_token" PositionY="-450" PositionX="-600">
+					<Edge From="henry.Inventory" To="Inventory" />
+					<Edge From="ask_descriptor.ItemDescriptor" To="ItemDescriptor" />
+					<Edge From="always_on.State" To="IsActive" />
+				</ItemDescriptorTrigger>
+				<Function Name="set_descriptor_1050" PositionY="0" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="a00fe80e-43ad-56e4-ba55-9219e423aeda" />
+					<Constant Name="Amount" Value="1" />
+				</Function>
+				<ItemDescriptorTrigger Name="set_token_1050" PositionY="0" PositionX="-600">
+					<Edge From="henry.Inventory" To="Inventory" />
+					<Edge From="set_descriptor_1050.ItemDescriptor" To="ItemDescriptor" />
+					<Edge From="always_on.State" To="IsActive" />
+				</ItemDescriptorTrigger>
+				<State Name="chosen_1050" PositionY="0" PositionX="-300" TypeT="bool">
+					<Constant Name="DefaultValue" Value="false" />
+					<Edge From="set_token_1050.OnAcquire" To="SetTrue" />
+					<Edge From="reset_token.OnAcquire" To="SetFalse" />
+				</State>
+				<If Name="answer_if_1050" PositionY="0" PositionX="300">
+					<Edge From="chosen_1050.State" To="Condition" />
+					<Edge From="ask_token.OnAcquire" To="Exec" />
+				</If>
+				<EventFunction Name="answer_1050" PositionY="0" PositionX="600" MethodName="wh::entitymodule::CreatePlayerReward" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="613dbbaa-15da-55a5-9293-354719634886" />
+					<Constant Name="Amount" Value="1050" />
+					<Constant Name="ShowUINotification" Value="false" />
+					<Edge From="answer_if_1050.True" To="Exec" />
+				</EventFunction>
+				<BodyPartOverride Name="head_1050" PositionY="0" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Head" />
+					<Constant Name="Component" Value="m_head_008" />
+					<Edge From="chosen_1050.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="body_1050" PositionY="70" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Body" />
+					<Constant Name="Component" Value="m_body_tan_03" />
+					<Edge From="chosen_1050.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_1050" PositionY="140" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_1050.State" To="IsActive" />
+				</BodyPartOverride>
+				<Function Name="set_descriptor_1051" PositionY="200" PositionX="-900" MethodName="wh::entitymodule::CreateItemClassDescriptor" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="30cb5d3f-e170-5524-a3e3-7ed09757ce3f" />
+					<Constant Name="Amount" Value="1" />
+				</Function>
+				<ItemDescriptorTrigger Name="set_token_1051" PositionY="200" PositionX="-600">
+					<Edge From="henry.Inventory" To="Inventory" />
+					<Edge From="set_descriptor_1051.ItemDescriptor" To="ItemDescriptor" />
+					<Edge From="always_on.State" To="IsActive" />
+				</ItemDescriptorTrigger>
+				<State Name="chosen_1051" PositionY="200" PositionX="-300" TypeT="bool">
+					<Constant Name="DefaultValue" Value="false" />
+					<Edge From="set_token_1051.OnAcquire" To="SetTrue" />
+					<Edge From="reset_token.OnAcquire" To="SetFalse" />
+				</State>
+				<If Name="answer_if_1051" PositionY="200" PositionX="300">
+					<Edge From="chosen_1051.State" To="Condition" />
+					<Edge From="ask_token.OnAcquire" To="Exec" />
+				</If>
+				<EventFunction Name="answer_1051" PositionY="200" PositionX="600" MethodName="wh::entitymodule::CreatePlayerReward" DeclaringType="wh::entitymodule">
+					<Constant Name="ItemClass" Value="613dbbaa-15da-55a5-9293-354719634886" />
+					<Constant Name="Amount" Value="1051" />
+					<Constant Name="ShowUINotification" Value="false" />
+					<Edge From="answer_if_1051.True" To="Exec" />
+				</EventFunction>
+				<BodyPartOverride Name="head_1051" PositionY="200" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Head" />
+					<Constant Name="Component" Value="m_head_042" />
+					<Edge From="chosen_1051.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="body_1051" PositionY="270" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Body" />
+					<Constant Name="Component" Value="m_body_pale_03" />
+					<Edge From="chosen_1051.State" To="IsActive" />
+				</BodyPartOverride>
+				<BodyPartOverride Name="underwear_1051" PositionY="340" PositionX="0">
+					<Asset Name="Soul" Alias="henry" />
+					<Constant Name="BodyPart" Value="Underwear" />
+					<Constant Name="Component" Value="m_underwear01_m01" />
+					<Edge From="chosen_1051.State" To="IsActive" />
+				</BodyPartOverride>
+			</Nodes>
+			<Assets>
+				<SoulAsset Name="henry" SharedSoulGuids="4c2dcffb-dea1-6263-72d7-b39f4db2d8b5" />
+			</Assets>
+			<Text Text="sample_men_faces_faces" />
+		</Module>
+	</Skald>
+</Database>
