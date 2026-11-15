@@ -1205,8 +1205,8 @@ STORY_SCENES = {
 # The scenes that dress the player with a PlayerOutfitOverride, and keep doing it for her. In the pillory in Troskowitz,
 # socky_Henry_cutscene_NoShirt puts Henry's hose and boots on the player. That outfit put his body under her head,
 # but a load in the middle of the pillory showed her right, in the hose and boots, as the cutscene shows her: the outfit
-# goes on the model without her overrides, and a rebuild puts them back. U369 took the outfit off her and she stayed in
-# her own clothes; she wants the hose, as in the cutscene. So the copy keeps the outfit and gives the player the
+# goes on the model without her overrides, and a rebuild puts them back. Taking the outfit off her left her in her own
+# clothes; she wants the hose, as in the cutscene. So the copy keeps the outfit and gives the player the
 # token ml_scene_rebuild when it goes on and when it comes off, and the tick of the framework of the character in use
 # rebuilds the look. A face of KCD2 Male Framework is an override too. Each framework works on its own, so both
 # ship the same copy, as they do the barber's talk, and the same row of the token: whichever loads last, the scene and
